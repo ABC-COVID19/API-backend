@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "pt.tech4covid"
+    },
+    "jhipsterVersion": "6.8.0",
+    "applicationType": "monolith",
+    "baseName": "abccovid19",
+    "packageName": "pt.tech4covid",
+    "packageFolder": "pt/tech4covid",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "YjkzZGYxMTBkODhjYjQyZTIzNThhYjI2ZTU0ZmM5NGMzMzc0ZDE1ZmZjNGM3MjY2OWE4MmQ5MjZjYTFlMzMyNDk3YjhiMTA2YmI2NjNlMTlmYmIzYzk1NTkyNzYwYzljMmE1NGQ0OGI0ZmJjYWI4MzI0NGJjOWY2YzE0ZmJhODQ=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1584739050444,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
