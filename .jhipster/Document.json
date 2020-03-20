@@ -1,0 +1,56 @@
+{
+    "name": "Document",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "abstractDesc",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "keywords",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "source",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "link",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "document",
+            "relationshipName": "revision"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "topic",
+            "otherEntityRelationshipName": "name",
+            "relationshipName": "topic",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200320211900",
+    "entityTableName": "document",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

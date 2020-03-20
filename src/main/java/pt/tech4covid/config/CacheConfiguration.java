@@ -45,6 +45,11 @@ public class CacheConfiguration {
             createCache(cm, pt.tech4covid.domain.User.class.getName());
             createCache(cm, pt.tech4covid.domain.Authority.class.getName());
             createCache(cm, pt.tech4covid.domain.User.class.getName() + ".authorities");
+            createCache(cm, pt.tech4covid.domain.Document.class.getName());
+            createCache(cm, pt.tech4covid.domain.Document.class.getName() + ".revisions");
+            createCache(cm, pt.tech4covid.domain.Topic.class.getName());
+            createCache(cm, pt.tech4covid.domain.Topic.class.getName() + ".names");
+            createCache(cm, pt.tech4covid.domain.Revision.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
