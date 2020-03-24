@@ -1,0 +1,39 @@
+entity Document {
+	title String,
+    date LocalDate,
+    abstractDesc String,
+    keywords TextBlob,
+    source String,
+    link String
+}
+
+entity Topic {
+	name String
+}
+
+relationship OneToMany {
+	Topic{name} to Document{topic}
+}
+
+entity Revision {
+	title String,
+    summary String,
+    reviewer String
+}
+
+relationship OneToMany {
+	Document to Revision{document}
+}
+
+// Set pagination options
+paginate Document with infinite-scroll
+paginate Revision with pagination
+
+// Use Data Transfert Objects (DTO)
+// dto * with mapstruct
+
+// Set service options to all except few
+//service all with serviceImpl except Employee, Job
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
