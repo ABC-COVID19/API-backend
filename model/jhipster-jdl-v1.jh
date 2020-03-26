@@ -1,5 +1,19 @@
-enum ContentSource {
-	PubMed
+// *******************************************
+// Support tables
+// *******************************************
+entity ContentSource {
+	name String required,	//PubMed
+    active Boolean
+}
+
+entity ArticleType {
+	name String required,
+    active Boolean
+}
+
+entity CategoryTree {
+	name String required,
+    active Boolean
 }
 
 enum ReviewState {
@@ -10,78 +24,67 @@ enum ReviewState {
     Accepted	//Revisão aceite
 }
 
-// Nature, Scientific American, Emerging Infectious Diseases, etc..
-entity PublicationSource {
-	sourceName String,
-    active Boolean
-}
-
+// *******************************************
+// Entity tabels
+// *******************************************
 entity Article {
-    fetchedFrom ContentSource, 	//Identifica plataforma original de importação
-	sourceID Integer,			//Identifica o ID da plataforma original de importação
-    sourceDate LocalDate,
+	sourceID Integer required,			//Identifica o ID da plataforma original de importação
+    sourceDate LocalDate required,		//Data de importação
 	sourceTitle String,
     sourceAbstract String,
-	importDate LocalDate,		//Data de publicação na nossa plataforma
-    outboundLink String,
+	pubmedDate LocalDate,				//Data de publicação no pubmed
+	officialPubDate LocalDate,			//Data oficinal de publicação
+    doi String,							//https....
+    journal String,				
+    citation String,			
     keywords TextBlob,
-	reviewState ReviewState		//Estado absoluto de validação da publicação
-}
-
-entity ArticleType {
-	name String,
-    active Boolean
-}
-
-entity CategoryTree {
-	name String,
-    active Boolean
+	reviewState ReviewState	required	//Estado absoluto de validação da publicação
 }
 
 entity Revision {
-	title String,
-    summary String,
-    reviewer String,
-    active Boolean,
+	title String required,
+    summary TextBlob required,
+    reviewer String required,
+    active Boolean required,
     keywords TextBlob,
-    absRevision TextBlob,
-    reviewState ReviewState,
-    returnNotes String,			//Notas de devolução
-    reviewedByPeer Boolean,
+    reviewState ReviewState required,
+    returnNotes TextBlob,				//Notas de devolução
+    reviewedByPeer Boolean required,
     communityVotes Integer
 }
 
 entity Newsletter {
-	name String,
-    email String,
-    registrationDate LocalDate,
-    rgpdAuth Boolean
+	firstName String,
+	lastName String,
+    email String required,
+    registrationDate LocalDate required,
+    rgpdAuth Boolean required
 }
 
+// *******************************************
+// Relationships
+// *******************************************
 relationship ManyToMany {
 	Newsletter to CategoryTree
 }
 
 relationship ManyToOne {
-  CategoryTree{child} to CategoryTree
+	CategoryTree{child} to CategoryTree
 }
 
 relationship OneToMany {
+	ContentSource{name} to Article{source}
+	ArticleType{name} to Revision{type}
+	CategoryTree{name} to Revision{area}
 	Article to Revision{article}
 }
 
-relationship OneToMany {
-	PublicationSource{name} to Article{pubName}
-	ArticleType{name} to Revision{type}
-	CategoryTree{name} to Revision{area}
-}
-
 // Set pagination options
-paginate ArticleType, CategoryTree, PublicationSource with infinite-scroll
+paginate ArticleType, CategoryTree with infinite-scroll
 paginate Article, Revision, Newsletter with pagination
 
 // Allow all entities to be filtered
-filter Article, Revision, PublicationSource, Newsletter
+filter ArticleType, CategoryTree, Article, Revision, Newsletter
 
 // Service all entities
 service all with serviceImpl
