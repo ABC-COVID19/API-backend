@@ -1,34 +1,87 @@
-entity Document {
-	title String,
-    date LocalDate,
-    abstractDesc String,
+enum ContentSource {
+	PubMed
+}
+
+enum ReviewState {
+	Hold,		//Estado inicial
+    OnGoing,	//Em revisão
+	Pending,	//Espera informação adicional
+    Reviewed,	//Considerado como revisto
+    Accepted	//Revisão aceite
+}
+
+// Nature, Scientific American, Emerging Infectious Diseases, etc..
+entity PublicationSource {
+	sourceName String,
+    active Boolean
+}
+
+entity Article {
+    fetchedFrom ContentSource, 	//Identifica plataforma original de importação
+	sourceID Integer,			//Identifica o ID da plataforma original de importação
+    sourceDate LocalDate,
+	sourceTitle String,
+    sourceAbstract String,
+	importDate LocalDate,		//Data de publicação na nossa plataforma
+    outboundLink String,
     keywords TextBlob,
-    source String,
-    link String
+	reviewState ReviewState		//Estado absoluto de validação da publicação
 }
 
-entity Topic {
-	name String
+entity ArticleType {
+	name String,
+    active Boolean
 }
 
-relationship OneToMany {
-	Topic{name} to Document{topic}
+entity CategoryTree {
+	name String,
+    active Boolean
 }
 
 entity Revision {
 	title String,
     summary String,
-    reviewer String
+    reviewer String,
+    active Boolean,
+    keywords TextBlob,
+    absRevision TextBlob,
+    reviewState ReviewState,
+    returnNotes String,			//Notas de devolução
+    reviewedByPeer Boolean,
+    communityVotes Integer
+}
+
+entity Newsletter {
+	name String,
+    email String,
+    registrationDate LocalDate,
+    rgpdAuth Boolean
+}
+
+relationship ManyToMany {
+	Newsletter to CategoryTree
+}
+
+relationship ManyToOne {
+  CategoryTree{child} to CategoryTree
 }
 
 relationship OneToMany {
-	Document to Revision{document}
+	Article to Revision{article}
+}
+
+relationship OneToMany {
+	PublicationSource{name} to Article{pubName}
+	ArticleType{name} to Revision{type}
+	CategoryTree{name} to Revision{area}
 }
 
 // Set pagination options
-paginate Document with infinite-scroll
-paginate Revision with pagination
+paginate ArticleType, CategoryTree, PublicationSource with infinite-scroll
+paginate Article, Revision, Newsletter with pagination
 
+// Allow all entities to be filtered
+filter Article, Revision, PublicationSource, Newsletter
 // Use Data Transfert Objects (DTO)
 // dto * with mapstruct
 
