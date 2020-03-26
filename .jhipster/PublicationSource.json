@@ -1,0 +1,33 @@
+{
+    "name": "PublicationSource",
+    "fields": [
+        {
+            "fieldName": "sourceName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "article",
+            "otherEntityRelationshipName": "pubName",
+            "relationshipName": "name"
+        }
+    ],
+    "changelogDate": "20200326040700",
+    "entityTableName": "publication_source",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "ICAMApi",
+    "applications": "*",
+    "microserviceName": "ICAMApi"
+}
