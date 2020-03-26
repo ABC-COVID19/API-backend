@@ -2,17 +2,17 @@
 // Support tables
 // *******************************************
 entity ContentSource {
-	name String required,	//PubMed
+	itemName String required,	//PubMed
     active Boolean
 }
 
 entity ArticleType {
-	name String required,
+	itemName String required,
     active Boolean
 }
 
 entity CategoryTree {
-	name String required,
+	itemName String required,
     active Boolean
 }
 
@@ -73,9 +73,9 @@ relationship ManyToOne {
 }
 
 relationship OneToMany {
-	ContentSource{name} to Article{source}
-	ArticleType{name} to Revision{type}
-	CategoryTree{name} to Revision{area}
+	ContentSource{article} to Article{cntsource}
+	ArticleType{revision} to Revision{atype}
+	CategoryTree{revision} to Revision{ctree}
 	Article to Revision{article}
 }
 
