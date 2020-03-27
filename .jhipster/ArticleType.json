@@ -1,0 +1,36 @@
+{
+    "name": "ArticleType",
+    "fields": [
+        {
+            "fieldName": "itemName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "atype",
+            "relationshipName": "revision"
+        }
+    ],
+    "changelogDate": "20200326232600",
+    "entityTableName": "article_type",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "ICAMApi",
+    "applications": "*",
+    "microserviceName": "ICAMApi"
+}

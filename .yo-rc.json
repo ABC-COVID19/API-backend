@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "pt.tech4covid"
+    },
+    "jhipsterVersion": "6.8.0",
+    "applicationType": "microservice",
+    "baseName": "ICAMApi",
+    "packageName": "pt.tech4covid",
+    "packageFolder": "pt/tech4covid",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mariadb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "MzU0OTRmNDRjOWQ5MmRkMGVlMjQ2Y2I4YTg3NDRkYTFkZjAwMTkyODFiMWJlYmVhM2I4ODFiNjY3MjE1NjFhNTY3ZGE1OTNkYmM4MTY5YzVmMjVjNmM0NGNjMGE3YWE4Y2FhMTc4MjRiY2Q1NGZkMGU3YmJkYzI4MDg5MjljZjE=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1585265061733,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}

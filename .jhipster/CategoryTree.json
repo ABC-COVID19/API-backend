@@ -1,0 +1,51 @@
+{
+    "name": "CategoryTree",
+    "fields": [
+        {
+            "fieldName": "itemName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "ctree",
+            "relationshipName": "revision"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "categoryTree",
+            "otherEntityRelationshipName": "categoryTree",
+            "relationshipName": "child",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "newsletter",
+            "otherEntityRelationshipName": "categoryTree",
+            "relationshipName": "newsletter",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20200326232700",
+    "entityTableName": "category_tree",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "ICAMApi",
+    "applications": "*",
+    "microserviceName": "ICAMApi"
+}

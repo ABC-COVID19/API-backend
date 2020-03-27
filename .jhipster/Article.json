@@ -1,0 +1,87 @@
+{
+    "name": "Article",
+    "fields": [
+        {
+            "fieldName": "sourceID",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "sourceDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "sourceTitle",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sourceAbstract",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pubmedDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "officialPubDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "doi",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "journal",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "citation",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "keywords",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "reviewState",
+            "fieldType": "ReviewState",
+            "fieldValues": "Hold,OnGoing,Pending,Reviewed,Accepted",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "article",
+            "relationshipName": "revision"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "contentSource",
+            "otherEntityRelationshipName": "article",
+            "relationshipName": "cntsource",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200326232800",
+    "entityTableName": "article",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "ICAMApi",
+    "applications": "*",
+    "microserviceName": "ICAMApi"
+}

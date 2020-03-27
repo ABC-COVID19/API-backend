@@ -1,39 +1,90 @@
-entity Document {
-	title String,
-    date LocalDate,
-    abstractDesc String,
+// *******************************************
+// Support tables
+// *******************************************
+entity ContentSource {
+	itemName String required,	//PubMed
+    active Boolean
+}
+
+entity ArticleType {
+	itemName String required,
+    active Boolean
+}
+
+entity CategoryTree {
+	itemName String required,
+    active Boolean
+}
+
+enum ReviewState {
+	Hold,		//Estado inicial
+    OnGoing,	//Em revisão
+	Pending,	//Espera informação adicional
+    Reviewed,	//Considerado como revisto
+    Accepted	//Revisão aceite
+}
+
+// *******************************************
+// Entity tabels
+// *******************************************
+entity Article {
+	sourceID Integer required,			//Identifica o ID da plataforma original de importação
+    sourceDate LocalDate required,		//Data de importação
+	sourceTitle String,
+    sourceAbstract String,
+	pubmedDate LocalDate,				//Data de publicação no pubmed
+	officialPubDate LocalDate,			//Data oficinal de publicação
+    doi String,							//https....
+    journal String,				
+    citation String,			
     keywords TextBlob,
-    source String,
-    link String
-}
-
-entity Topic {
-	name String
-}
-
-relationship OneToMany {
-	Topic{name} to Document{topic}
+	reviewState ReviewState	required	//Estado absoluto de validação da publicação
 }
 
 entity Revision {
-	title String,
-    summary String,
-    reviewer String
+	title String required,
+    summary TextBlob required,
+    reviewer String required,
+    active Boolean required,
+    keywords TextBlob,
+    reviewState ReviewState required,
+    returnNotes TextBlob,				//Notas de devolução
+    reviewedByPeer Boolean required,
+    communityVotes Integer
+}
+
+entity Newsletter {
+	firstName String,
+	lastName String,
+    email String required,
+    registrationDate LocalDate required,
+    rgpdAuth Boolean required
+}
+
+// *******************************************
+// Relationships
+// *******************************************
+relationship ManyToMany {
+	Newsletter to CategoryTree
+}
+
+relationship ManyToOne {
+	CategoryTree{child} to CategoryTree
 }
 
 relationship OneToMany {
-	Document to Revision{document}
+	ContentSource{article} to Article{cntsource}
+	ArticleType{revision} to Revision{atype}
+	CategoryTree{revision} to Revision{ctree}
+	Article to Revision{article}
 }
 
 // Set pagination options
-paginate Document with infinite-scroll
-paginate Revision with pagination
+paginate ArticleType, CategoryTree with infinite-scroll
+paginate Article, Revision, Newsletter with pagination
 
-// Use Data Transfert Objects (DTO)
-// dto * with mapstruct
+// Allow all entities to be filtered
+filter ArticleType, CategoryTree, Article, Revision, Newsletter
 
-// Set service options to all except few
-//service all with serviceImpl except Employee, Job
-
-// Set an angular suffix
-// angularSuffix * with mySuffix
+// Service all entities
+service all with serviceImpl
