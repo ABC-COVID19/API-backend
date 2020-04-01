@@ -12,12 +12,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A ContentSource.
+ * A SourceRepo.
  */
 @Entity
-@Table(name = "content_source")
+@Table(name = "source_repo")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class ContentSource implements Serializable {
+public class SourceRepo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class ContentSource implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @OneToMany(mappedBy = "cntsource")
+    @OneToMany(mappedBy = "srepo")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Article> articles = new HashSet<>();
 
@@ -49,7 +49,7 @@ public class ContentSource implements Serializable {
         return itemName;
     }
 
-    public ContentSource itemName(String itemName) {
+    public SourceRepo itemName(String itemName) {
         this.itemName = itemName;
         return this;
     }
@@ -62,7 +62,7 @@ public class ContentSource implements Serializable {
         return active;
     }
 
-    public ContentSource active(Boolean active) {
+    public SourceRepo active(Boolean active) {
         this.active = active;
         return this;
     }
@@ -75,20 +75,20 @@ public class ContentSource implements Serializable {
         return articles;
     }
 
-    public ContentSource articles(Set<Article> articles) {
+    public SourceRepo articles(Set<Article> articles) {
         this.articles = articles;
         return this;
     }
 
-    public ContentSource addArticle(Article article) {
+    public SourceRepo addArticle(Article article) {
         this.articles.add(article);
-        article.setCntsource(this);
+        article.setSrepo(this);
         return this;
     }
 
-    public ContentSource removeArticle(Article article) {
+    public SourceRepo removeArticle(Article article) {
         this.articles.remove(article);
-        article.setCntsource(null);
+        article.setSrepo(null);
         return this;
     }
 
@@ -102,10 +102,10 @@ public class ContentSource implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ContentSource)) {
+        if (!(o instanceof SourceRepo)) {
             return false;
         }
-        return id != null && id.equals(((ContentSource) o).id);
+        return id != null && id.equals(((SourceRepo) o).id);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ContentSource implements Serializable {
 
     @Override
     public String toString() {
-        return "ContentSource{" +
+        return "SourceRepo{" +
             "id=" + getId() +
             ", itemName='" + getItemName() + "'" +
             ", active='" + isActive() + "'" +

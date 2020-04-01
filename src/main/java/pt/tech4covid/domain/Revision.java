@@ -36,32 +36,32 @@ public class Revision implements Serializable {
     private String summary;
 
     @NotNull
-    @Column(name = "reviewer", nullable = false)
-    private String reviewer;
+    @Column(name = "reviewed_by_peer", nullable = false)
+    private Boolean reviewedByPeer;
 
-    @NotNull
-    @Column(name = "active", nullable = false)
-    private Boolean active;
+    @Lob
+    @Column(name = "return_notes")
+    private String returnNotes;
 
     @Lob
     @Column(name = "keywords")
     private String keywords;
 
     @NotNull
+    @Column(name = "reviewer", nullable = false)
+    private String reviewer;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "review_state", nullable = false)
     private ReviewState reviewState;
 
-    @Lob
-    @Column(name = "return_notes")
-    private String returnNotes;
-
-    @NotNull
-    @Column(name = "reviewed_by_peer", nullable = false)
-    private Boolean reviewedByPeer;
-
     @Column(name = "community_votes")
     private Integer communityVotes;
+
+    @NotNull
+    @Column(name = "active", nullable = false)
+    private Boolean active;
 
     @ManyToOne
     @JsonIgnoreProperties("revisions")
@@ -110,56 +110,17 @@ public class Revision implements Serializable {
         this.summary = summary;
     }
 
-    public String getReviewer() {
-        return reviewer;
+    public Boolean isReviewedByPeer() {
+        return reviewedByPeer;
     }
 
-    public Revision reviewer(String reviewer) {
-        this.reviewer = reviewer;
+    public Revision reviewedByPeer(Boolean reviewedByPeer) {
+        this.reviewedByPeer = reviewedByPeer;
         return this;
     }
 
-    public void setReviewer(String reviewer) {
-        this.reviewer = reviewer;
-    }
-
-    public Boolean isActive() {
-        return active;
-    }
-
-    public Revision active(Boolean active) {
-        this.active = active;
-        return this;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public Revision keywords(String keywords) {
-        this.keywords = keywords;
-        return this;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
-
-    public ReviewState getReviewState() {
-        return reviewState;
-    }
-
-    public Revision reviewState(ReviewState reviewState) {
-        this.reviewState = reviewState;
-        return this;
-    }
-
-    public void setReviewState(ReviewState reviewState) {
-        this.reviewState = reviewState;
+    public void setReviewedByPeer(Boolean reviewedByPeer) {
+        this.reviewedByPeer = reviewedByPeer;
     }
 
     public String getReturnNotes() {
@@ -175,17 +136,43 @@ public class Revision implements Serializable {
         this.returnNotes = returnNotes;
     }
 
-    public Boolean isReviewedByPeer() {
-        return reviewedByPeer;
+    public String getKeywords() {
+        return keywords;
     }
 
-    public Revision reviewedByPeer(Boolean reviewedByPeer) {
-        this.reviewedByPeer = reviewedByPeer;
+    public Revision keywords(String keywords) {
+        this.keywords = keywords;
         return this;
     }
 
-    public void setReviewedByPeer(Boolean reviewedByPeer) {
-        this.reviewedByPeer = reviewedByPeer;
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    public Revision reviewer(String reviewer) {
+        this.reviewer = reviewer;
+        return this;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    public ReviewState getReviewState() {
+        return reviewState;
+    }
+
+    public Revision reviewState(ReviewState reviewState) {
+        this.reviewState = reviewState;
+        return this;
+    }
+
+    public void setReviewState(ReviewState reviewState) {
+        this.reviewState = reviewState;
     }
 
     public Integer getCommunityVotes() {
@@ -199,6 +186,19 @@ public class Revision implements Serializable {
 
     public void setCommunityVotes(Integer communityVotes) {
         this.communityVotes = communityVotes;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public Revision active(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public ArticleType getAtype() {
@@ -263,13 +263,13 @@ public class Revision implements Serializable {
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
             ", summary='" + getSummary() + "'" +
-            ", reviewer='" + getReviewer() + "'" +
-            ", active='" + isActive() + "'" +
-            ", keywords='" + getKeywords() + "'" +
-            ", reviewState='" + getReviewState() + "'" +
-            ", returnNotes='" + getReturnNotes() + "'" +
             ", reviewedByPeer='" + isReviewedByPeer() + "'" +
+            ", returnNotes='" + getReturnNotes() + "'" +
+            ", keywords='" + getKeywords() + "'" +
+            ", reviewer='" + getReviewer() + "'" +
+            ", reviewState='" + getReviewState() + "'" +
             ", communityVotes=" + getCommunityVotes() +
+            ", active='" + isActive() + "'" +
             "}";
     }
 }

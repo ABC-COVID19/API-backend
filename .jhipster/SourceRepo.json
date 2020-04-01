@@ -1,0 +1,36 @@
+{
+    "name": "SourceRepo",
+    "fields": [
+        {
+            "fieldName": "itemName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "article",
+            "otherEntityRelationshipName": "srepo",
+            "relationshipName": "article"
+        }
+    ],
+    "changelogDate": "20200331164500",
+    "entityTableName": "source_repo",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "ICAMApi",
+    "applications": "*",
+    "microserviceName": "ICAMApi"
+}

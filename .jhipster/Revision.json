@@ -17,28 +17,8 @@
             ]
         },
         {
-            "fieldName": "reviewer",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "active",
+            "fieldName": "reviewedByPeer",
             "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "keywords",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
-        },
-        {
-            "fieldName": "reviewState",
-            "fieldType": "ReviewState",
-            "fieldValues": "Hold,OnGoing,Pending,Reviewed,Accepted",
             "fieldValidateRules": [
                 "required"
             ]
@@ -49,8 +29,21 @@
             "fieldTypeBlobContent": "text"
         },
         {
-            "fieldName": "reviewedByPeer",
-            "fieldType": "Boolean",
+            "fieldName": "keywords",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "reviewer",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "reviewState",
+            "fieldType": "ReviewState",
+            "fieldValues": "Hold,OnGoing,Pending,Reviewed,Accepted",
             "fieldValidateRules": [
                 "required"
             ]
@@ -58,6 +51,13 @@
         {
             "fieldName": "communityVotes",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [

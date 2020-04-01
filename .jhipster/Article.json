@@ -2,51 +2,46 @@
     "name": "Article",
     "fields": [
         {
-            "fieldName": "sourceID",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "repoArticleId",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "sourceDate",
-            "fieldType": "LocalDate",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "sourceTitle",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "sourceAbstract",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "pubmedDate",
+            "fieldName": "repoDate",
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "officialPubDate",
+            "fieldName": "repoKeywords",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "articleDate",
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "doi",
+            "fieldName": "articleTitle",
             "fieldType": "String"
         },
         {
-            "fieldName": "journal",
+            "fieldName": "articleAbstract",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "articleDoi",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "articleJournal",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fetchDate",
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "citation",
             "fieldType": "String"
-        },
-        {
-            "fieldName": "keywords",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "reviewState",
@@ -66,9 +61,9 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "contentSource",
+            "otherEntityName": "sourceRepo",
             "otherEntityRelationshipName": "article",
-            "relationshipName": "cntsource",
+            "relationshipName": "srepo",
             "otherEntityField": "id"
         }
     ],

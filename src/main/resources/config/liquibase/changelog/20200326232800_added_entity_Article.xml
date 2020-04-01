@@ -16,40 +16,40 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="source_id" type="integer">
-                <constraints nullable="false" />
-            </column>
-            <column name="source_date" type="date">
-                <constraints nullable="false" />
-            </column>
-            <column name="source_title" type="varchar(255)">
+            <column name="repo_article_id" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="source_abstract" type="varchar(255)">
+            <column name="repo_date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="pubmed_date" type="date">
+            <column name="repo_keywords" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="official_pub_date" type="date">
+            <column name="article_date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="doi" type="varchar(255)">
+            <column name="article_title" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="journal" type="varchar(255)">
+            <column name="article_abstract" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="article_doi" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="article_journal" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="fetch_date" type="date">
                 <constraints nullable="true" />
             </column>
             <column name="citation" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="keywords" type="${clobType}">
-                <constraints nullable="true" />
-            </column>
             <column name="review_state" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="cntsource_id" type="bigint">
+            <column name="srepo_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -75,16 +75,16 @@
                   separator=";"
                   tableName="article">
             <column name="id" type="numeric"/>
-            <column name="source_id" type="numeric"/>
-            <column name="source_date" type="date"/>
-            <column name="source_title" type="string"/>
-            <column name="source_abstract" type="string"/>
-            <column name="pubmed_date" type="date"/>
-            <column name="official_pub_date" type="date"/>
-            <column name="doi" type="string"/>
-            <column name="journal" type="string"/>
+            <column name="repo_article_id" type="numeric"/>
+            <column name="repo_date" type="date"/>
+            <column name="repo_keywords" type="clob"/>
+            <column name="article_date" type="date"/>
+            <column name="article_title" type="string"/>
+            <column name="article_abstract" type="clob"/>
+            <column name="article_doi" type="string"/>
+            <column name="article_journal" type="string"/>
+            <column name="fetch_date" type="date"/>
             <column name="citation" type="string"/>
-            <column name="keywords" type="clob"/>
             <column name="review_state" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
