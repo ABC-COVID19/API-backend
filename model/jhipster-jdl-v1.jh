@@ -31,12 +31,12 @@ entity Article {
 	sourceID Integer required,			//Identifica o ID da plataforma original de importação
     sourceDate LocalDate required,		//Data de importação
 	sourceTitle String,
-    sourceAbstract String,
+    sourceAbstract TextBlob,
 	pubmedDate LocalDate,				//Data de publicação no pubmed
 	officialPubDate LocalDate,			//Data oficinal de publicação
     doi String,							//https....
-    journal String,				
-    citation String,			
+    journal String,
+    citation String,
     keywords TextBlob,
 	reviewState ReviewState	required	//Estado absoluto de validação da publicação
 }
