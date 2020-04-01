@@ -2,26 +2,26 @@
 // Support tables
 // *******************************************
 entity SourceRepo {
-	itemName String required,	// Onde foi recolhido o artigo (Ex: PubMed)
+    itemName String required, // Onde foi recolhido o artigo (Ex: PubMed)
     active Boolean
 }
 
 entity ArticleType {
-	itemName String required,
+    itemName String required,
     active Boolean
 }
 
 entity CategoryTree {
-	itemName String required,
+    itemName String required,
     active Boolean
 }
 
 enum ReviewState {
-	Hold,		//Estado inicial
-    OnGoing,	//Em revisão
-	Pending,	//Espera informação adicional
-    Reviewed,	//Considerado como revisto
-    Accepted	//Revisão aceite
+    Hold,       //Estado inicial
+    OnGoing,    //Em revisão
+    Pending,    //Espera informação adicional
+    Reviewed,   //Considerado como revisto
+    Accepted    //Revisão aceite
 }
 
 // *******************************************
@@ -33,18 +33,18 @@ entity Article {
     repoKeywords TextBlob,              // Keywords associadas no sourceRepo
 
     articleDate LocalDate,              // Data oficial do artigo
-	articleTitle String,                // Título do artigo
+    articleTitle String,                // Título do artigo
     articleAbstract TextBlob,           // Abstact (resumo original) do artigo
-	articleDoi String,                  // DOI do artigo (gera link através de doi.org/[articleDoi])
+    articleDoi String,                  // DOI do artigo (gera link através de doi.org/[articleDoi])
     articleJournal String,              // Revista que publicou o artigo (Ex: Swiss medical journal)
 
     fetchDate LocalDate,                // Data de importação para o icam
     citation String,                    // Referência bibliográfica com o primeiro autor
-	reviewState ReviewState	required	// Estado absoluto de validação da publicação
+    reviewState ReviewState required    // Estado absoluto de validação da publicação
 }
 
 entity Revision {
-	title String required,              // Título em português
+    title String required,              // Título em português
     summary TextBlob required,          // Resumo do artigo em portugês
     reviewedByPeer Boolean required,    // Se o artigo foi peer reviwed antes de ser publicado
     returnNotes TextBlob,               // Notas extra do revisor
@@ -57,8 +57,8 @@ entity Revision {
 }
 
 entity Newsletter {
-	firstName String,
-	lastName String,
+    firstName String,
+    lastName String,
     email String required,
     registrationDate LocalDate required,
     rgpdAuth Boolean required
@@ -68,18 +68,18 @@ entity Newsletter {
 // Relationships
 // *******************************************
 relationship ManyToMany {
-	Newsletter to CategoryTree
+   Newsletter to CategoryTree
 }
 
 relationship ManyToOne {
-	CategoryTree{child} to CategoryTree
+    CategoryTree{child} to CategoryTree
 }
 
 relationship OneToMany {
-	SourceRepo{article} to Article{srepo}
-	ArticleType{revision} to Revision{atype}
-	CategoryTree{revision} to Revision{ctree}
-	Article to Revision{article}
+    SourceRepo{article} to Article{srepo}
+    ArticleType{revision} to Revision{atype}
+    CategoryTree{revision} to Revision{ctree}
+    Article to Revision{article}
 }
 
 // Set pagination options
