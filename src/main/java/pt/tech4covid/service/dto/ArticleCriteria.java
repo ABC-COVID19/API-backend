@@ -46,21 +46,19 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private IntegerFilter sourceID;
+    private IntegerFilter repoArticleId;
 
-    private LocalDateFilter sourceDate;
+    private LocalDateFilter repoDate;
 
-    private StringFilter sourceTitle;
+    private LocalDateFilter articleDate;
 
-    private StringFilter sourceAbstract;
+    private StringFilter articleTitle;
 
-    private LocalDateFilter pubmedDate;
+    private StringFilter articleDoi;
 
-    private LocalDateFilter officialPubDate;
+    private StringFilter articleJournal;
 
-    private StringFilter doi;
-
-    private StringFilter journal;
+    private LocalDateFilter fetchDate;
 
     private StringFilter citation;
 
@@ -68,25 +66,24 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     private LongFilter revisionId;
 
-    private LongFilter cntsourceId;
+    private LongFilter srepoId;
 
     public ArticleCriteria() {
     }
 
     public ArticleCriteria(ArticleCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.sourceID = other.sourceID == null ? null : other.sourceID.copy();
-        this.sourceDate = other.sourceDate == null ? null : other.sourceDate.copy();
-        this.sourceTitle = other.sourceTitle == null ? null : other.sourceTitle.copy();
-        this.sourceAbstract = other.sourceAbstract == null ? null : other.sourceAbstract.copy();
-        this.pubmedDate = other.pubmedDate == null ? null : other.pubmedDate.copy();
-        this.officialPubDate = other.officialPubDate == null ? null : other.officialPubDate.copy();
-        this.doi = other.doi == null ? null : other.doi.copy();
-        this.journal = other.journal == null ? null : other.journal.copy();
+        this.repoArticleId = other.repoArticleId == null ? null : other.repoArticleId.copy();
+        this.repoDate = other.repoDate == null ? null : other.repoDate.copy();
+        this.articleDate = other.articleDate == null ? null : other.articleDate.copy();
+        this.articleTitle = other.articleTitle == null ? null : other.articleTitle.copy();
+        this.articleDoi = other.articleDoi == null ? null : other.articleDoi.copy();
+        this.articleJournal = other.articleJournal == null ? null : other.articleJournal.copy();
+        this.fetchDate = other.fetchDate == null ? null : other.fetchDate.copy();
         this.citation = other.citation == null ? null : other.citation.copy();
         this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
         this.revisionId = other.revisionId == null ? null : other.revisionId.copy();
-        this.cntsourceId = other.cntsourceId == null ? null : other.cntsourceId.copy();
+        this.srepoId = other.srepoId == null ? null : other.srepoId.copy();
     }
 
     @Override
@@ -102,68 +99,60 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public IntegerFilter getSourceID() {
-        return sourceID;
+    public IntegerFilter getRepoArticleId() {
+        return repoArticleId;
     }
 
-    public void setSourceID(IntegerFilter sourceID) {
-        this.sourceID = sourceID;
+    public void setRepoArticleId(IntegerFilter repoArticleId) {
+        this.repoArticleId = repoArticleId;
     }
 
-    public LocalDateFilter getSourceDate() {
-        return sourceDate;
+    public LocalDateFilter getRepoDate() {
+        return repoDate;
     }
 
-    public void setSourceDate(LocalDateFilter sourceDate) {
-        this.sourceDate = sourceDate;
+    public void setRepoDate(LocalDateFilter repoDate) {
+        this.repoDate = repoDate;
     }
 
-    public StringFilter getSourceTitle() {
-        return sourceTitle;
+    public LocalDateFilter getArticleDate() {
+        return articleDate;
     }
 
-    public void setSourceTitle(StringFilter sourceTitle) {
-        this.sourceTitle = sourceTitle;
+    public void setArticleDate(LocalDateFilter articleDate) {
+        this.articleDate = articleDate;
     }
 
-    public StringFilter getSourceAbstract() {
-        return sourceAbstract;
+    public StringFilter getArticleTitle() {
+        return articleTitle;
     }
 
-    public void setSourceAbstract(StringFilter sourceAbstract) {
-        this.sourceAbstract = sourceAbstract;
+    public void setArticleTitle(StringFilter articleTitle) {
+        this.articleTitle = articleTitle;
     }
 
-    public LocalDateFilter getPubmedDate() {
-        return pubmedDate;
+    public StringFilter getArticleDoi() {
+        return articleDoi;
     }
 
-    public void setPubmedDate(LocalDateFilter pubmedDate) {
-        this.pubmedDate = pubmedDate;
+    public void setArticleDoi(StringFilter articleDoi) {
+        this.articleDoi = articleDoi;
     }
 
-    public LocalDateFilter getOfficialPubDate() {
-        return officialPubDate;
+    public StringFilter getArticleJournal() {
+        return articleJournal;
     }
 
-    public void setOfficialPubDate(LocalDateFilter officialPubDate) {
-        this.officialPubDate = officialPubDate;
+    public void setArticleJournal(StringFilter articleJournal) {
+        this.articleJournal = articleJournal;
     }
 
-    public StringFilter getDoi() {
-        return doi;
+    public LocalDateFilter getFetchDate() {
+        return fetchDate;
     }
 
-    public void setDoi(StringFilter doi) {
-        this.doi = doi;
-    }
-
-    public StringFilter getJournal() {
-        return journal;
-    }
-
-    public void setJournal(StringFilter journal) {
-        this.journal = journal;
+    public void setFetchDate(LocalDateFilter fetchDate) {
+        this.fetchDate = fetchDate;
     }
 
     public StringFilter getCitation() {
@@ -190,12 +179,12 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.revisionId = revisionId;
     }
 
-    public LongFilter getCntsourceId() {
-        return cntsourceId;
+    public LongFilter getSrepoId() {
+        return srepoId;
     }
 
-    public void setCntsourceId(LongFilter cntsourceId) {
-        this.cntsourceId = cntsourceId;
+    public void setSrepoId(LongFilter srepoId) {
+        this.srepoId = srepoId;
     }
 
 
@@ -210,36 +199,34 @@ public class ArticleCriteria implements Serializable, Criteria {
         final ArticleCriteria that = (ArticleCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(sourceID, that.sourceID) &&
-            Objects.equals(sourceDate, that.sourceDate) &&
-            Objects.equals(sourceTitle, that.sourceTitle) &&
-            Objects.equals(sourceAbstract, that.sourceAbstract) &&
-            Objects.equals(pubmedDate, that.pubmedDate) &&
-            Objects.equals(officialPubDate, that.officialPubDate) &&
-            Objects.equals(doi, that.doi) &&
-            Objects.equals(journal, that.journal) &&
+            Objects.equals(repoArticleId, that.repoArticleId) &&
+            Objects.equals(repoDate, that.repoDate) &&
+            Objects.equals(articleDate, that.articleDate) &&
+            Objects.equals(articleTitle, that.articleTitle) &&
+            Objects.equals(articleDoi, that.articleDoi) &&
+            Objects.equals(articleJournal, that.articleJournal) &&
+            Objects.equals(fetchDate, that.fetchDate) &&
             Objects.equals(citation, that.citation) &&
             Objects.equals(reviewState, that.reviewState) &&
             Objects.equals(revisionId, that.revisionId) &&
-            Objects.equals(cntsourceId, that.cntsourceId);
+            Objects.equals(srepoId, that.srepoId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        sourceID,
-        sourceDate,
-        sourceTitle,
-        sourceAbstract,
-        pubmedDate,
-        officialPubDate,
-        doi,
-        journal,
+        repoArticleId,
+        repoDate,
+        articleDate,
+        articleTitle,
+        articleDoi,
+        articleJournal,
+        fetchDate,
         citation,
         reviewState,
         revisionId,
-        cntsourceId
+        srepoId
         );
     }
 
@@ -247,18 +234,17 @@ public class ArticleCriteria implements Serializable, Criteria {
     public String toString() {
         return "ArticleCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (sourceID != null ? "sourceID=" + sourceID + ", " : "") +
-                (sourceDate != null ? "sourceDate=" + sourceDate + ", " : "") +
-                (sourceTitle != null ? "sourceTitle=" + sourceTitle + ", " : "") +
-                (sourceAbstract != null ? "sourceAbstract=" + sourceAbstract + ", " : "") +
-                (pubmedDate != null ? "pubmedDate=" + pubmedDate + ", " : "") +
-                (officialPubDate != null ? "officialPubDate=" + officialPubDate + ", " : "") +
-                (doi != null ? "doi=" + doi + ", " : "") +
-                (journal != null ? "journal=" + journal + ", " : "") +
+                (repoArticleId != null ? "repoArticleId=" + repoArticleId + ", " : "") +
+                (repoDate != null ? "repoDate=" + repoDate + ", " : "") +
+                (articleDate != null ? "articleDate=" + articleDate + ", " : "") +
+                (articleTitle != null ? "articleTitle=" + articleTitle + ", " : "") +
+                (articleDoi != null ? "articleDoi=" + articleDoi + ", " : "") +
+                (articleJournal != null ? "articleJournal=" + articleJournal + ", " : "") +
+                (fetchDate != null ? "fetchDate=" + fetchDate + ", " : "") +
                 (citation != null ? "citation=" + citation + ", " : "") +
                 (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
                 (revisionId != null ? "revisionId=" + revisionId + ", " : "") +
-                (cntsourceId != null ? "cntsourceId=" + cntsourceId + ", " : "") +
+                (srepoId != null ? "srepoId=" + srepoId + ", " : "") +
             "}";
     }
 

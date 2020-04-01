@@ -1,8 +1,8 @@
 // *******************************************
 // Support tables
 // *******************************************
-entity ContentSource {
-	itemName String required,	//PubMed
+entity SourceRepo {
+	itemName String required,	// Onde foi recolhido o artigo (Ex: PubMed)
     active Boolean
 }
 
@@ -28,29 +28,32 @@ enum ReviewState {
 // Entity tabels
 // *******************************************
 entity Article {
-	sourceID Integer required,			//Identifica o ID da plataforma original de importação
-    sourceDate LocalDate required,		//Data de importação
-	sourceTitle String,
-    sourceAbstract String,
-	pubmedDate LocalDate,				//Data de publicação no pubmed
-	officialPubDate LocalDate,			//Data oficinal de publicação
-    doi String,							//https....
-    journal String,				
-    citation String,			
-    keywords TextBlob,
-	reviewState ReviewState	required	//Estado absoluto de validação da publicação
+    repoArticleId Integer,              // ID original no sourceRepo
+    repoDate LocalDate,                 // Data de entrada no sourceRepo
+    repoKeywords TextBlob,              // Keywords associadas no sourceRepo
+
+    articleDate LocalDate,              // Data oficial do artigo
+	articleTitle String,                // Título do artigo
+    articleAbstract TextBlob,           // Abstact (resumo original) do artigo
+	articleDoi String,                  // DOI do artigo (gera link através de doi.org/[articleDoi])
+    articleJournal String,              // Revista que publicou o artigo (Ex: Swiss medical journal)
+
+    fetchDate LocalDate,                // Data de importação para o icam
+    citation String,                    // Referência bibliográfica com o primeiro autor
+	reviewState ReviewState	required	// Estado absoluto de validação da publicação
 }
 
 entity Revision {
-	title String required,
-    summary TextBlob required,
-    reviewer String required,
-    active Boolean required,
-    keywords TextBlob,
+	title String required,              // Título em português
+    summary TextBlob required,          // Resumo do artigo em portugês
+    reviewedByPeer Boolean required,    // Se o artigo foi peer reviwed antes de ser publicado
+    returnNotes TextBlob,               // Notas extra do revisor
+    keywords TextBlob,                  // Keywords
+
+    reviewer String required,           // Nome do revisor
     reviewState ReviewState required,
-    returnNotes TextBlob,				//Notas de devolução
-    reviewedByPeer Boolean required,
-    communityVotes Integer
+    communityVotes Integer,
+    active Boolean required
 }
 
 entity Newsletter {
@@ -73,7 +76,7 @@ relationship ManyToOne {
 }
 
 relationship OneToMany {
-	ContentSource{article} to Article{cntsource}
+	SourceRepo{article} to Article{srepo}
 	ArticleType{revision} to Revision{atype}
 	CategoryTree{revision} to Revision{ctree}
 	Article to Revision{article}

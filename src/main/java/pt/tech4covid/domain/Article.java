@@ -29,38 +29,37 @@ public class Article implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "source_id", nullable = false)
-    private Integer sourceID;
+    @Column(name = "repo_article_id")
+    private Integer repoArticleId;
 
-    @NotNull
-    @Column(name = "source_date", nullable = false)
-    private LocalDate sourceDate;
+    @Column(name = "repo_date")
+    private LocalDate repoDate;
 
-    @Column(name = "source_title")
-    private String sourceTitle;
+    @Lob
+    @Column(name = "repo_keywords")
+    private String repoKeywords;
 
-    @Column(name = "source_abstract")
-    private String sourceAbstract;
+    @Column(name = "article_date")
+    private LocalDate articleDate;
 
-    @Column(name = "pubmed_date")
-    private LocalDate pubmedDate;
+    @Column(name = "article_title")
+    private String articleTitle;
 
-    @Column(name = "official_pub_date")
-    private LocalDate officialPubDate;
+    @Lob
+    @Column(name = "article_abstract")
+    private String articleAbstract;
 
-    @Column(name = "doi")
-    private String doi;
+    @Column(name = "article_doi")
+    private String articleDoi;
 
-    @Column(name = "journal")
-    private String journal;
+    @Column(name = "article_journal")
+    private String articleJournal;
+
+    @Column(name = "fetch_date")
+    private LocalDate fetchDate;
 
     @Column(name = "citation")
     private String citation;
-
-    @Lob
-    @Column(name = "keywords")
-    private String keywords;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -73,7 +72,7 @@ public class Article implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("articles")
-    private ContentSource cntsource;
+    private SourceRepo srepo;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -84,108 +83,121 @@ public class Article implements Serializable {
         this.id = id;
     }
 
-    public Integer getSourceID() {
-        return sourceID;
+    public Integer getRepoArticleId() {
+        return repoArticleId;
     }
 
-    public Article sourceID(Integer sourceID) {
-        this.sourceID = sourceID;
+    public Article repoArticleId(Integer repoArticleId) {
+        this.repoArticleId = repoArticleId;
         return this;
     }
 
-    public void setSourceID(Integer sourceID) {
-        this.sourceID = sourceID;
+    public void setRepoArticleId(Integer repoArticleId) {
+        this.repoArticleId = repoArticleId;
     }
 
-    public LocalDate getSourceDate() {
-        return sourceDate;
+    public LocalDate getRepoDate() {
+        return repoDate;
     }
 
-    public Article sourceDate(LocalDate sourceDate) {
-        this.sourceDate = sourceDate;
+    public Article repoDate(LocalDate repoDate) {
+        this.repoDate = repoDate;
         return this;
     }
 
-    public void setSourceDate(LocalDate sourceDate) {
-        this.sourceDate = sourceDate;
+    public void setRepoDate(LocalDate repoDate) {
+        this.repoDate = repoDate;
     }
 
-    public String getSourceTitle() {
-        return sourceTitle;
+    public String getRepoKeywords() {
+        return repoKeywords;
     }
 
-    public Article sourceTitle(String sourceTitle) {
-        this.sourceTitle = sourceTitle;
+    public Article repoKeywords(String repoKeywords) {
+        this.repoKeywords = repoKeywords;
         return this;
     }
 
-    public void setSourceTitle(String sourceTitle) {
-        this.sourceTitle = sourceTitle;
+    public void setRepoKeywords(String repoKeywords) {
+        this.repoKeywords = repoKeywords;
     }
 
-    public String getSourceAbstract() {
-        return sourceAbstract;
+    public LocalDate getArticleDate() {
+        return articleDate;
     }
 
-    public Article sourceAbstract(String sourceAbstract) {
-        this.sourceAbstract = sourceAbstract;
+    public Article articleDate(LocalDate articleDate) {
+        this.articleDate = articleDate;
         return this;
     }
 
-    public void setSourceAbstract(String sourceAbstract) {
-        this.sourceAbstract = sourceAbstract;
+    public void setArticleDate(LocalDate articleDate) {
+        this.articleDate = articleDate;
     }
 
-    public LocalDate getPubmedDate() {
-        return pubmedDate;
+    public String getArticleTitle() {
+        return articleTitle;
     }
 
-    public Article pubmedDate(LocalDate pubmedDate) {
-        this.pubmedDate = pubmedDate;
+    public Article articleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
         return this;
     }
 
-    public void setPubmedDate(LocalDate pubmedDate) {
-        this.pubmedDate = pubmedDate;
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
     }
 
-    public LocalDate getOfficialPubDate() {
-        return officialPubDate;
+    public String getArticleAbstract() {
+        return articleAbstract;
     }
 
-    public Article officialPubDate(LocalDate officialPubDate) {
-        this.officialPubDate = officialPubDate;
+    public Article articleAbstract(String articleAbstract) {
+        this.articleAbstract = articleAbstract;
         return this;
     }
 
-    public void setOfficialPubDate(LocalDate officialPubDate) {
-        this.officialPubDate = officialPubDate;
+    public void setArticleAbstract(String articleAbstract) {
+        this.articleAbstract = articleAbstract;
     }
 
-    public String getDoi() {
-        return doi;
+    public String getArticleDoi() {
+        return articleDoi;
     }
 
-    public Article doi(String doi) {
-        this.doi = doi;
+    public Article articleDoi(String articleDoi) {
+        this.articleDoi = articleDoi;
         return this;
     }
 
-    public void setDoi(String doi) {
-        this.doi = doi;
+    public void setArticleDoi(String articleDoi) {
+        this.articleDoi = articleDoi;
     }
 
-    public String getJournal() {
-        return journal;
+    public String getArticleJournal() {
+        return articleJournal;
     }
 
-    public Article journal(String journal) {
-        this.journal = journal;
+    public Article articleJournal(String articleJournal) {
+        this.articleJournal = articleJournal;
         return this;
     }
 
-    public void setJournal(String journal) {
-        this.journal = journal;
+    public void setArticleJournal(String articleJournal) {
+        this.articleJournal = articleJournal;
+    }
+
+    public LocalDate getFetchDate() {
+        return fetchDate;
+    }
+
+    public Article fetchDate(LocalDate fetchDate) {
+        this.fetchDate = fetchDate;
+        return this;
+    }
+
+    public void setFetchDate(LocalDate fetchDate) {
+        this.fetchDate = fetchDate;
     }
 
     public String getCitation() {
@@ -199,19 +211,6 @@ public class Article implements Serializable {
 
     public void setCitation(String citation) {
         this.citation = citation;
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public Article keywords(String keywords) {
-        this.keywords = keywords;
-        return this;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
     }
 
     public ReviewState getReviewState() {
@@ -252,17 +251,17 @@ public class Article implements Serializable {
         this.revisions = revisions;
     }
 
-    public ContentSource getCntsource() {
-        return cntsource;
+    public SourceRepo getSrepo() {
+        return srepo;
     }
 
-    public Article cntsource(ContentSource contentSource) {
-        this.cntsource = contentSource;
+    public Article srepo(SourceRepo sourceRepo) {
+        this.srepo = sourceRepo;
         return this;
     }
 
-    public void setCntsource(ContentSource contentSource) {
-        this.cntsource = contentSource;
+    public void setSrepo(SourceRepo sourceRepo) {
+        this.srepo = sourceRepo;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -286,16 +285,16 @@ public class Article implements Serializable {
     public String toString() {
         return "Article{" +
             "id=" + getId() +
-            ", sourceID=" + getSourceID() +
-            ", sourceDate='" + getSourceDate() + "'" +
-            ", sourceTitle='" + getSourceTitle() + "'" +
-            ", sourceAbstract='" + getSourceAbstract() + "'" +
-            ", pubmedDate='" + getPubmedDate() + "'" +
-            ", officialPubDate='" + getOfficialPubDate() + "'" +
-            ", doi='" + getDoi() + "'" +
-            ", journal='" + getJournal() + "'" +
+            ", repoArticleId=" + getRepoArticleId() +
+            ", repoDate='" + getRepoDate() + "'" +
+            ", repoKeywords='" + getRepoKeywords() + "'" +
+            ", articleDate='" + getArticleDate() + "'" +
+            ", articleTitle='" + getArticleTitle() + "'" +
+            ", articleAbstract='" + getArticleAbstract() + "'" +
+            ", articleDoi='" + getArticleDoi() + "'" +
+            ", articleJournal='" + getArticleJournal() + "'" +
+            ", fetchDate='" + getFetchDate() + "'" +
             ", citation='" + getCitation() + "'" +
-            ", keywords='" + getKeywords() + "'" +
             ", reviewState='" + getReviewState() + "'" +
             "}";
     }

@@ -47,15 +47,15 @@ public class RevisionCriteria implements Serializable, Criteria {
 
     private StringFilter title;
 
-    private StringFilter reviewer;
+    private BooleanFilter reviewedByPeer;
 
-    private BooleanFilter active;
+    private StringFilter reviewer;
 
     private ReviewStateFilter reviewState;
 
-    private BooleanFilter reviewedByPeer;
-
     private IntegerFilter communityVotes;
+
+    private BooleanFilter active;
 
     private LongFilter atypeId;
 
@@ -69,11 +69,11 @@ public class RevisionCriteria implements Serializable, Criteria {
     public RevisionCriteria(RevisionCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.title = other.title == null ? null : other.title.copy();
-        this.reviewer = other.reviewer == null ? null : other.reviewer.copy();
-        this.active = other.active == null ? null : other.active.copy();
-        this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
         this.reviewedByPeer = other.reviewedByPeer == null ? null : other.reviewedByPeer.copy();
+        this.reviewer = other.reviewer == null ? null : other.reviewer.copy();
+        this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
         this.communityVotes = other.communityVotes == null ? null : other.communityVotes.copy();
+        this.active = other.active == null ? null : other.active.copy();
         this.atypeId = other.atypeId == null ? null : other.atypeId.copy();
         this.ctreeId = other.ctreeId == null ? null : other.ctreeId.copy();
         this.articleId = other.articleId == null ? null : other.articleId.copy();
@@ -100,20 +100,20 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.title = title;
     }
 
+    public BooleanFilter getReviewedByPeer() {
+        return reviewedByPeer;
+    }
+
+    public void setReviewedByPeer(BooleanFilter reviewedByPeer) {
+        this.reviewedByPeer = reviewedByPeer;
+    }
+
     public StringFilter getReviewer() {
         return reviewer;
     }
 
     public void setReviewer(StringFilter reviewer) {
         this.reviewer = reviewer;
-    }
-
-    public BooleanFilter getActive() {
-        return active;
-    }
-
-    public void setActive(BooleanFilter active) {
-        this.active = active;
     }
 
     public ReviewStateFilter getReviewState() {
@@ -124,20 +124,20 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.reviewState = reviewState;
     }
 
-    public BooleanFilter getReviewedByPeer() {
-        return reviewedByPeer;
-    }
-
-    public void setReviewedByPeer(BooleanFilter reviewedByPeer) {
-        this.reviewedByPeer = reviewedByPeer;
-    }
-
     public IntegerFilter getCommunityVotes() {
         return communityVotes;
     }
 
     public void setCommunityVotes(IntegerFilter communityVotes) {
         this.communityVotes = communityVotes;
+    }
+
+    public BooleanFilter getActive() {
+        return active;
+    }
+
+    public void setActive(BooleanFilter active) {
+        this.active = active;
     }
 
     public LongFilter getAtypeId() {
@@ -177,11 +177,11 @@ public class RevisionCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(title, that.title) &&
-            Objects.equals(reviewer, that.reviewer) &&
-            Objects.equals(active, that.active) &&
-            Objects.equals(reviewState, that.reviewState) &&
             Objects.equals(reviewedByPeer, that.reviewedByPeer) &&
+            Objects.equals(reviewer, that.reviewer) &&
+            Objects.equals(reviewState, that.reviewState) &&
             Objects.equals(communityVotes, that.communityVotes) &&
+            Objects.equals(active, that.active) &&
             Objects.equals(atypeId, that.atypeId) &&
             Objects.equals(ctreeId, that.ctreeId) &&
             Objects.equals(articleId, that.articleId);
@@ -192,11 +192,11 @@ public class RevisionCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         title,
-        reviewer,
-        active,
-        reviewState,
         reviewedByPeer,
+        reviewer,
+        reviewState,
         communityVotes,
+        active,
         atypeId,
         ctreeId,
         articleId
@@ -208,11 +208,11 @@ public class RevisionCriteria implements Serializable, Criteria {
         return "RevisionCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (title != null ? "title=" + title + ", " : "") +
-                (reviewer != null ? "reviewer=" + reviewer + ", " : "") +
-                (active != null ? "active=" + active + ", " : "") +
-                (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
                 (reviewedByPeer != null ? "reviewedByPeer=" + reviewedByPeer + ", " : "") +
+                (reviewer != null ? "reviewer=" + reviewer + ", " : "") +
+                (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
                 (communityVotes != null ? "communityVotes=" + communityVotes + ", " : "") +
+                (active != null ? "active=" + active + ", " : "") +
                 (atypeId != null ? "atypeId=" + atypeId + ", " : "") +
                 (ctreeId != null ? "ctreeId=" + ctreeId + ", " : "") +
                 (articleId != null ? "articleId=" + articleId + ", " : "") +

@@ -88,20 +88,20 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getTitle() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitle(), Revision_.title));
             }
+            if (criteria.getReviewedByPeer() != null) {
+                specification = specification.and(buildSpecification(criteria.getReviewedByPeer(), Revision_.reviewedByPeer));
+            }
             if (criteria.getReviewer() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReviewer(), Revision_.reviewer));
-            }
-            if (criteria.getActive() != null) {
-                specification = specification.and(buildSpecification(criteria.getActive(), Revision_.active));
             }
             if (criteria.getReviewState() != null) {
                 specification = specification.and(buildSpecification(criteria.getReviewState(), Revision_.reviewState));
             }
-            if (criteria.getReviewedByPeer() != null) {
-                specification = specification.and(buildSpecification(criteria.getReviewedByPeer(), Revision_.reviewedByPeer));
-            }
             if (criteria.getCommunityVotes() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCommunityVotes(), Revision_.communityVotes));
+            }
+            if (criteria.getActive() != null) {
+                specification = specification.and(buildSpecification(criteria.getActive(), Revision_.active));
             }
             if (criteria.getAtypeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAtypeId(),

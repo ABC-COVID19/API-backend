@@ -85,29 +85,26 @@ public class ArticleQueryService extends QueryService<Article> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Article_.id));
             }
-            if (criteria.getSourceID() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSourceID(), Article_.sourceID));
+            if (criteria.getRepoArticleId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRepoArticleId(), Article_.repoArticleId));
             }
-            if (criteria.getSourceDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSourceDate(), Article_.sourceDate));
+            if (criteria.getRepoDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRepoDate(), Article_.repoDate));
             }
-            if (criteria.getSourceTitle() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSourceTitle(), Article_.sourceTitle));
+            if (criteria.getArticleDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getArticleDate(), Article_.articleDate));
             }
-            if (criteria.getSourceAbstract() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSourceAbstract(), Article_.sourceAbstract));
+            if (criteria.getArticleTitle() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArticleTitle(), Article_.articleTitle));
             }
-            if (criteria.getPubmedDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPubmedDate(), Article_.pubmedDate));
+            if (criteria.getArticleDoi() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArticleDoi(), Article_.articleDoi));
             }
-            if (criteria.getOfficialPubDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOfficialPubDate(), Article_.officialPubDate));
+            if (criteria.getArticleJournal() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArticleJournal(), Article_.articleJournal));
             }
-            if (criteria.getDoi() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDoi(), Article_.doi));
-            }
-            if (criteria.getJournal() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getJournal(), Article_.journal));
+            if (criteria.getFetchDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFetchDate(), Article_.fetchDate));
             }
             if (criteria.getCitation() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCitation(), Article_.citation));
@@ -119,9 +116,9 @@ public class ArticleQueryService extends QueryService<Article> {
                 specification = specification.and(buildSpecification(criteria.getRevisionId(),
                     root -> root.join(Article_.revisions, JoinType.LEFT).get(Revision_.id)));
             }
-            if (criteria.getCntsourceId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCntsourceId(),
-                    root -> root.join(Article_.cntsource, JoinType.LEFT).get(ContentSource_.id)));
+            if (criteria.getSrepoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSrepoId(),
+                    root -> root.join(Article_.srepo, JoinType.LEFT).get(SourceRepo_.id)));
             }
         }
         return specification;
