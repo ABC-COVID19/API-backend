@@ -41,7 +41,7 @@
             "ownerSide": true
         }
     ],
-    "changelogDate": "20200326233000",
+    "changelogDate": "20200402104800",
     "entityTableName": "newsletter",
     "dto": "no",
     "pagination": "pagination",

@@ -92,7 +92,7 @@ public class ArticleQueryService extends QueryService<Article> {
                 specification = specification.and(buildRangeSpecification(criteria.getRepoDate(), Article_.repoDate));
             }
             if (criteria.getArticleDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getArticleDate(), Article_.articleDate));
+                specification = specification.and(buildStringSpecification(criteria.getArticleDate(), Article_.articleDate));
             }
             if (criteria.getArticleTitle() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getArticleTitle(), Article_.articleTitle));

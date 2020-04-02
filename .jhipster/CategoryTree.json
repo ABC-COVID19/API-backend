@@ -36,7 +36,7 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20200326232700",
+    "changelogDate": "20200402104500",
     "entityTableName": "category_tree",
     "dto": "no",
     "pagination": "infinite-scroll",

@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity CategoryTree.
     -->
-    <changeSet id="20200326232700-2" author="jhipster">
+    <changeSet id="20200402104500-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="child_id"
                                  baseTableName="category_tree"
