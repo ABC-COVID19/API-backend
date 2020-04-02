@@ -21,7 +21,7 @@
             "relationshipName": "revision"
         }
     ],
-    "changelogDate": "20200326232600",
+    "changelogDate": "20200402104400",
     "entityTableName": "article_type",
     "dto": "no",
     "pagination": "infinite-scroll",

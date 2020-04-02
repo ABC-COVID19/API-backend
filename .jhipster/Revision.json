@@ -83,7 +83,7 @@
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20200326232900",
+    "changelogDate": "20200402104700",
     "entityTableName": "revision",
     "dto": "no",
     "pagination": "pagination",

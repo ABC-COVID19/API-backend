@@ -16,7 +16,7 @@
         },
         {
             "fieldName": "articleDate",
-            "fieldType": "LocalDate"
+            "fieldType": "String"
         },
         {
             "fieldName": "articleTitle",
@@ -67,7 +67,7 @@
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20200326232800",
+    "changelogDate": "20200402104600",
     "entityTableName": "article",
     "dto": "no",
     "pagination": "pagination",

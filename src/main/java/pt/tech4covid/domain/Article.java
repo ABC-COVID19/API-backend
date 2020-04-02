@@ -40,7 +40,7 @@ public class Article implements Serializable {
     private String repoKeywords;
 
     @Column(name = "article_date")
-    private LocalDate articleDate;
+    private String articleDate;
 
     @Column(name = "article_title")
     private String articleTitle;
@@ -122,16 +122,16 @@ public class Article implements Serializable {
         this.repoKeywords = repoKeywords;
     }
 
-    public LocalDate getArticleDate() {
+    public String getArticleDate() {
         return articleDate;
     }
 
-    public Article articleDate(LocalDate articleDate) {
+    public Article articleDate(String articleDate) {
         this.articleDate = articleDate;
         return this;
     }
 
-    public void setArticleDate(LocalDate articleDate) {
+    public void setArticleDate(String articleDate) {
         this.articleDate = articleDate;
     }
 

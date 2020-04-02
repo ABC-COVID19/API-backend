@@ -32,7 +32,7 @@ entity Article {
     repoDate LocalDate,                 // Data de entrada no sourceRepo
     repoKeywords TextBlob,              // Keywords associadas no sourceRepo
 
-    articleDate LocalDate,              // Data oficial do artigo
+    articleDate String,              // Data oficial do artigo
     articleTitle String,                // Título do artigo
     articleAbstract TextBlob,           // Abstact (resumo original) do artigo
     articleDoi String,                  // DOI do artigo (gera link através de doi.org/[articleDoi])

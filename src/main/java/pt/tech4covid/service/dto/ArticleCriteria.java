@@ -50,7 +50,7 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     private LocalDateFilter repoDate;
 
-    private LocalDateFilter articleDate;
+    private StringFilter articleDate;
 
     private StringFilter articleTitle;
 
@@ -115,11 +115,11 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.repoDate = repoDate;
     }
 
-    public LocalDateFilter getArticleDate() {
+    public StringFilter getArticleDate() {
         return articleDate;
     }
 
-    public void setArticleDate(LocalDateFilter articleDate) {
+    public void setArticleDate(StringFilter articleDate) {
         this.articleDate = articleDate;
     }
 

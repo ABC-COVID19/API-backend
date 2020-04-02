@@ -50,9 +50,8 @@ public class ArticleResourceIT {
     private static final String DEFAULT_REPO_KEYWORDS = "AAAAAAAAAA";
     private static final String UPDATED_REPO_KEYWORDS = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_ARTICLE_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_ARTICLE_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_ARTICLE_DATE = LocalDate.ofEpochDay(-1L);
+    private static final String DEFAULT_ARTICLE_DATE = "AAAAAAAAAA";
+    private static final String UPDATED_ARTICLE_DATE = "BBBBBBBBBB";
 
     private static final String DEFAULT_ARTICLE_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_ARTICLE_TITLE = "BBBBBBBBBB";
@@ -221,7 +220,7 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].repoArticleId").value(hasItem(DEFAULT_REPO_ARTICLE_ID)))
             .andExpect(jsonPath("$.[*].repoDate").value(hasItem(DEFAULT_REPO_DATE.toString())))
             .andExpect(jsonPath("$.[*].repoKeywords").value(hasItem(DEFAULT_REPO_KEYWORDS.toString())))
-            .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE)))
             .andExpect(jsonPath("$.[*].articleTitle").value(hasItem(DEFAULT_ARTICLE_TITLE)))
             .andExpect(jsonPath("$.[*].articleAbstract").value(hasItem(DEFAULT_ARTICLE_ABSTRACT.toString())))
             .andExpect(jsonPath("$.[*].articleDoi").value(hasItem(DEFAULT_ARTICLE_DOI)))
@@ -245,7 +244,7 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.repoArticleId").value(DEFAULT_REPO_ARTICLE_ID))
             .andExpect(jsonPath("$.repoDate").value(DEFAULT_REPO_DATE.toString()))
             .andExpect(jsonPath("$.repoKeywords").value(DEFAULT_REPO_KEYWORDS.toString()))
-            .andExpect(jsonPath("$.articleDate").value(DEFAULT_ARTICLE_DATE.toString()))
+            .andExpect(jsonPath("$.articleDate").value(DEFAULT_ARTICLE_DATE))
             .andExpect(jsonPath("$.articleTitle").value(DEFAULT_ARTICLE_TITLE))
             .andExpect(jsonPath("$.articleAbstract").value(DEFAULT_ARTICLE_ABSTRACT.toString()))
             .andExpect(jsonPath("$.articleDoi").value(DEFAULT_ARTICLE_DOI))
@@ -536,57 +535,30 @@ public class ArticleResourceIT {
         // Get all the articleList where articleDate is null
         defaultArticleShouldNotBeFound("articleDate.specified=false");
     }
-
-    @Test
+                @Test
     @Transactional
-    public void getAllArticlesByArticleDateIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllArticlesByArticleDateContainsSomething() throws Exception {
         // Initialize the database
         articleRepository.saveAndFlush(article);
 
-        // Get all the articleList where articleDate is greater than or equal to DEFAULT_ARTICLE_DATE
-        defaultArticleShouldBeFound("articleDate.greaterThanOrEqual=" + DEFAULT_ARTICLE_DATE);
+        // Get all the articleList where articleDate contains DEFAULT_ARTICLE_DATE
+        defaultArticleShouldBeFound("articleDate.contains=" + DEFAULT_ARTICLE_DATE);
 
-        // Get all the articleList where articleDate is greater than or equal to UPDATED_ARTICLE_DATE
-        defaultArticleShouldNotBeFound("articleDate.greaterThanOrEqual=" + UPDATED_ARTICLE_DATE);
+        // Get all the articleList where articleDate contains UPDATED_ARTICLE_DATE
+        defaultArticleShouldNotBeFound("articleDate.contains=" + UPDATED_ARTICLE_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllArticlesByArticleDateIsLessThanOrEqualToSomething() throws Exception {
+    public void getAllArticlesByArticleDateNotContainsSomething() throws Exception {
         // Initialize the database
         articleRepository.saveAndFlush(article);
 
-        // Get all the articleList where articleDate is less than or equal to DEFAULT_ARTICLE_DATE
-        defaultArticleShouldBeFound("articleDate.lessThanOrEqual=" + DEFAULT_ARTICLE_DATE);
+        // Get all the articleList where articleDate does not contain DEFAULT_ARTICLE_DATE
+        defaultArticleShouldNotBeFound("articleDate.doesNotContain=" + DEFAULT_ARTICLE_DATE);
 
-        // Get all the articleList where articleDate is less than or equal to SMALLER_ARTICLE_DATE
-        defaultArticleShouldNotBeFound("articleDate.lessThanOrEqual=" + SMALLER_ARTICLE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllArticlesByArticleDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        articleRepository.saveAndFlush(article);
-
-        // Get all the articleList where articleDate is less than DEFAULT_ARTICLE_DATE
-        defaultArticleShouldNotBeFound("articleDate.lessThan=" + DEFAULT_ARTICLE_DATE);
-
-        // Get all the articleList where articleDate is less than UPDATED_ARTICLE_DATE
-        defaultArticleShouldBeFound("articleDate.lessThan=" + UPDATED_ARTICLE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllArticlesByArticleDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        articleRepository.saveAndFlush(article);
-
-        // Get all the articleList where articleDate is greater than DEFAULT_ARTICLE_DATE
-        defaultArticleShouldNotBeFound("articleDate.greaterThan=" + DEFAULT_ARTICLE_DATE);
-
-        // Get all the articleList where articleDate is greater than SMALLER_ARTICLE_DATE
-        defaultArticleShouldBeFound("articleDate.greaterThan=" + SMALLER_ARTICLE_DATE);
+        // Get all the articleList where articleDate does not contain UPDATED_ARTICLE_DATE
+        defaultArticleShouldBeFound("articleDate.doesNotContain=" + UPDATED_ARTICLE_DATE);
     }
 
 
@@ -1109,7 +1081,7 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].repoArticleId").value(hasItem(DEFAULT_REPO_ARTICLE_ID)))
             .andExpect(jsonPath("$.[*].repoDate").value(hasItem(DEFAULT_REPO_DATE.toString())))
             .andExpect(jsonPath("$.[*].repoKeywords").value(hasItem(DEFAULT_REPO_KEYWORDS.toString())))
-            .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE)))
             .andExpect(jsonPath("$.[*].articleTitle").value(hasItem(DEFAULT_ARTICLE_TITLE)))
             .andExpect(jsonPath("$.[*].articleAbstract").value(hasItem(DEFAULT_ARTICLE_ABSTRACT.toString())))
             .andExpect(jsonPath("$.[*].articleDoi").value(hasItem(DEFAULT_ARTICLE_DOI)))

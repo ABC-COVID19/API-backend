@@ -21,7 +21,7 @@
             "relationshipName": "article"
         }
     ],
-    "changelogDate": "20200331164500",
+    "changelogDate": "20200402104300",
     "entityTableName": "source_repo",
     "dto": "no",
     "pagination": "no",
