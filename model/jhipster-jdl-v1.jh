@@ -29,10 +29,10 @@ enum ReviewState {
 // *******************************************
 entity Article {
     repoArticleId Integer,              // ID original no sourceRepo
-    repoDate LocalDate,                 // Data de entrada no sourceRepo
+    repoDate LocalDate,                 // Data de entrada no sourceRepo (usar esta para organizar por data)
     repoKeywords TextBlob,              // Keywords associadas no sourceRepo
 
-    articleDate String,              // Data oficial do artigo
+    articleDate String,                 // Data oficial do artigo (usa-se só para referência - formato muito instável)
     articleTitle String,                // Título do artigo
     articleAbstract TextBlob,           // Abstact (resumo original) do artigo
     articleDoi String,                  // DOI do artigo (gera link através de doi.org/[articleDoi])
