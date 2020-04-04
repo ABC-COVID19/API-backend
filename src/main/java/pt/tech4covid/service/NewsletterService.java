@@ -1,9 +1,8 @@
 package pt.tech4covid.service;
 
-import pt.tech4covid.domain.Newsletter;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import pt.tech4covid.domain.Newsletter;
 
 import java.util.Optional;
 
@@ -49,4 +48,9 @@ public interface NewsletterService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Get number of entries in repository.
+     */
+    long count();
 }
