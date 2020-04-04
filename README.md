@@ -1,6 +1,6 @@
 # newsletter branch
 class EmailServiceImpl  
-cron settings no application.yml
+cron settings no application.yml  
 [spring CronSequenceGenerator docs](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html)
 
 # ICAMApi
