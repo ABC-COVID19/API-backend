@@ -47,7 +47,7 @@
     "changelogDate": "20200402104500",
     "entityTableName": "category_tree",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
