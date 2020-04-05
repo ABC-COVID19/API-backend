@@ -2,9 +2,9 @@ package pt.tech4covid.web.rest;
 
 import pt.tech4covid.IcamApiApp;
 import pt.tech4covid.domain.CategoryTree;
-import pt.tech4covid.domain.Revision;
 import pt.tech4covid.domain.CategoryTree;
 import pt.tech4covid.domain.Newsletter;
+import pt.tech4covid.domain.Revision;
 import pt.tech4covid.repository.CategoryTreeRepository;
 import pt.tech4covid.service.CategoryTreeService;
 import pt.tech4covid.service.dto.CategoryTreeCriteria;
@@ -328,41 +328,41 @@ public class CategoryTreeResourceIT {
 
     @Test
     @Transactional
-    public void getAllCategoryTreesByRevisionIsEqualToSomething() throws Exception {
+    public void getAllCategoryTreesByChildrenIsEqualToSomething() throws Exception {
         // Initialize the database
         categoryTreeRepository.saveAndFlush(categoryTree);
-        Revision revision = RevisionResourceIT.createEntity(em);
-        em.persist(revision);
+        CategoryTree children = CategoryTreeResourceIT.createEntity(em);
+        em.persist(children);
         em.flush();
-        categoryTree.addRevision(revision);
+        categoryTree.addChildren(children);
         categoryTreeRepository.saveAndFlush(categoryTree);
-        Long revisionId = revision.getId();
+        Long childrenId = children.getId();
 
-        // Get all the categoryTreeList where revision equals to revisionId
-        defaultCategoryTreeShouldBeFound("revisionId.equals=" + revisionId);
+        // Get all the categoryTreeList where children equals to childrenId
+        defaultCategoryTreeShouldBeFound("childrenId.equals=" + childrenId);
 
-        // Get all the categoryTreeList where revision equals to revisionId + 1
-        defaultCategoryTreeShouldNotBeFound("revisionId.equals=" + (revisionId + 1));
+        // Get all the categoryTreeList where children equals to childrenId + 1
+        defaultCategoryTreeShouldNotBeFound("childrenId.equals=" + (childrenId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllCategoryTreesByChildIsEqualToSomething() throws Exception {
+    public void getAllCategoryTreesByParentIsEqualToSomething() throws Exception {
         // Initialize the database
         categoryTreeRepository.saveAndFlush(categoryTree);
-        CategoryTree child = CategoryTreeResourceIT.createEntity(em);
-        em.persist(child);
+        CategoryTree parent = CategoryTreeResourceIT.createEntity(em);
+        em.persist(parent);
         em.flush();
-        categoryTree.setChild(child);
+        categoryTree.setParent(parent);
         categoryTreeRepository.saveAndFlush(categoryTree);
-        Long childId = child.getId();
+        Long parentId = parent.getId();
 
-        // Get all the categoryTreeList where child equals to childId
-        defaultCategoryTreeShouldBeFound("childId.equals=" + childId);
+        // Get all the categoryTreeList where parent equals to parentId
+        defaultCategoryTreeShouldBeFound("parentId.equals=" + parentId);
 
-        // Get all the categoryTreeList where child equals to childId + 1
-        defaultCategoryTreeShouldNotBeFound("childId.equals=" + (childId + 1));
+        // Get all the categoryTreeList where parent equals to parentId + 1
+        defaultCategoryTreeShouldNotBeFound("parentId.equals=" + (parentId + 1));
     }
 
 
@@ -383,6 +383,26 @@ public class CategoryTreeResourceIT {
 
         // Get all the categoryTreeList where newsletter equals to newsletterId + 1
         defaultCategoryTreeShouldNotBeFound("newsletterId.equals=" + (newsletterId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCategoryTreesByRevisionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        categoryTreeRepository.saveAndFlush(categoryTree);
+        Revision revision = RevisionResourceIT.createEntity(em);
+        em.persist(revision);
+        em.flush();
+        categoryTree.addRevision(revision);
+        categoryTreeRepository.saveAndFlush(categoryTree);
+        Long revisionId = revision.getId();
+
+        // Get all the categoryTreeList where revision equals to revisionId
+        defaultCategoryTreeShouldBeFound("revisionId.equals=" + revisionId);
+
+        // Get all the categoryTreeList where revision equals to revisionId + 1
+        defaultCategoryTreeShouldNotBeFound("revisionId.equals=" + (revisionId + 1));
     }
 
     /**

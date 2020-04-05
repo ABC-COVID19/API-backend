@@ -64,7 +64,7 @@
             "otherEntityName": "sourceRepo",
             "otherEntityRelationshipName": "article",
             "relationshipName": "srepo",
-            "otherEntityField": "id"
+            "otherEntityField": "itemName"
         }
     ],
     "changelogDate": "20200402104600",

@@ -103,13 +103,13 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getActive() != null) {
                 specification = specification.and(buildSpecification(criteria.getActive(), Revision_.active));
             }
+            if (criteria.getCtreeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCtreeId(),
+                    root -> root.join(Revision_.ctrees, JoinType.LEFT).get(CategoryTree_.id)));
+            }
             if (criteria.getAtypeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAtypeId(),
                     root -> root.join(Revision_.atype, JoinType.LEFT).get(ArticleType_.id)));
-            }
-            if (criteria.getCtreeId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCtreeId(),
-                    root -> root.join(Revision_.ctree, JoinType.LEFT).get(CategoryTree_.id)));
             }
             if (criteria.getArticleId() != null) {
                 specification = specification.and(buildSpecification(criteria.getArticleId(),

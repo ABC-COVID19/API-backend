@@ -16,22 +16,30 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "revision",
-            "otherEntityRelationshipName": "ctree",
-            "relationshipName": "revision"
+            "otherEntityName": "categoryTree",
+            "otherEntityRelationshipName": "parent",
+            "relationshipName": "children"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "categoryTree",
-            "otherEntityRelationshipName": "categoryTree",
-            "relationshipName": "child",
-            "otherEntityField": "id"
+            "otherEntityRelationshipName": "children",
+            "relationshipName": "parent",
+            "otherEntityField": "itemName"
         },
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "newsletter",
             "otherEntityRelationshipName": "categoryTree",
             "relationshipName": "newsletter",
+            "otherEntityField": "id",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "ctree",
+            "relationshipName": "revision",
             "otherEntityField": "id",
             "ownerSide": false
         }

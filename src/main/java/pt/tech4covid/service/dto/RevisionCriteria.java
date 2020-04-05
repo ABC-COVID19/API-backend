@@ -57,9 +57,9 @@ public class RevisionCriteria implements Serializable, Criteria {
 
     private BooleanFilter active;
 
-    private LongFilter atypeId;
-
     private LongFilter ctreeId;
+
+    private LongFilter atypeId;
 
     private LongFilter articleId;
 
@@ -74,8 +74,8 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
         this.communityVotes = other.communityVotes == null ? null : other.communityVotes.copy();
         this.active = other.active == null ? null : other.active.copy();
-        this.atypeId = other.atypeId == null ? null : other.atypeId.copy();
         this.ctreeId = other.ctreeId == null ? null : other.ctreeId.copy();
+        this.atypeId = other.atypeId == null ? null : other.atypeId.copy();
         this.articleId = other.articleId == null ? null : other.articleId.copy();
     }
 
@@ -140,20 +140,20 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.active = active;
     }
 
-    public LongFilter getAtypeId() {
-        return atypeId;
-    }
-
-    public void setAtypeId(LongFilter atypeId) {
-        this.atypeId = atypeId;
-    }
-
     public LongFilter getCtreeId() {
         return ctreeId;
     }
 
     public void setCtreeId(LongFilter ctreeId) {
         this.ctreeId = ctreeId;
+    }
+
+    public LongFilter getAtypeId() {
+        return atypeId;
+    }
+
+    public void setAtypeId(LongFilter atypeId) {
+        this.atypeId = atypeId;
     }
 
     public LongFilter getArticleId() {
@@ -182,8 +182,8 @@ public class RevisionCriteria implements Serializable, Criteria {
             Objects.equals(reviewState, that.reviewState) &&
             Objects.equals(communityVotes, that.communityVotes) &&
             Objects.equals(active, that.active) &&
-            Objects.equals(atypeId, that.atypeId) &&
             Objects.equals(ctreeId, that.ctreeId) &&
+            Objects.equals(atypeId, that.atypeId) &&
             Objects.equals(articleId, that.articleId);
     }
 
@@ -197,8 +197,8 @@ public class RevisionCriteria implements Serializable, Criteria {
         reviewState,
         communityVotes,
         active,
-        atypeId,
         ctreeId,
+        atypeId,
         articleId
         );
     }
@@ -213,8 +213,8 @@ public class RevisionCriteria implements Serializable, Criteria {
                 (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
                 (communityVotes != null ? "communityVotes=" + communityVotes + ", " : "") +
                 (active != null ? "active=" + active + ", " : "") +
-                (atypeId != null ? "atypeId=" + atypeId + ", " : "") +
                 (ctreeId != null ? "ctreeId=" + ctreeId + ", " : "") +
+                (atypeId != null ? "atypeId=" + atypeId + ", " : "") +
                 (articleId != null ? "articleId=" + articleId + ", " : "") +
             "}";
     }
