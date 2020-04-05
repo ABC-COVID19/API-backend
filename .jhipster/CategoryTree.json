@@ -25,7 +25,7 @@
             "otherEntityName": "categoryTree",
             "otherEntityRelationshipName": "children",
             "relationshipName": "parent",
-            "otherEntityField": "id"
+            "otherEntityField": "itemName"
         },
         {
             "relationshipType": "many-to-many",
