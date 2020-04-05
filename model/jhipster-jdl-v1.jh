@@ -74,12 +74,9 @@ relationship ManyToMany {
    Revision{ctree} to CategoryTree{revision}
 }
 
-relationship ManyToOne {
-    CategoryTree{child} to CategoryTree
-}
-
 // right side has input
 relationship OneToMany {
+    CategoryTree{children} to CategoryTree{parent}
     SourceRepo{article} to Article{srepo}
     ArticleType{revision} to Revision{atype}
     Article to Revision{article}

@@ -328,21 +328,41 @@ public class CategoryTreeResourceIT {
 
     @Test
     @Transactional
-    public void getAllCategoryTreesByChildIsEqualToSomething() throws Exception {
+    public void getAllCategoryTreesByChildrenIsEqualToSomething() throws Exception {
         // Initialize the database
         categoryTreeRepository.saveAndFlush(categoryTree);
-        CategoryTree child = CategoryTreeResourceIT.createEntity(em);
-        em.persist(child);
+        CategoryTree children = CategoryTreeResourceIT.createEntity(em);
+        em.persist(children);
         em.flush();
-        categoryTree.setChild(child);
+        categoryTree.addChildren(children);
         categoryTreeRepository.saveAndFlush(categoryTree);
-        Long childId = child.getId();
+        Long childrenId = children.getId();
 
-        // Get all the categoryTreeList where child equals to childId
-        defaultCategoryTreeShouldBeFound("childId.equals=" + childId);
+        // Get all the categoryTreeList where children equals to childrenId
+        defaultCategoryTreeShouldBeFound("childrenId.equals=" + childrenId);
 
-        // Get all the categoryTreeList where child equals to childId + 1
-        defaultCategoryTreeShouldNotBeFound("childId.equals=" + (childId + 1));
+        // Get all the categoryTreeList where children equals to childrenId + 1
+        defaultCategoryTreeShouldNotBeFound("childrenId.equals=" + (childrenId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCategoryTreesByParentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        categoryTreeRepository.saveAndFlush(categoryTree);
+        CategoryTree parent = CategoryTreeResourceIT.createEntity(em);
+        em.persist(parent);
+        em.flush();
+        categoryTree.setParent(parent);
+        categoryTreeRepository.saveAndFlush(categoryTree);
+        Long parentId = parent.getId();
+
+        // Get all the categoryTreeList where parent equals to parentId
+        defaultCategoryTreeShouldBeFound("parentId.equals=" + parentId);
+
+        // Get all the categoryTreeList where parent equals to parentId + 1
+        defaultCategoryTreeShouldNotBeFound("parentId.equals=" + (parentId + 1));
     }
 
 

@@ -1,3 +1,11 @@
+# Feature Branch:
+
+Categories now display children on GET to Api  
+Changed children to fetch = EAGER  
+There may be some unknown problems with NPE and weird reference chains...  
+
+Anyway, CategoryTree.java was customized, meaning code will be lost if it is regenerated from the models again!
+
 # ICAMApi
 
 This application was generated using JHipster 6.8.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.8.0](https://www.jhipster.tech/documentation-archive/v6.8.0).

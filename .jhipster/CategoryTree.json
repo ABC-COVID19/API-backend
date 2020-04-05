@@ -15,10 +15,16 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "categoryTree",
+            "otherEntityRelationshipName": "parent",
+            "relationshipName": "children"
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "categoryTree",
-            "otherEntityRelationshipName": "categoryTree",
-            "relationshipName": "child",
+            "otherEntityRelationshipName": "children",
+            "relationshipName": "parent",
             "otherEntityField": "id"
         },
         {

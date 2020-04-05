@@ -2,6 +2,7 @@ package pt.tech4covid.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,9 +35,16 @@ public class CategoryTree implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
+    // Changed default file
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonIgnoreProperties("parent")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<CategoryTree> children = new HashSet<>();
+
     @ManyToOne
-    @JsonIgnoreProperties("categoryTrees")
-    private CategoryTree child;
+    @JsonIgnoreProperties("children")
+    private CategoryTree parent;
 
     @ManyToMany(mappedBy = "categoryTrees")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -83,17 +91,42 @@ public class CategoryTree implements Serializable {
         this.active = active;
     }
 
-    public CategoryTree getChild() {
-        return child;
+    public Set<CategoryTree> getChildren() {
+        return children;
     }
 
-    public CategoryTree child(CategoryTree categoryTree) {
-        this.child = categoryTree;
+    public CategoryTree children(Set<CategoryTree> categoryTrees) {
+        this.children = categoryTrees;
         return this;
     }
 
-    public void setChild(CategoryTree categoryTree) {
-        this.child = categoryTree;
+    public CategoryTree addChildren(CategoryTree categoryTree) {
+        this.children.add(categoryTree);
+        categoryTree.setParent(this);
+        return this;
+    }
+
+    public CategoryTree removeChildren(CategoryTree categoryTree) {
+        this.children.remove(categoryTree);
+        categoryTree.setParent(null);
+        return this;
+    }
+
+    public void setChildren(Set<CategoryTree> categoryTrees) {
+        this.children = categoryTrees;
+    }
+
+    public CategoryTree getParent() {
+        return parent;
+    }
+
+    public CategoryTree parent(CategoryTree categoryTree) {
+        this.parent = categoryTree;
+        return this;
+    }
+
+    public void setParent(CategoryTree categoryTree) {
+        this.parent = categoryTree;
     }
 
     public Set<Newsletter> getNewsletters() {
