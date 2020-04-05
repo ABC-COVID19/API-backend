@@ -24,7 +24,7 @@
     "changelogDate": "20200402104400",
     "entityTableName": "article_type",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

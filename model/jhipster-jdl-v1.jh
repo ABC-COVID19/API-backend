@@ -83,7 +83,6 @@ relationship OneToMany {
 }
 
 // Set pagination options
-paginate ArticleType, CategoryTree with infinite-scroll
 paginate Article, Revision, Newsletter with pagination
 
 // Allow all entities to be filtered
