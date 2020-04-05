@@ -2,9 +2,7 @@ package pt.tech4covid.service;
 
 import pt.tech4covid.domain.ArticleType;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,10 +21,9 @@ public interface ArticleTypeService {
     /**
      * Get all the articleTypes.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<ArticleType> findAll(Pageable pageable);
+    List<ArticleType> findAll();
 
     /**
      * Get the "id" articleType.
