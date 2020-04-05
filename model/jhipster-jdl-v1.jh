@@ -67,18 +67,21 @@ entity Newsletter {
 // *******************************************
 // Relationships
 // *******************************************
+
+//left has input
 relationship ManyToMany {
    Newsletter to CategoryTree
+   Revision{ctree} to CategoryTree{revision}
 }
 
 relationship ManyToOne {
     CategoryTree{child} to CategoryTree
 }
 
+// right side has input
 relationship OneToMany {
     SourceRepo{article} to Article{srepo}
     ArticleType{revision} to Revision{atype}
-    CategoryTree{revision} to Revision{ctree}
     Article to Revision{article}
 }
 

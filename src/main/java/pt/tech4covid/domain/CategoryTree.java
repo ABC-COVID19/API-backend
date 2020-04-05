@@ -34,10 +34,6 @@ public class CategoryTree implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @OneToMany(mappedBy = "ctree")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Revision> revisions = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties("categoryTrees")
     private CategoryTree child;
@@ -46,6 +42,11 @@ public class CategoryTree implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Newsletter> newsletters = new HashSet<>();
+
+    @ManyToMany(mappedBy = "ctrees")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Revision> revisions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -80,31 +81,6 @@ public class CategoryTree implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Set<Revision> getRevisions() {
-        return revisions;
-    }
-
-    public CategoryTree revisions(Set<Revision> revisions) {
-        this.revisions = revisions;
-        return this;
-    }
-
-    public CategoryTree addRevision(Revision revision) {
-        this.revisions.add(revision);
-        revision.setCtree(this);
-        return this;
-    }
-
-    public CategoryTree removeRevision(Revision revision) {
-        this.revisions.remove(revision);
-        revision.setCtree(null);
-        return this;
-    }
-
-    public void setRevisions(Set<Revision> revisions) {
-        this.revisions = revisions;
     }
 
     public CategoryTree getChild() {
@@ -143,6 +119,31 @@ public class CategoryTree implements Serializable {
 
     public void setNewsletters(Set<Newsletter> newsletters) {
         this.newsletters = newsletters;
+    }
+
+    public Set<Revision> getRevisions() {
+        return revisions;
+    }
+
+    public CategoryTree revisions(Set<Revision> revisions) {
+        this.revisions = revisions;
+        return this;
+    }
+
+    public CategoryTree addRevision(Revision revision) {
+        this.revisions.add(revision);
+        revision.getCtrees().add(this);
+        return this;
+    }
+
+    public CategoryTree removeRevision(Revision revision) {
+        this.revisions.remove(revision);
+        revision.getCtrees().remove(this);
+        return this;
+    }
+
+    public void setRevisions(Set<Revision> revisions) {
+        this.revisions = revisions;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

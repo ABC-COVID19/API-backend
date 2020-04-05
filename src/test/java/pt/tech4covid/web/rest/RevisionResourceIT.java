@@ -2,8 +2,8 @@ package pt.tech4covid.web.rest;
 
 import pt.tech4covid.IcamApiApp;
 import pt.tech4covid.domain.Revision;
-import pt.tech4covid.domain.ArticleType;
 import pt.tech4covid.domain.CategoryTree;
+import pt.tech4covid.domain.ArticleType;
 import pt.tech4covid.domain.Article;
 import pt.tech4covid.repository.RevisionRepository;
 import pt.tech4covid.service.RevisionService;
@@ -12,19 +12,26 @@ import pt.tech4covid.service.RevisionQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,7 +40,7 @@ import pt.tech4covid.domain.enumeration.ReviewState;
  * Integration tests for the {@link RevisionResource} REST controller.
  */
 @SpringBootTest(classes = IcamApiApp.class)
-
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class RevisionResourceIT {
@@ -68,6 +75,12 @@ public class RevisionResourceIT {
 
     @Autowired
     private RevisionRepository revisionRepository;
+
+    @Mock
+    private RevisionRepository revisionRepositoryMock;
+
+    @Mock
+    private RevisionService revisionServiceMock;
 
     @Autowired
     private RevisionService revisionService;
@@ -285,6 +298,26 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllRevisionsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(revisionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restRevisionMockMvc.perform(get("/api/revisions?eagerload=true"))
+            .andExpect(status().isOk());
+
+        verify(revisionServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllRevisionsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(revisionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restRevisionMockMvc.perform(get("/api/revisions?eagerload=true"))
+            .andExpect(status().isOk());
+
+        verify(revisionServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getRevision() throws Exception {
@@ -746,6 +779,26 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
+    public void getAllRevisionsByCtreeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+        CategoryTree ctree = CategoryTreeResourceIT.createEntity(em);
+        em.persist(ctree);
+        em.flush();
+        revision.addCtree(ctree);
+        revisionRepository.saveAndFlush(revision);
+        Long ctreeId = ctree.getId();
+
+        // Get all the revisionList where ctree equals to ctreeId
+        defaultRevisionShouldBeFound("ctreeId.equals=" + ctreeId);
+
+        // Get all the revisionList where ctree equals to ctreeId + 1
+        defaultRevisionShouldNotBeFound("ctreeId.equals=" + (ctreeId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllRevisionsByAtypeIsEqualToSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
@@ -761,26 +814,6 @@ public class RevisionResourceIT {
 
         // Get all the revisionList where atype equals to atypeId + 1
         defaultRevisionShouldNotBeFound("atypeId.equals=" + (atypeId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCtreeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-        CategoryTree ctree = CategoryTreeResourceIT.createEntity(em);
-        em.persist(ctree);
-        em.flush();
-        revision.setCtree(ctree);
-        revisionRepository.saveAndFlush(revision);
-        Long ctreeId = ctree.getId();
-
-        // Get all the revisionList where ctree equals to ctreeId
-        defaultRevisionShouldBeFound("ctreeId.equals=" + ctreeId);
-
-        // Get all the revisionList where ctree equals to ctreeId + 1
-        defaultRevisionShouldNotBeFound("ctreeId.equals=" + (ctreeId + 1));
     }
 
 

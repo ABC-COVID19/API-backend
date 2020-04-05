@@ -54,6 +54,15 @@ public class RevisionServiceImpl implements RevisionService {
     }
 
     /**
+     * Get all the revisions with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Revision> findAllWithEagerRelationships(Pageable pageable) {
+        return revisionRepository.findAllWithEagerRelationships(pageable);
+    }
+
+    /**
      * Get one revision by id.
      *
      * @param id the id of the entity.
@@ -63,7 +72,7 @@ public class RevisionServiceImpl implements RevisionService {
     @Transactional(readOnly = true)
     public Optional<Revision> findOne(Long id) {
         log.debug("Request to get Revision : {}", id);
-        return revisionRepository.findById(id);
+        return revisionRepository.findOneWithEagerRelationships(id);
     }
 
     /**

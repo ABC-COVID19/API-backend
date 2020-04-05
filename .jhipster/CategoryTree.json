@@ -15,12 +15,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "revision",
-            "otherEntityRelationshipName": "ctree",
-            "relationshipName": "revision"
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "categoryTree",
             "otherEntityRelationshipName": "categoryTree",
@@ -32,6 +26,14 @@
             "otherEntityName": "newsletter",
             "otherEntityRelationshipName": "categoryTree",
             "relationshipName": "newsletter",
+            "otherEntityField": "id",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "ctree",
+            "relationshipName": "revision",
             "otherEntityField": "id",
             "ownerSide": false
         }

@@ -62,17 +62,18 @@
     ],
     "relationships": [
         {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "categoryTree",
+            "otherEntityRelationshipName": "revision",
+            "relationshipName": "ctree",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "articleType",
             "otherEntityRelationshipName": "revision",
             "relationshipName": "atype",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "categoryTree",
-            "otherEntityRelationshipName": "revision",
-            "relationshipName": "ctree",
             "otherEntityField": "id"
         },
         {

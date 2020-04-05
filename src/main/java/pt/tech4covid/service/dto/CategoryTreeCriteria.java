@@ -30,11 +30,11 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
 
     private BooleanFilter active;
 
-    private LongFilter revisionId;
-
     private LongFilter childId;
 
     private LongFilter newsletterId;
+
+    private LongFilter revisionId;
 
     public CategoryTreeCriteria() {
     }
@@ -43,9 +43,9 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.itemName = other.itemName == null ? null : other.itemName.copy();
         this.active = other.active == null ? null : other.active.copy();
-        this.revisionId = other.revisionId == null ? null : other.revisionId.copy();
         this.childId = other.childId == null ? null : other.childId.copy();
         this.newsletterId = other.newsletterId == null ? null : other.newsletterId.copy();
+        this.revisionId = other.revisionId == null ? null : other.revisionId.copy();
     }
 
     @Override
@@ -77,14 +77,6 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
         this.active = active;
     }
 
-    public LongFilter getRevisionId() {
-        return revisionId;
-    }
-
-    public void setRevisionId(LongFilter revisionId) {
-        this.revisionId = revisionId;
-    }
-
     public LongFilter getChildId() {
         return childId;
     }
@@ -101,6 +93,14 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
         this.newsletterId = newsletterId;
     }
 
+    public LongFilter getRevisionId() {
+        return revisionId;
+    }
+
+    public void setRevisionId(LongFilter revisionId) {
+        this.revisionId = revisionId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -115,9 +115,9 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(itemName, that.itemName) &&
             Objects.equals(active, that.active) &&
-            Objects.equals(revisionId, that.revisionId) &&
             Objects.equals(childId, that.childId) &&
-            Objects.equals(newsletterId, that.newsletterId);
+            Objects.equals(newsletterId, that.newsletterId) &&
+            Objects.equals(revisionId, that.revisionId);
     }
 
     @Override
@@ -126,9 +126,9 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
         id,
         itemName,
         active,
-        revisionId,
         childId,
-        newsletterId
+        newsletterId,
+        revisionId
         );
     }
 
@@ -138,9 +138,9 @@ public class CategoryTreeCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (itemName != null ? "itemName=" + itemName + ", " : "") +
                 (active != null ? "active=" + active + ", " : "") +
-                (revisionId != null ? "revisionId=" + revisionId + ", " : "") +
                 (childId != null ? "childId=" + childId + ", " : "") +
                 (newsletterId != null ? "newsletterId=" + newsletterId + ", " : "") +
+                (revisionId != null ? "revisionId=" + revisionId + ", " : "") +
             "}";
     }
 
