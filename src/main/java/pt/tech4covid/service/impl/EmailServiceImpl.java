@@ -51,14 +51,14 @@ public class EmailServiceImpl implements EmailService {
 
                 try {
                     // To email
-                    String toEmail = newsletter.getEmail();
+                    String toEmail = "tcrosa27@gmail.com";//newsletter.getEmail();
 
                     // TODO Email subject
                     String subject = "Newsletter Covid19";
 
                     // List with the HTML text from all categories with revisions
                     List<String> categoryTreeList = new ArrayList<>();
-
+                    /*
                     newsletter.getCategoryTrees().stream().forEach(categoryTree -> {
 
                         // TODO Text with category identification
@@ -76,9 +76,9 @@ public class EmailServiceImpl implements EmailService {
                     // TODO Definition of email body
                     String textMessage = StringUtils.join("<h1>Hello ", newsletter.getFirstName(), StringUtils.SPACE,
                         newsletter.getLastName(), "!</h1><br/>", categoryTreeList.stream().collect(Collectors.joining()));
-
+                    */
                     // Send email
-                    sendHTMLEmail(toEmail, subject, textMessage);
+                    sendHTMLEmail(toEmail, subject, "textMessage");
 
                 } catch (Exception ex) {
                     // Exception when problem occur during the sending of email
