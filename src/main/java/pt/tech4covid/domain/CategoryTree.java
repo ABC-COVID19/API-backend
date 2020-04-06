@@ -39,7 +39,7 @@ public class CategoryTree implements Serializable {
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonIgnoreProperties("parent")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<CategoryTree> children = new HashSet<>();
 
     @ManyToOne
