@@ -1,6 +1,7 @@
 package pt.tech4covid.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,7 +33,7 @@ public class Revision implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    
+
     @Lob
     @Column(name = "summary", nullable = false)
     private String summary;
@@ -65,8 +66,10 @@ public class Revision implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @ManyToMany(fetch = FetchType.EAGER)
+    //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonIgnoreProperties("revisions")
     @JoinTable(name = "revision_ctree",
                joinColumns = @JoinColumn(name = "revision_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "ctree_id", referencedColumnName = "id"))
