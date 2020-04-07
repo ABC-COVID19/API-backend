@@ -30,8 +30,7 @@
         },
         {
             "fieldName": "keywords",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
+            "fieldType": "String"
         },
         {
             "fieldName": "reviewer",

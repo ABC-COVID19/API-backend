@@ -28,7 +28,7 @@
             <column name="return_notes" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="keywords" type="${clobType}">
+            <column name="keywords" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="reviewer" type="varchar(255)">
@@ -87,7 +87,7 @@
             <column name="summary" type="clob"/>
             <column name="reviewed_by_peer" type="boolean"/>
             <column name="return_notes" type="clob"/>
-            <column name="keywords" type="clob"/>
+            <column name="keywords" type="string"/>
             <column name="reviewer" type="string"/>
             <column name="review_state" type="string"/>
             <column name="community_votes" type="numeric"/>

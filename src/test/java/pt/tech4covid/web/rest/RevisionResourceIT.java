@@ -291,7 +291,7 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
             .andExpect(jsonPath("$.[*].reviewedByPeer").value(hasItem(DEFAULT_REVIEWED_BY_PEER.booleanValue())))
             .andExpect(jsonPath("$.[*].returnNotes").value(hasItem(DEFAULT_RETURN_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS.toString())))
+            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
             .andExpect(jsonPath("$.[*].reviewer").value(hasItem(DEFAULT_REVIEWER)))
             .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())))
             .andExpect(jsonPath("$.[*].communityVotes").value(hasItem(DEFAULT_COMMUNITY_VOTES)))
@@ -333,7 +333,7 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.summary").value(DEFAULT_SUMMARY.toString()))
             .andExpect(jsonPath("$.reviewedByPeer").value(DEFAULT_REVIEWED_BY_PEER.booleanValue()))
             .andExpect(jsonPath("$.returnNotes").value(DEFAULT_RETURN_NOTES.toString()))
-            .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS.toString()))
+            .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
             .andExpect(jsonPath("$.reviewer").value(DEFAULT_REVIEWER))
             .andExpect(jsonPath("$.reviewState").value(DEFAULT_REVIEW_STATE.toString()))
             .andExpect(jsonPath("$.communityVotes").value(DEFAULT_COMMUNITY_VOTES))
@@ -489,6 +489,84 @@ public class RevisionResourceIT {
         // Get all the revisionList where reviewedByPeer is null
         defaultRevisionShouldNotBeFound("reviewedByPeer.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords equals to DEFAULT_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.equals=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords equals to UPDATED_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.equals=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords not equals to DEFAULT_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.notEquals=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords not equals to UPDATED_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.notEquals=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsInShouldWork() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords in DEFAULT_KEYWORDS or UPDATED_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.in=" + DEFAULT_KEYWORDS + "," + UPDATED_KEYWORDS);
+
+        // Get all the revisionList where keywords equals to UPDATED_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.in=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords is not null
+        defaultRevisionShouldBeFound("keywords.specified=true");
+
+        // Get all the revisionList where keywords is null
+        defaultRevisionShouldNotBeFound("keywords.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsContainsSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords contains DEFAULT_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.contains=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords contains UPDATED_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.contains=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsNotContainsSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords does not contain DEFAULT_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.doesNotContain=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords does not contain UPDATED_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.doesNotContain=" + UPDATED_KEYWORDS);
+    }
+
 
     @Test
     @Transactional
@@ -848,7 +926,7 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
             .andExpect(jsonPath("$.[*].reviewedByPeer").value(hasItem(DEFAULT_REVIEWED_BY_PEER.booleanValue())))
             .andExpect(jsonPath("$.[*].returnNotes").value(hasItem(DEFAULT_RETURN_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS.toString())))
+            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
             .andExpect(jsonPath("$.[*].reviewer").value(hasItem(DEFAULT_REVIEWER)))
             .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())))
             .andExpect(jsonPath("$.[*].communityVotes").value(hasItem(DEFAULT_COMMUNITY_VOTES)))

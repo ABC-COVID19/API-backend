@@ -33,7 +33,7 @@ public class Revision implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-
+    
     @Lob
     @Column(name = "summary", nullable = false)
     private String summary;
@@ -46,7 +46,6 @@ public class Revision implements Serializable {
     @Column(name = "return_notes")
     private String returnNotes;
 
-    @Lob
     @Column(name = "keywords")
     private String keywords;
 

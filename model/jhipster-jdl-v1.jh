@@ -48,7 +48,7 @@ entity Revision {
     summary TextBlob required,          // Resumo do artigo em portugês
     reviewedByPeer Boolean required,    // Se o artigo foi peer reviwed antes de ser publicado
     returnNotes TextBlob,               // Notas extra do revisor
-    keywords TextBlob,                  // Keywords
+    keywords String,                  // Keywords
 
     reviewer String required,           // Nome do revisor
     reviewState ReviewState required,
