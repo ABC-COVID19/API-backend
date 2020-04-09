@@ -51,8 +51,9 @@ pipeline {
         stage('Build and Test') {
             steps {
                 container('java11'){
-                    sh 'unset MAVEN_CONFIG'
-                    sh "./mvnw package verify jib:dockerBuild"
+                    sh "unset MAVEN_CONFIG"
+                    sh "./mvnw clean compile"
+                    sh "./mvnw -ntp -Pprod jib:dockerBuild"
                     sh "docker tag icamapi:latest ${DOCKER_HUB}/${DEPLOYMENT_NAME}:${PROJECT_VERSION}"
                 }
             }
