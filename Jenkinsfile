@@ -17,7 +17,7 @@ pipeline {
     }
 
     environment {
-        DEPLOYMENT_NAME = "api-backend"
+        DEPLOYMENT_NAME = "icamapi"
         GIT_REPO = "github.com/ABC-COVID19/API-backend.git"
         NAMESPACE_DEV = "icam-dev"
         NAMESPACE_PROD = "icam-prod"
