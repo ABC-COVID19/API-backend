@@ -94,6 +94,9 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getKeywords() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getKeywords(), Revision_.keywords));
             }
+            if (criteria.getSummary() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSummary(), Revision_.summary));
+            }
             if (criteria.getReviewer() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReviewer(), Revision_.reviewer));
             }
