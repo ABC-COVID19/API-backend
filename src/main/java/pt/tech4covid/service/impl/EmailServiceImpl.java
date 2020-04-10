@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import pt.tech4covid.domain.Newsletter;
 import pt.tech4covid.service.EmailService;
 
@@ -42,6 +44,7 @@ public class EmailServiceImpl implements EmailService {
     // TODO This config schedule.newsletter.cron should be replace by backoffice configs
     @Scheduled(cron = "${schedule.newsletter.cron}")
     @Override
+    @Transactional(propagation=Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
     public void sendNewsletterEmail() {
         try {
             // Get all newsletters
@@ -51,14 +54,13 @@ public class EmailServiceImpl implements EmailService {
 
                 try {
                     // To email
-                    String toEmail = "tcrosa27@gmail.com";//newsletter.getEmail();
+                    String toEmail = newsletter.getEmail();
 
                     // TODO Email subject
-                    String subject = "Newsletter Covid19";
+                    String subject = "ICAM Updates";
 
                     // List with the HTML text from all categories with revisions
                     List<String> categoryTreeList = new ArrayList<>();
-                    /*
                     newsletter.getCategoryTrees().stream().forEach(categoryTree -> {
 
                         // TODO Text with category identification
@@ -76,7 +78,7 @@ public class EmailServiceImpl implements EmailService {
                     // TODO Definition of email body
                     String textMessage = StringUtils.join("<h1>Hello ", newsletter.getFirstName(), StringUtils.SPACE,
                         newsletter.getLastName(), "!</h1><br/>", categoryTreeList.stream().collect(Collectors.joining()));
-                    */
+
                     // Send email
                     sendHTMLEmail(toEmail, subject, "textMessage");
 
