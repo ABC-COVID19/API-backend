@@ -51,6 +51,8 @@ public class RevisionCriteria implements Serializable, Criteria {
 
     private StringFilter keywords;
 
+    private StringFilter summary;
+
     private StringFilter reviewer;
 
     private ReviewStateFilter reviewState;
@@ -73,6 +75,7 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.title = other.title == null ? null : other.title.copy();
         this.reviewedByPeer = other.reviewedByPeer == null ? null : other.reviewedByPeer.copy();
         this.keywords = other.keywords == null ? null : other.keywords.copy();
+        this.summary = other.summary == null ? null : other.summary.copy();
         this.reviewer = other.reviewer == null ? null : other.reviewer.copy();
         this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
         this.communityVotes = other.communityVotes == null ? null : other.communityVotes.copy();
@@ -117,6 +120,14 @@ public class RevisionCriteria implements Serializable, Criteria {
 
     public void setKeywords(StringFilter keywords) {
         this.keywords = keywords;
+    }
+
+    public StringFilter getSummary() {
+        return summary;
+    }
+
+    public void setSummary(StringFilter summary) {
+        this.summary = summary;
     }
 
     public StringFilter getReviewer() {
@@ -190,6 +201,7 @@ public class RevisionCriteria implements Serializable, Criteria {
             Objects.equals(title, that.title) &&
             Objects.equals(reviewedByPeer, that.reviewedByPeer) &&
             Objects.equals(keywords, that.keywords) &&
+            Objects.equals(summary, that.summary) &&
             Objects.equals(reviewer, that.reviewer) &&
             Objects.equals(reviewState, that.reviewState) &&
             Objects.equals(communityVotes, that.communityVotes) &&
@@ -206,6 +218,7 @@ public class RevisionCriteria implements Serializable, Criteria {
         title,
         reviewedByPeer,
         keywords,
+        summary,
         reviewer,
         reviewState,
         communityVotes,
@@ -223,6 +236,7 @@ public class RevisionCriteria implements Serializable, Criteria {
                 (title != null ? "title=" + title + ", " : "") +
                 (reviewedByPeer != null ? "reviewedByPeer=" + reviewedByPeer + ", " : "") +
                 (keywords != null ? "keywords=" + keywords + ", " : "") +
+                (summary != null ? "summary=" + summary + ", " : "") +
                 (reviewer != null ? "reviewer=" + reviewer + ", " : "") +
                 (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
                 (communityVotes != null ? "communityVotes=" + communityVotes + ", " : "") +
