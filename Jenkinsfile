@@ -125,7 +125,7 @@ pipeline {
                         sh "docker push ${DOCKER_HUB}/${DEPLOYMENT_NAME}:latest"
                         withCredentials([azureServicePrincipal('Azure_login')]) {
                                     sh "az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} -t ${AZURE_TENANT_ID}"
-                                    sh "az aks get-credentials --name icam --resource-group icam --overwrite-existing"
+                                    sh "az aks get-credentials --name icamsh --resource-group icam-sh --overwrite-existing"
                                     sh "kubectl set image deployment ${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}-app=${DOCKER_HUB}/${DEPLOYMENT_NAME}:${PROJECT_VERSION} --record -n ${NAMESPACE_DEV}"
                                 }
                 }
