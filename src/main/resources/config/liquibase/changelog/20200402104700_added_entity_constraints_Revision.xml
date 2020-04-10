@@ -8,17 +8,23 @@
     -->
     <changeSet id="20200402104700-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="revision_id"
+                                 baseTableName="revision_ctree"
+                                 constraintName="fk_revision_ctree_revision_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="revision"/>
+
+        <addForeignKeyConstraint baseColumnNames="ctree_id"
+                                 baseTableName="revision_ctree"
+                                 constraintName="fk_revision_ctree_ctree_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category_tree"/>
+        
         <addForeignKeyConstraint baseColumnNames="atype_id"
                                  baseTableName="revision"
                                  constraintName="fk_revision_atype_id"
                                  referencedColumnNames="id"
                                  referencedTableName="article_type"/>
-
-        <addForeignKeyConstraint baseColumnNames="ctree_id"
-                                 baseTableName="revision"
-                                 constraintName="fk_revision_ctree_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category_tree"/>
 
         <addForeignKeyConstraint baseColumnNames="article_id"
                                  baseTableName="revision"

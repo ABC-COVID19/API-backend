@@ -91,17 +91,21 @@ public class CategoryTreeQueryService extends QueryService<CategoryTree> {
             if (criteria.getActive() != null) {
                 specification = specification.and(buildSpecification(criteria.getActive(), CategoryTree_.active));
             }
-            if (criteria.getRevisionId() != null) {
-                specification = specification.and(buildSpecification(criteria.getRevisionId(),
-                    root -> root.join(CategoryTree_.revisions, JoinType.LEFT).get(Revision_.id)));
+            if (criteria.getChildrenId() != null) {
+                specification = specification.and(buildSpecification(criteria.getChildrenId(),
+                    root -> root.join(CategoryTree_.children, JoinType.LEFT).get(CategoryTree_.id)));
             }
-            if (criteria.getChildId() != null) {
-                specification = specification.and(buildSpecification(criteria.getChildId(),
-                    root -> root.join(CategoryTree_.child, JoinType.LEFT).get(CategoryTree_.id)));
+            if (criteria.getParentId() != null) {
+                specification = specification.and(buildSpecification(criteria.getParentId(),
+                    root -> root.join(CategoryTree_.parent, JoinType.LEFT).get(CategoryTree_.id)));
             }
             if (criteria.getNewsletterId() != null) {
                 specification = specification.and(buildSpecification(criteria.getNewsletterId(),
                     root -> root.join(CategoryTree_.newsletters, JoinType.LEFT).get(Newsletter_.id)));
+            }
+            if (criteria.getRevisionId() != null) {
+                specification = specification.and(buildSpecification(criteria.getRevisionId(),
+                    root -> root.join(CategoryTree_.revisions, JoinType.LEFT).get(Revision_.id)));
             }
         }
         return specification;

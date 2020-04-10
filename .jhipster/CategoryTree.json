@@ -16,16 +16,16 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "revision",
-            "otherEntityRelationshipName": "ctree",
-            "relationshipName": "revision"
+            "otherEntityName": "categoryTree",
+            "otherEntityRelationshipName": "parent",
+            "relationshipName": "children"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "categoryTree",
-            "otherEntityRelationshipName": "categoryTree",
-            "relationshipName": "child",
-            "otherEntityField": "id"
+            "otherEntityRelationshipName": "children",
+            "relationshipName": "parent",
+            "otherEntityField": "itemName"
         },
         {
             "relationshipType": "many-to-many",
@@ -34,12 +34,20 @@
             "relationshipName": "newsletter",
             "otherEntityField": "id",
             "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "revision",
+            "otherEntityRelationshipName": "ctree",
+            "relationshipName": "revision",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20200402104500",
     "entityTableName": "category_tree",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

@@ -22,7 +22,7 @@
             <column name="active" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="child_id" type="bigint">
+            <column name="parent_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

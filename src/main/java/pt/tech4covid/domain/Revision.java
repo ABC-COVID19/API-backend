@@ -1,6 +1,7 @@
 package pt.tech4covid.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,6 +10,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 import pt.tech4covid.domain.enumeration.ReviewState;
 
@@ -43,7 +46,6 @@ public class Revision implements Serializable {
     @Column(name = "return_notes")
     private String returnNotes;
 
-    @Lob
     @Column(name = "keywords")
     private String keywords;
 
@@ -63,13 +65,18 @@ public class Revision implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @ManyToOne
+    @ManyToMany(fetch = FetchType.EAGER)
+    //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonIgnoreProperties("revisions")
-    private ArticleType atype;
+    @JoinTable(name = "revision_ctree",
+               joinColumns = @JoinColumn(name = "revision_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "ctree_id", referencedColumnName = "id"))
+    private Set<CategoryTree> ctrees = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("revisions")
-    private CategoryTree ctree;
+    private ArticleType atype;
 
     @ManyToOne
     @JsonIgnoreProperties("revisions")
@@ -201,6 +208,31 @@ public class Revision implements Serializable {
         this.active = active;
     }
 
+    public Set<CategoryTree> getCtrees() {
+        return ctrees;
+    }
+
+    public Revision ctrees(Set<CategoryTree> categoryTrees) {
+        this.ctrees = categoryTrees;
+        return this;
+    }
+
+    public Revision addCtree(CategoryTree categoryTree) {
+        this.ctrees.add(categoryTree);
+        categoryTree.getRevisions().add(this);
+        return this;
+    }
+
+    public Revision removeCtree(CategoryTree categoryTree) {
+        this.ctrees.remove(categoryTree);
+        categoryTree.getRevisions().remove(this);
+        return this;
+    }
+
+    public void setCtrees(Set<CategoryTree> categoryTrees) {
+        this.ctrees = categoryTrees;
+    }
+
     public ArticleType getAtype() {
         return atype;
     }
@@ -212,19 +244,6 @@ public class Revision implements Serializable {
 
     public void setAtype(ArticleType articleType) {
         this.atype = articleType;
-    }
-
-    public CategoryTree getCtree() {
-        return ctree;
-    }
-
-    public Revision ctree(CategoryTree categoryTree) {
-        this.ctree = categoryTree;
-        return this;
-    }
-
-    public void setCtree(CategoryTree categoryTree) {
-        this.ctree = categoryTree;
     }
 
     public Article getArticle() {

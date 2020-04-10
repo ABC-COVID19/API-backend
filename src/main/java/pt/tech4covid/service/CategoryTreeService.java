@@ -2,9 +2,7 @@ package pt.tech4covid.service;
 
 import pt.tech4covid.domain.CategoryTree;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,10 +21,9 @@ public interface CategoryTreeService {
     /**
      * Get all the categoryTrees.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<CategoryTree> findAll(Pageable pageable);
+    List<CategoryTree> findAll();
 
     /**
      * Get the "id" categoryTree.

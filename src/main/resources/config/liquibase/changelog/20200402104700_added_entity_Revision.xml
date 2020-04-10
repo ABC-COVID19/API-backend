@@ -28,7 +28,7 @@
             <column name="return_notes" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="keywords" type="${clobType}">
+            <column name="keywords" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="reviewer" type="varchar(255)">
@@ -46,9 +46,6 @@
             <column name="atype_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="ctree_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="article_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -58,6 +55,17 @@
 
     <changeSet id="20200402104700-1-relations" author="jhipster">
 
+        <createTable tableName="revision_ctree">
+            <column name="ctree_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="revision_id, ctree_id" tableName="revision_ctree"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -79,7 +87,7 @@
             <column name="summary" type="clob"/>
             <column name="reviewed_by_peer" type="boolean"/>
             <column name="return_notes" type="clob"/>
-            <column name="keywords" type="clob"/>
+            <column name="keywords" type="string"/>
             <column name="reviewer" type="string"/>
             <column name="review_state" type="string"/>
             <column name="community_votes" type="numeric"/>

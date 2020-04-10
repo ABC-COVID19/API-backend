@@ -30,8 +30,7 @@
         },
         {
             "fieldName": "keywords",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
+            "fieldType": "String"
         },
         {
             "fieldName": "reviewer",
@@ -62,25 +61,26 @@
     ],
     "relationships": [
         {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "categoryTree",
+            "otherEntityRelationshipName": "revision",
+            "relationshipName": "ctree",
+            "otherEntityField": "itemName",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "articleType",
             "otherEntityRelationshipName": "revision",
             "relationshipName": "atype",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "categoryTree",
-            "otherEntityRelationshipName": "revision",
-            "relationshipName": "ctree",
-            "otherEntityField": "id"
+            "otherEntityField": "itemName"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "article",
             "otherEntityRelationshipName": "revision",
             "relationshipName": "article",
-            "otherEntityField": "id"
+            "otherEntityField": "articleTitle"
         }
     ],
     "changelogDate": "20200402104700",

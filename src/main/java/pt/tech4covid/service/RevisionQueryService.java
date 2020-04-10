@@ -91,6 +91,12 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getReviewedByPeer() != null) {
                 specification = specification.and(buildSpecification(criteria.getReviewedByPeer(), Revision_.reviewedByPeer));
             }
+            if (criteria.getKeywords() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getKeywords(), Revision_.keywords));
+            }
+            if (criteria.getSummary() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSummary(), Revision_.summary));
+            }
             if (criteria.getReviewer() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReviewer(), Revision_.reviewer));
             }
@@ -103,13 +109,13 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getActive() != null) {
                 specification = specification.and(buildSpecification(criteria.getActive(), Revision_.active));
             }
+            if (criteria.getCtreeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCtreeId(),
+                    root -> root.join(Revision_.ctrees, JoinType.LEFT).get(CategoryTree_.id)));
+            }
             if (criteria.getAtypeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAtypeId(),
                     root -> root.join(Revision_.atype, JoinType.LEFT).get(ArticleType_.id)));
-            }
-            if (criteria.getCtreeId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCtreeId(),
-                    root -> root.join(Revision_.ctree, JoinType.LEFT).get(CategoryTree_.id)));
             }
             if (criteria.getArticleId() != null) {
                 specification = specification.and(buildSpecification(criteria.getArticleId(),

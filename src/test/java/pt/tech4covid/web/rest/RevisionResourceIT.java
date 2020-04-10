@@ -2,8 +2,8 @@ package pt.tech4covid.web.rest;
 
 import pt.tech4covid.IcamApiApp;
 import pt.tech4covid.domain.Revision;
-import pt.tech4covid.domain.ArticleType;
 import pt.tech4covid.domain.CategoryTree;
+import pt.tech4covid.domain.ArticleType;
 import pt.tech4covid.domain.Article;
 import pt.tech4covid.repository.RevisionRepository;
 import pt.tech4covid.service.RevisionService;
@@ -12,19 +12,26 @@ import pt.tech4covid.service.RevisionQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,7 +40,7 @@ import pt.tech4covid.domain.enumeration.ReviewState;
  * Integration tests for the {@link RevisionResource} REST controller.
  */
 @SpringBootTest(classes = IcamApiApp.class)
-
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class RevisionResourceIT {
@@ -68,6 +75,12 @@ public class RevisionResourceIT {
 
     @Autowired
     private RevisionRepository revisionRepository;
+
+    @Mock
+    private RevisionRepository revisionRepositoryMock;
+
+    @Mock
+    private RevisionService revisionServiceMock;
 
     @Autowired
     private RevisionService revisionService;
@@ -278,13 +291,33 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
             .andExpect(jsonPath("$.[*].reviewedByPeer").value(hasItem(DEFAULT_REVIEWED_BY_PEER.booleanValue())))
             .andExpect(jsonPath("$.[*].returnNotes").value(hasItem(DEFAULT_RETURN_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS.toString())))
+            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
             .andExpect(jsonPath("$.[*].reviewer").value(hasItem(DEFAULT_REVIEWER)))
             .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())))
             .andExpect(jsonPath("$.[*].communityVotes").value(hasItem(DEFAULT_COMMUNITY_VOTES)))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllRevisionsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(revisionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restRevisionMockMvc.perform(get("/api/revisions?eagerload=true"))
+            .andExpect(status().isOk());
+
+        verify(revisionServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllRevisionsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(revisionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restRevisionMockMvc.perform(get("/api/revisions?eagerload=true"))
+            .andExpect(status().isOk());
+
+        verify(revisionServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getRevision() throws Exception {
@@ -300,7 +333,7 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.summary").value(DEFAULT_SUMMARY.toString()))
             .andExpect(jsonPath("$.reviewedByPeer").value(DEFAULT_REVIEWED_BY_PEER.booleanValue()))
             .andExpect(jsonPath("$.returnNotes").value(DEFAULT_RETURN_NOTES.toString()))
-            .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS.toString()))
+            .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
             .andExpect(jsonPath("$.reviewer").value(DEFAULT_REVIEWER))
             .andExpect(jsonPath("$.reviewState").value(DEFAULT_REVIEW_STATE.toString()))
             .andExpect(jsonPath("$.communityVotes").value(DEFAULT_COMMUNITY_VOTES))
@@ -456,6 +489,84 @@ public class RevisionResourceIT {
         // Get all the revisionList where reviewedByPeer is null
         defaultRevisionShouldNotBeFound("reviewedByPeer.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords equals to DEFAULT_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.equals=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords equals to UPDATED_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.equals=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords not equals to DEFAULT_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.notEquals=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords not equals to UPDATED_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.notEquals=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsInShouldWork() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords in DEFAULT_KEYWORDS or UPDATED_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.in=" + DEFAULT_KEYWORDS + "," + UPDATED_KEYWORDS);
+
+        // Get all the revisionList where keywords equals to UPDATED_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.in=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords is not null
+        defaultRevisionShouldBeFound("keywords.specified=true");
+
+        // Get all the revisionList where keywords is null
+        defaultRevisionShouldNotBeFound("keywords.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsContainsSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords contains DEFAULT_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.contains=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords contains UPDATED_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.contains=" + UPDATED_KEYWORDS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByKeywordsNotContainsSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where keywords does not contain DEFAULT_KEYWORDS
+        defaultRevisionShouldNotBeFound("keywords.doesNotContain=" + DEFAULT_KEYWORDS);
+
+        // Get all the revisionList where keywords does not contain UPDATED_KEYWORDS
+        defaultRevisionShouldBeFound("keywords.doesNotContain=" + UPDATED_KEYWORDS);
+    }
+
 
     @Test
     @Transactional
@@ -746,6 +857,26 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
+    public void getAllRevisionsByCtreeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+        CategoryTree ctree = CategoryTreeResourceIT.createEntity(em);
+        em.persist(ctree);
+        em.flush();
+        revision.addCtree(ctree);
+        revisionRepository.saveAndFlush(revision);
+        Long ctreeId = ctree.getId();
+
+        // Get all the revisionList where ctree equals to ctreeId
+        defaultRevisionShouldBeFound("ctreeId.equals=" + ctreeId);
+
+        // Get all the revisionList where ctree equals to ctreeId + 1
+        defaultRevisionShouldNotBeFound("ctreeId.equals=" + (ctreeId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllRevisionsByAtypeIsEqualToSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
@@ -761,26 +892,6 @@ public class RevisionResourceIT {
 
         // Get all the revisionList where atype equals to atypeId + 1
         defaultRevisionShouldNotBeFound("atypeId.equals=" + (atypeId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCtreeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-        CategoryTree ctree = CategoryTreeResourceIT.createEntity(em);
-        em.persist(ctree);
-        em.flush();
-        revision.setCtree(ctree);
-        revisionRepository.saveAndFlush(revision);
-        Long ctreeId = ctree.getId();
-
-        // Get all the revisionList where ctree equals to ctreeId
-        defaultRevisionShouldBeFound("ctreeId.equals=" + ctreeId);
-
-        // Get all the revisionList where ctree equals to ctreeId + 1
-        defaultRevisionShouldNotBeFound("ctreeId.equals=" + (ctreeId + 1));
     }
 
 
@@ -815,7 +926,7 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
             .andExpect(jsonPath("$.[*].reviewedByPeer").value(hasItem(DEFAULT_REVIEWED_BY_PEER.booleanValue())))
             .andExpect(jsonPath("$.[*].returnNotes").value(hasItem(DEFAULT_RETURN_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS.toString())))
+            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
             .andExpect(jsonPath("$.[*].reviewer").value(hasItem(DEFAULT_REVIEWER)))
             .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())))
             .andExpect(jsonPath("$.[*].communityVotes").value(hasItem(DEFAULT_COMMUNITY_VOTES)))

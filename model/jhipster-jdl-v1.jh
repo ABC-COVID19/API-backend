@@ -48,7 +48,7 @@ entity Revision {
     summary TextBlob required,          // Resumo do artigo em portugês
     reviewedByPeer Boolean required,    // Se o artigo foi peer reviwed antes de ser publicado
     returnNotes TextBlob,               // Notas extra do revisor
-    keywords TextBlob,                  // Keywords
+    keywords String,                    // Keywords
 
     reviewer String required,           // Nome do revisor
     reviewState ReviewState required,
@@ -67,23 +67,22 @@ entity Newsletter {
 // *******************************************
 // Relationships
 // *******************************************
+
+//left has input
 relationship ManyToMany {
    Newsletter to CategoryTree
+   Revision{ctree} to CategoryTree{revision}
 }
 
-relationship ManyToOne {
-    CategoryTree{child} to CategoryTree
-}
-
+// right side has input
 relationship OneToMany {
+    CategoryTree{children} to CategoryTree{parent}
     SourceRepo{article} to Article{srepo}
     ArticleType{revision} to Revision{atype}
-    CategoryTree{revision} to Revision{ctree}
     Article to Revision{article}
 }
 
 // Set pagination options
-paginate ArticleType, CategoryTree with infinite-scroll
 paginate Article, Revision, Newsletter with pagination
 
 // Allow all entities to be filtered
