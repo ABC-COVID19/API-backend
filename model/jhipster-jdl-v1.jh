@@ -38,7 +38,6 @@ entity Article {
     articleLink String,                 // Link para o artigo
     articleJournal String,              // Revista que publicou o artigo (Ex: Swiss medical journal)
     articleCitation String,				// Referência bibliográfica
-    articleCountry String,				// Pais / Paises do estudo
 
     fetchDate LocalDate                	// Data de importação para o icam
 }
@@ -47,12 +46,14 @@ entity Revision {
     title String required,              // Título em português
     summary TextBlob required,          // Resumo do artigo em portugês
     isPeerReviewed Boolean required,	// Se o artigo foi peer reviwed antes de ser publicado
-    reviewNotes TextBlob,               // Notas extra do revisor
+    country String,				        // País ou Países do estudo
     keywords TextBlob,                  // Keywords
 
     reviewDate LocalDate,				// Data da revisão
+    reviewNotes TextBlob,               // Notas extra do revisor
     author String required,				// Nome do autor
     reviewer String required,           // Nome do revisor
+
     reviewState ReviewState required	// Estado da revisão
 }
 
