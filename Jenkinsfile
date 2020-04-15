@@ -51,6 +51,9 @@ pipeline {
         stage('Build') {
             steps {
                 container('java11'){
+                    script {
+                        PROJECT_VERSION = readMavenPom().getVersion()
+                    }
                     sh "unset MAVEN_CONFIG"
                     sh "./mvnw clean compile"
                     sh "./mvnw -ntp -Pprod jib:dockerBuild"
