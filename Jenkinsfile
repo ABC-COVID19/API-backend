@@ -33,13 +33,24 @@ pipeline {
 
     stages {
 
-        stage('Build && Bump Version') {
+
+        stage('Bump Version') {
+            when {
+                branch "feature/*"
+            }
             steps {
                 container('java11'){
                     script {
                         sh "./mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}-SNAPSHOT versions:commit"
                         PROJECT_VERSION = readMavenPom().getVersion()
                     }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                container('java11'){
                     sh "unset MAVEN_CONFIG"
                     sh "./mvnw clean compile"
                     sh "./mvnw -ntp -Pprod jib:dockerBuild"
