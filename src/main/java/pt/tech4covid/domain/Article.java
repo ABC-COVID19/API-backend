@@ -58,7 +58,7 @@ public class Article implements Serializable {
     private LocalDate fetchDate;
 
     @OneToOne(mappedBy = "article")
-    @JsonIgnore
+    @JsonIgnoreProperties("article")
     private Revision revision;
 
     @ManyToOne

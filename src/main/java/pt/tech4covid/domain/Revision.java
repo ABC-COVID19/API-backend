@@ -73,12 +73,12 @@ public class Revision implements Serializable {
 
     @MapsId
     @JoinColumn(name = "id")
+    @JsonIgnoreProperties("revision")
     private Article article;
 
     @ManyToMany(fetch = FetchType.EAGER)
     //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @JsonIgnoreProperties("revisions")
     @JoinTable(name = "revision_ctree",
                joinColumns = @JoinColumn(name = "revision_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "ctree_id", referencedColumnName = "id"))
