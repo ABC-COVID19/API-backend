@@ -17,20 +17,32 @@
             ]
         },
         {
-            "fieldName": "reviewedByPeer",
+            "fieldName": "isPeerReviewed",
             "fieldType": "Boolean",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "returnNotes",
+            "fieldName": "reviewNotes",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "keywords",
-            "fieldType": "String"
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "reviewDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "author",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "reviewer",
@@ -46,20 +58,18 @@
             "fieldValidateRules": [
                 "required"
             ]
-        },
-        {
-            "fieldName": "communityVotes",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "active",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "article",
+            "otherEntityRelationshipName": "revision",
+            "relationshipName": "article",
+            "otherEntityField": "articleTitle",
+            "ownerSide": true,
+            "useJPADerivedIdentifier": true
+        },
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "categoryTree",
@@ -74,13 +84,6 @@
             "otherEntityRelationshipName": "revision",
             "relationshipName": "atype",
             "otherEntityField": "itemName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "article",
-            "otherEntityRelationshipName": "revision",
-            "relationshipName": "article",
-            "otherEntityField": "articleTitle"
         }
     ],
     "changelogDate": "20200402104700",

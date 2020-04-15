@@ -28,7 +28,7 @@
             "fieldTypeBlobContent": "text"
         },
         {
-            "fieldName": "articleDoi",
+            "fieldName": "articleLink",
             "fieldType": "String"
         },
         {
@@ -36,28 +36,25 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "fetchDate",
-            "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "citation",
+            "fieldName": "articleCitation",
             "fieldType": "String"
         },
         {
-            "fieldName": "reviewState",
-            "fieldType": "ReviewState",
-            "fieldValues": "Hold,OnGoing,Pending,Reviewed,Accepted",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "articleCountry",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fetchDate",
+            "fieldType": "LocalDate"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "one-to-one",
             "otherEntityName": "revision",
             "otherEntityRelationshipName": "article",
-            "relationshipName": "revision"
+            "relationshipName": "revision",
+            "ownerSide": false
         },
         {
             "relationshipType": "many-to-one",

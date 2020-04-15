@@ -81,8 +81,9 @@ relationship OneToMany {
     ArticleType{revision} to Revision{atype}
 }
 
+// Left is owning side
 relationship OneToOne {
-	Article{revision} to Revision{article} with jpaDerivedIdentifier
+	Revision{article} to Article{revision} with jpaDerivedIdentifier
 }
 
 // Set pagination options
