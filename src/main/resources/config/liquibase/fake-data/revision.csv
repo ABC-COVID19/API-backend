@@ -1,11 +1,11 @@
-id;title;summary;reviewed_by_peer;return_notes;keywords;reviewer;review_state;community_votes;active
-1;compressing Ball;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;supply-chains Texas;Devolved;OnGoing;7875;false
-2;methodical interface reinvent;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;Bolivia;payment models bypassing;OnGoing;17530;true
-3;monitor Sao Tome and Principe;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;COM Manager Salad;JBOD;Hold;95341;true
-4;program;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;platforms;SQL Accounts;OnGoing;45048;false
-5;National Unbranded Wooden Bacon invoice;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;Colorado Intelligent encompassing;tan Visionary Ameliorated;Reviewed;12408;true
-6;Practical Cotton Hat Small Plastic Mouse;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;Concrete Small Rubber Fish;programming override;OnGoing;33052;false
-7;Investment Account GB;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;XSS;explicit;Accepted;43333;true
-8;Cambridgeshire Unbranded Ergonomic Wooden Car;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;white;Tuna Markets;Accepted;70316;true
-9;Guyana Dollar system;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;protocol User-friendly online;Ergonomic Rubber Towels sensor circuit;OnGoing;92961;true
-10;Incredible Plastic Mouse incubate matrix;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;Car Optional;overriding ivory Pines;Accepted;29672;true
+id;title;summary;is_peer_reviewed;country;keywords;review_date;review_notes;author;reviewer;review_state
+1;compressing Ball;../fake-data/blob/hipster.txt;false;Marshall Islands;../fake-data/blob/hipster.txt;2020-04-02;../fake-data/blob/hipster.txt;Texas contingency;Future-proofed;Reviewed
+2;reinvent synergies;../fake-data/blob/hipster.txt;true;Bolivia;../fake-data/blob/hipster.txt;2020-04-01;../fake-data/blob/hipster.txt;index bus;Zambian Kwacha;OnGoing
+3;multi-byte;../fake-data/blob/hipster.txt;true;Puerto Rico;../fake-data/blob/hipster.txt;2020-04-01;../fake-data/blob/hipster.txt;Tonga COM Manager;SSL;Hold
+4;Automotive Money Market Account program;../fake-data/blob/hipster.txt;true;El Salvador;../fake-data/blob/hipster.txt;2020-04-02;../fake-data/blob/hipster.txt;Texas;Accounts;OnGoing
+5;non-volatile National;../fake-data/blob/hipster.txt;false;Tonga;../fake-data/blob/hipster.txt;2020-04-02;../fake-data/blob/hipster.txt;invoice models Colorado;Focused;Accepted
+6;Grocery;../fake-data/blob/hipster.txt;true;Bulgaria;../fake-data/blob/hipster.txt;2020-04-01;../fake-data/blob/hipster.txt;back-end Communications Practical Cotton Hat;Garden;Hold
+7;Small Rubber Fish;../fake-data/blob/hipster.txt;true;Sri Lanka;../fake-data/blob/hipster.txt;2020-04-01;../fake-data/blob/hipster.txt;Cheese Handcrafted Granite Hat Colombian Peso Unidad de Valor Real;copying functionalities;Reviewed
+8;XSS;../fake-data/blob/hipster.txt;false;Ethiopia;../fake-data/blob/hipster.txt;2020-04-02;../fake-data/blob/hipster.txt;HTTP bluetooth navigate;relationships XML Executive;Pending
+9;invoice;../fake-data/blob/hipster.txt;false;Suriname;../fake-data/blob/hipster.txt;2020-04-02;../fake-data/blob/hipster.txt;architectures Human;Rufiyaa bandwidth orchestration;OnGoing
+10;online protocol Awesome;../fake-data/blob/hipster.txt;true;Pitcairn Islands;../fake-data/blob/hipster.txt;2020-04-01;../fake-data/blob/hipster.txt;USB Response Integration;Gorgeous;Reviewed

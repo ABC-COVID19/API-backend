@@ -11,7 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link Article}.
@@ -51,6 +54,20 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> findAll(Pageable pageable) {
         log.debug("Request to get all Articles");
         return articleRepository.findAll(pageable);
+    }
+
+
+    /**
+     *  Get all the articles where Revision is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true) 
+    public List<Article> findAllWhereRevisionIsNull() {
+        log.debug("Request to get all articles where Revision is null");
+        return StreamSupport
+            .stream(articleRepository.findAll().spliterator(), false)
+            .filter(article -> article.getRevision() == null)
+            .collect(Collectors.toList());
     }
 
     /**

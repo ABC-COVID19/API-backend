@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -61,6 +62,9 @@ public class RevisionResource {
         log.debug("REST request to save Revision : {}", revision);
         if (revision.getId() != null) {
             throw new BadRequestAlertException("A new revision cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (Objects.isNull(revision.getArticle())) {
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
         }
         Revision result = revisionService.save(revision);
         return ResponseEntity.created(new URI("/api/revisions/" + result.getId()))

@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-        <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="false"/>
 
     <!--
         Added the entity Revision.
@@ -22,14 +22,23 @@
             <column name="summary" type="${clobType}">
                 <constraints nullable="false" />
             </column>
-            <column name="reviewed_by_peer" type="boolean">
+            <column name="is_peer_reviewed" type="boolean">
                 <constraints nullable="false" />
             </column>
-            <column name="return_notes" type="${clobType}">
+            <column name="country" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="keywords" type="varchar(255)">
+            <column name="keywords" type="${clobType}">
                 <constraints nullable="true" />
+            </column>
+            <column name="review_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="review_notes" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="author" type="varchar(255)">
+                <constraints nullable="false" />
             </column>
             <column name="reviewer" type="varchar(255)">
                 <constraints nullable="false" />
@@ -37,16 +46,7 @@
             <column name="review_state" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="community_votes" type="integer">
-                <constraints nullable="true" />
-            </column>
-            <column name="active" type="boolean">
-                <constraints nullable="false" />
-            </column>
             <column name="atype_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="article_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -85,13 +85,14 @@
             <column name="id" type="numeric"/>
             <column name="title" type="string"/>
             <column name="summary" type="clob"/>
-            <column name="reviewed_by_peer" type="boolean"/>
-            <column name="return_notes" type="clob"/>
-            <column name="keywords" type="string"/>
+            <column name="is_peer_reviewed" type="boolean"/>
+            <column name="country" type="string"/>
+            <column name="keywords" type="clob"/>
+            <column name="review_date" type="date"/>
+            <column name="review_notes" type="clob"/>
+            <column name="author" type="string"/>
             <column name="reviewer" type="string"/>
             <column name="review_state" type="string"/>
-            <column name="community_votes" type="numeric"/>
-            <column name="active" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

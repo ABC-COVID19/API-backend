@@ -1,19 +1,15 @@
 package pt.tech4covid.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
-import pt.tech4covid.domain.enumeration.ReviewState;
 
 /**
  * A Article.
@@ -49,26 +45,21 @@ public class Article implements Serializable {
     @Column(name = "article_abstract")
     private String articleAbstract;
 
-    @Column(name = "article_doi")
-    private String articleDoi;
+    @Column(name = "article_link")
+    private String articleLink;
 
     @Column(name = "article_journal")
     private String articleJournal;
 
+    @Column(name = "article_citation")
+    private String articleCitation;
+
     @Column(name = "fetch_date")
     private LocalDate fetchDate;
 
-    @Column(name = "citation")
-    private String citation;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "review_state", nullable = false)
-    private ReviewState reviewState;
-
-    @OneToMany(mappedBy = "article")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Revision> revisions = new HashSet<>();
+    @OneToOne(mappedBy = "article")
+    @JsonIgnore
+    private Revision revision;
 
     @ManyToOne
     @JsonIgnoreProperties("articles")
@@ -161,17 +152,17 @@ public class Article implements Serializable {
         this.articleAbstract = articleAbstract;
     }
 
-    public String getArticleDoi() {
-        return articleDoi;
+    public String getArticleLink() {
+        return articleLink;
     }
 
-    public Article articleDoi(String articleDoi) {
-        this.articleDoi = articleDoi;
+    public Article articleLink(String articleLink) {
+        this.articleLink = articleLink;
         return this;
     }
 
-    public void setArticleDoi(String articleDoi) {
-        this.articleDoi = articleDoi;
+    public void setArticleLink(String articleLink) {
+        this.articleLink = articleLink;
     }
 
     public String getArticleJournal() {
@@ -187,6 +178,19 @@ public class Article implements Serializable {
         this.articleJournal = articleJournal;
     }
 
+    public String getArticleCitation() {
+        return articleCitation;
+    }
+
+    public Article articleCitation(String articleCitation) {
+        this.articleCitation = articleCitation;
+        return this;
+    }
+
+    public void setArticleCitation(String articleCitation) {
+        this.articleCitation = articleCitation;
+    }
+
     public LocalDate getFetchDate() {
         return fetchDate;
     }
@@ -200,55 +204,17 @@ public class Article implements Serializable {
         this.fetchDate = fetchDate;
     }
 
-    public String getCitation() {
-        return citation;
+    public Revision getRevision() {
+        return revision;
     }
 
-    public Article citation(String citation) {
-        this.citation = citation;
+    public Article revision(Revision revision) {
+        this.revision = revision;
         return this;
     }
 
-    public void setCitation(String citation) {
-        this.citation = citation;
-    }
-
-    public ReviewState getReviewState() {
-        return reviewState;
-    }
-
-    public Article reviewState(ReviewState reviewState) {
-        this.reviewState = reviewState;
-        return this;
-    }
-
-    public void setReviewState(ReviewState reviewState) {
-        this.reviewState = reviewState;
-    }
-
-    public Set<Revision> getRevisions() {
-        return revisions;
-    }
-
-    public Article revisions(Set<Revision> revisions) {
-        this.revisions = revisions;
-        return this;
-    }
-
-    public Article addRevision(Revision revision) {
-        this.revisions.add(revision);
-        revision.setArticle(this);
-        return this;
-    }
-
-    public Article removeRevision(Revision revision) {
-        this.revisions.remove(revision);
-        revision.setArticle(null);
-        return this;
-    }
-
-    public void setRevisions(Set<Revision> revisions) {
-        this.revisions = revisions;
+    public void setRevision(Revision revision) {
+        this.revision = revision;
     }
 
     public SourceRepo getSrepo() {
@@ -291,11 +257,10 @@ public class Article implements Serializable {
             ", articleDate='" + getArticleDate() + "'" +
             ", articleTitle='" + getArticleTitle() + "'" +
             ", articleAbstract='" + getArticleAbstract() + "'" +
-            ", articleDoi='" + getArticleDoi() + "'" +
+            ", articleLink='" + getArticleLink() + "'" +
             ", articleJournal='" + getArticleJournal() + "'" +
+            ", articleCitation='" + getArticleCitation() + "'" +
             ", fetchDate='" + getFetchDate() + "'" +
-            ", citation='" + getCitation() + "'" +
-            ", reviewState='" + getReviewState() + "'" +
             "}";
     }
 }

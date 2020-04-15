@@ -3,6 +3,7 @@ package pt.tech4covid.service.impl;
 import pt.tech4covid.service.RevisionService;
 import pt.tech4covid.domain.Revision;
 import pt.tech4covid.repository.RevisionRepository;
+import pt.tech4covid.repository.ArticleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +25,11 @@ public class RevisionServiceImpl implements RevisionService {
 
     private final RevisionRepository revisionRepository;
 
-    public RevisionServiceImpl(RevisionRepository revisionRepository) {
+    private final ArticleRepository articleRepository;
+
+    public RevisionServiceImpl(RevisionRepository revisionRepository, ArticleRepository articleRepository) {
         this.revisionRepository = revisionRepository;
+        this.articleRepository = articleRepository;
     }
 
     /**
@@ -37,6 +41,8 @@ public class RevisionServiceImpl implements RevisionService {
     @Override
     public Revision save(Revision revision) {
         log.debug("Request to save Revision : {}", revision);
+        long articleId = revision.getArticle().getId();
+        articleRepository.findById(articleId).ifPresent(revision::article);
         return revisionRepository.save(revision);
     }
 

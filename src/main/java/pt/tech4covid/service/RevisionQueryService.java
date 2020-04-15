@@ -88,8 +88,8 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getTitle() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitle(), Revision_.title));
             }
-            if (criteria.getReviewedByPeer() != null) {
-                specification = specification.and(buildSpecification(criteria.getReviewedByPeer(), Revision_.reviewedByPeer));
+            if (criteria.getIsPeerReviewed() != null) {
+                specification = specification.and(buildSpecification(criteria.getIsPeerReviewed(), Revision_.isPeerReviewed));
             }
             if (criteria.getKeywords() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getKeywords(), Revision_.keywords));
@@ -97,17 +97,24 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getSummary() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSummary(), Revision_.summary));
             }
+            if (criteria.getCountry() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCountry(), Revision_.country));
+            }
+            if (criteria.getReviewDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getReviewDate(), Revision_.reviewDate));
+            }
+            if (criteria.getAuthor() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAuthor(), Revision_.author));
+            }
             if (criteria.getReviewer() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReviewer(), Revision_.reviewer));
             }
             if (criteria.getReviewState() != null) {
                 specification = specification.and(buildSpecification(criteria.getReviewState(), Revision_.reviewState));
             }
-            if (criteria.getCommunityVotes() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCommunityVotes(), Revision_.communityVotes));
-            }
-            if (criteria.getActive() != null) {
-                specification = specification.and(buildSpecification(criteria.getActive(), Revision_.active));
+            if (criteria.getArticleId() != null) {
+                specification = specification.and(buildSpecification(criteria.getArticleId(),
+                    root -> root.join(Revision_.article, JoinType.LEFT).get(Article_.id)));
             }
             if (criteria.getCtreeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCtreeId(),
@@ -116,10 +123,6 @@ public class RevisionQueryService extends QueryService<Revision> {
             if (criteria.getAtypeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAtypeId(),
                     root -> root.join(Revision_.atype, JoinType.LEFT).get(ArticleType_.id)));
-            }
-            if (criteria.getArticleId() != null) {
-                specification = specification.and(buildSpecification(criteria.getArticleId(),
-                    root -> root.join(Revision_.article, JoinType.LEFT).get(Article_.id)));
             }
         }
         return specification;

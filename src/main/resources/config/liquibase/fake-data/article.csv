@@ -1,11 +1,11 @@
-id;repo_article_id;repo_date;repo_keywords;article_date;article_title;article_abstract;article_doi;article_journal;fetch_date;citation;review_state
-1;8878;2020-04-01;../fake-data/blob/hipster.txt;evolve Licensed Cotton Shoes maroon;throughput lavender Kuwait;../fake-data/blob/hipster.txt;Cambridgeshire;Handmade Concrete Fish;2020-04-01;Cocos (Keeling) Islands visualize;OnGoing
-2;62389;2020-04-02;../fake-data/blob/hipster.txt;leverage generating Tunisia;Principal Egypt;../fake-data/blob/hipster.txt;alliance bifurcated;programming program;2020-04-01;Sports XSS International;Pending
-3;9452;2020-04-02;../fake-data/blob/hipster.txt;Taka;enhance;../fake-data/blob/hipster.txt;SMTP;Incredible Fresh Computer online;2020-04-01;generating Internal Program;Reviewed
-4;96736;2020-04-01;../fake-data/blob/hipster.txt;white deposit Rustic Frozen Mouse;Operations alarm matrix;../fake-data/blob/hipster.txt;transmit;unleash Compatible Berkshire;2020-04-01;yellow impactful e-commerce;Accepted
-5;713;2020-04-02;../fake-data/blob/hipster.txt;Plastic;Applications Shores Incredible Cotton Pizza;../fake-data/blob/hipster.txt;invoice;navigate;2020-04-01;back up;Hold
-6;51314;2020-04-01;../fake-data/blob/hipster.txt;Clothing RSS Metal;Operations;../fake-data/blob/hipster.txt;transmit Islands;Programmable solutions Berkshire;2020-04-01;Handmade Liaison;Accepted
-7;65866;2020-04-02;../fake-data/blob/hipster.txt;Small Plastic Shoes Savings Account;navigate Movies;../fake-data/blob/hipster.txt;leading-edge Home Loan Account;Bedfordshire Borders Concrete;2020-04-01;Investment Account North Carolina Rustic Cotton Pizza;Reviewed
-8;14676;2020-04-02;../fake-data/blob/hipster.txt;Grocery;Quality;../fake-data/blob/hipster.txt;Handcrafted Soft Shirt;zero tolerance migration;2020-04-01;collaborative compressing;Hold
-9;27134;2020-04-01;../fake-data/blob/hipster.txt;Cotton;Tactics;../fake-data/blob/hipster.txt;Savings Account hybrid virtual;Rubber algorithm;2020-04-02;Global;Hold
-10;83773;2020-04-02;../fake-data/blob/hipster.txt;niches;invoice parsing magnetic;../fake-data/blob/hipster.txt;24/7;bandwidth Handmade;2020-04-02;Intelligent;Reviewed
+id;repo_article_id;repo_date;repo_keywords;article_date;article_title;article_abstract;article_link;article_journal;article_citation;fetch_date
+1;8878;2020-04-01;../fake-data/blob/hipster.txt;evolve Licensed Cotton Shoes maroon;throughput lavender Kuwait;../fake-data/blob/hipster.txt;Cambridgeshire;Handmade Concrete Fish;Home Loan Account maroon;2020-04-01
+2;73753;2020-04-02;../fake-data/blob/hipster.txt;microchip fuchsia Pre-emptive;PCI;../fake-data/blob/hipster.txt;generating;Dynamic Principal;Persistent alliance;2020-04-02
+3;14162;2020-04-02;../fake-data/blob/hipster.txt;Legacy RSS HTTP;XSS International static;../fake-data/blob/hipster.txt;Bermuda Mouse;Intelligent enhance Outdoors;deposit user-centric Licensed;2020-04-01
+4;88700;2020-04-01;../fake-data/blob/hipster.txt;Virginia XSS Refined Cotton Ball;grow Credit Card Account Planner;../fake-data/blob/hipster.txt;white deposit Rustic Frozen Mouse;Operations alarm matrix;transmit;2020-04-01
+5;39616;2020-04-01;../fake-data/blob/hipster.txt;Sleek;Representative yellow;../fake-data/blob/hipster.txt;Berkshire;web-enabled Forward;Concrete;2020-04-02
+6;29086;2020-04-01;../fake-data/blob/hipster.txt;Berkshire back up foreground;Handcrafted Fresh Bike navigate bandwidth;../fake-data/blob/hipster.txt;Tools Savings Account Som;Cambridgeshire;Clothing RSS Metal;2020-04-02
+7;95866;2020-04-01;../fake-data/blob/hipster.txt;transmit Islands;Programmable solutions Berkshire;../fake-data/blob/hipster.txt;Bosnia and Herzegovina matrix;Rustic;quantifying knowledge base Small Plastic Shoes;2020-04-01
+8;23613;2020-04-01;../fake-data/blob/hipster.txt;clicks-and-mortar Generic Plastic Computer Home Loan Account;Bedfordshire Borders Concrete;../fake-data/blob/hipster.txt;generating architectures;Rustic Cotton Pizza bypassing;deposit;2020-04-02
+9;6095;2020-04-01;../fake-data/blob/hipster.txt;frictionless;web-readiness;../fake-data/blob/hipster.txt;Taka Handcrafted Soft Shirt Bedfordshire;migration Planner collaborative;intangible Security Burundi;2020-04-02
+10;27134;2020-04-01;../fake-data/blob/hipster.txt;Cotton;Tactics;../fake-data/blob/hipster.txt;Savings Account hybrid virtual;Rubber algorithm;Unbranded Granite Towels California;2020-04-02
