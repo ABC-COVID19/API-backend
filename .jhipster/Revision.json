@@ -24,9 +24,8 @@
             ]
         },
         {
-            "fieldName": "reviewNotes",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
+            "fieldName": "country",
+            "fieldType": "String"
         },
         {
             "fieldName": "keywords",
@@ -36,6 +35,11 @@
         {
             "fieldName": "reviewDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "reviewNotes",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "author",

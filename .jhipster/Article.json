@@ -40,10 +40,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "articleCountry",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "fetchDate",
             "fieldType": "LocalDate"
         }
