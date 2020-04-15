@@ -21,36 +21,25 @@ pipeline {
         GIT_REPO = "github.com/ABC-COVID19/API-backend.git"
         NAMESPACE_DEV = "icam-dev"
         NAMESPACE_PROD = "icam-prod"
-        DOCKER_HUB = "docker.icam.org.pt" //Need refactor to dns name
+        DOCKER_HUB = "docker.icam.org.pt"
         // SLACK_CHANNEL = ''
         // SLACK_TEAM_DOMAIN = ''
         // SLACK_TOKEN = credentials('')
-        //PROJECT_NAME = readMavenPom().getArtifactId()
-        PROJECT_VERSION = readMavenPom().getVersion()
+        PROJECT_VERSION = "TBD"
         GIT_USER = 'jenkins-icam@protonmail.com'
         GIT_USER_NAME = 'jenkins-icam'
-        //NEW_VERSION = chooseVersion("${PROJECT_VERSION}","${env.GIT_BRANCH}")
-        DEBUG_MODE = '-q' // "-q" (quiet)  "-X" (verbose)
 
     }
 
     stages {
 
-        // stage('Recursive build Check') {
-        //     steps {
-        //         script {
-        //             if (checkCommit("updated pom version to")){
-        //                 timeout(time: 60, unit: 'SECONDS') {
-        //                     input 'Do you want to Update Version anyway?'
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        stage('Build and Test') {
+        stage('Build && Bump Version') {
             steps {
                 container('java11'){
+                    script {
+                        sh "./mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}-SNAPSHOT versions:commit"
+                        PROJECT_VERSION = readMavenPom().getVersion()
+                    }
                     sh "unset MAVEN_CONFIG"
                     sh "./mvnw clean compile"
                     sh "./mvnw -ntp -Pprod jib:dockerBuild"
@@ -59,16 +48,9 @@ pipeline {
             }
         }
 
-        // stage('Build Docker Image') {
-        //     steps {
-        //         container('java11'){
-        //         }
-        //     }
-        // }
-
         stage('Merge to Develop') {
             when {
-                branch "feature*"
+                branch "feature/*"
             }
              steps {
                         sh "git config --global user.email '${GIT_USER}'"
@@ -77,8 +59,6 @@ pipeline {
                         sh "git merge --ff ${env.GIT_COMMIT}"
 
                         withCredentials([usernamePassword(credentialsId: 'Jenkins-ICAM2', usernameVariable: 'username', passwordVariable: 'password')]) {
-                            //sh "ssh-keyscan -t rsa ${GIT_HOST} >> ~/.ssh/known_hosts"
-                            //sh "ssh-agent bash -c 'ssh-add ${GIT_CREDS};
                              sh "git push https://${username}:${password}@${GIT_REPO} HEAD:develop"
                         }
             }
@@ -102,8 +82,6 @@ pipeline {
 
 
                         withCredentials([usernamePassword(credentialsId: 'Jenkins-ICAM2', usernameVariable: 'username', passwordVariable: 'password')]) {
-                            //sh "ssh-keyscan -t rsa ${GIT_HOST} >> ~/.ssh/known_hosts"
-                            //sh "ssh-agent bash -c 'ssh-add ${GIT_CREDS};
                             sh "git push https://${username}:${password}@${GIT_REPO} HEAD:master"
 
                         }
@@ -125,7 +103,7 @@ pipeline {
                         sh "docker push ${DOCKER_HUB}/${DEPLOYMENT_NAME}:latest"
                         withCredentials([azureServicePrincipal('Azure_login')]) {
                                     sh "az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} -t ${AZURE_TENANT_ID}"
-                                    sh "az aks get-credentials --name icam --resource-group icam --overwrite-existing"
+                                    sh "az aks get-credentials --name icamch --resource-group icam-ch --overwrite-existing"
                                     sh "kubectl set image deployment ${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}-app=${DOCKER_HUB}/${DEPLOYMENT_NAME}:${PROJECT_VERSION} --record -n ${NAMESPACE_DEV}"
                                 }
                 }
@@ -143,7 +121,7 @@ pipeline {
 
                         withCredentials([azureServicePrincipal('Azure_login')]) {
                                     sh "az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} -t ${AZURE_TENANT_ID}"
-                                    sh "az aks get-credentials --name icam --resource-group icam --overwrite-existing"
+                                    sh "az aks get-credentials --name icamch --resource-group icam-ch --overwrite-existing"
                                     sh "kubectl set image deployment ${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}-app=${DOCKER_HUB}/${DEPLOYMENT_NAME}:${PROJECT_VERSION} --record -n ${NAMESPACE_PROD}"
                                 }
 
