@@ -37,8 +37,8 @@ pipeline {
             steps {
                 script {
                     if (checkCommit("updated version to")){
-                        timeout(time: 20, unit: 'SECONDS') {
-                            input 'Do you want to Update Version anyway?'
+                        timeout(time: 10, unit: 'SECONDS') {
+                            input 'Recursive Run'
                         }
                     }
                 }
@@ -72,7 +72,7 @@ pipeline {
              steps {
                         sh "git config --global user.email '${GIT_USER}'"
                         sh "git config --global user.name '${GIT_USER_NAME}'"
-                        sh "git add ."
+                        sh "git add -A"
                         sh "git commit -m 'updated version to ${NEW_VERSION}'"
                         withCredentials([usernamePassword(credentialsId: 'Jenkins-ICAM2', usernameVariable: 'username', passwordVariable: 'password')]) {
                              sh "git push https://${username}:${password}@${GIT_REPO} HEAD:develop"
