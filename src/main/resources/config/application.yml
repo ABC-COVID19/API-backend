@@ -190,7 +190,7 @@ jhipster:
   #     allow-credentials: true
   #     max-age: 1800
   mail:
-    from: ICAMApi@localhost
+    from: geral@icam.org.pt
   swagger:
     default-include-pattern: /api/.*
     title: ICAMApi API
@@ -211,4 +211,9 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+# application email scheduler:
+schedule:
+  newsletter:
+    cron: '0 55 23 * * *'
+
+
