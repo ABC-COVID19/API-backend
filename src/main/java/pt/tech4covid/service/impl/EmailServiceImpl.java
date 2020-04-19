@@ -49,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             // Get all newsletters
             Page<Newsletter> newsletters = newsletterService.findAll(PageRequest.of(0, (int) newsletterService.count()));
-
+            log.warn(StringUtils.join("Found newsletters!: ", newsletters.toString()));
             newsletters.stream().forEach(newsletter -> {
 
                 try {
@@ -80,6 +80,7 @@ public class EmailServiceImpl implements EmailService {
                         newsletter.getLastName(), "!</h1><br/>", categoryTreeList.stream().collect(Collectors.joining()));
 
                     // Send email
+                    log.warn(StringUtils.join("Sending email to", newsletter.getEmail()));
                     sendHTMLEmail(toEmail, subject, textMessage);
 
                 } catch (Exception ex) {
