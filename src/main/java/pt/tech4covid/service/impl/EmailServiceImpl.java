@@ -46,6 +46,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Transactional(propagation=Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
     public void sendNewsletterEmail() {
+        log.warn("tryna newsletter");
         try {
             // Get all newsletters
             Page<Newsletter> newsletters = newsletterService.findAll(PageRequest.of(0, (int) newsletterService.count()));
