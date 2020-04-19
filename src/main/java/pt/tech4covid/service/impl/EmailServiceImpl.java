@@ -80,7 +80,7 @@ public class EmailServiceImpl implements EmailService {
                         newsletter.getLastName(), "!</h1><br/>", categoryTreeList.stream().collect(Collectors.joining()));
 
                     // Send email
-                    sendHTMLEmail(toEmail, subject, "textMessage");
+                    sendHTMLEmail(toEmail, subject, textMessage);
 
                 } catch (Exception ex) {
                     // Exception when problem occur during the sending of email
