@@ -214,6 +214,6 @@ jhipster:
 # application email scheduler:
 schedule:
   newsletter:
-    cron: '*/30 * * * * *'
+    cron: '0 0 0 * * *'
 
 
