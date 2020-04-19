@@ -97,24 +97,21 @@ public class ArticleQueryService extends QueryService<Article> {
             if (criteria.getArticleTitle() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getArticleTitle(), Article_.articleTitle));
             }
-            if (criteria.getArticleDoi() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getArticleDoi(), Article_.articleDoi));
+            if (criteria.getArticleLink() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArticleLink(), Article_.articleLink));
             }
             if (criteria.getArticleJournal() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getArticleJournal(), Article_.articleJournal));
             }
+            if (criteria.getArticleCitation() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArticleCitation(), Article_.articleCitation));
+            }
             if (criteria.getFetchDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFetchDate(), Article_.fetchDate));
             }
-            if (criteria.getCitation() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCitation(), Article_.citation));
-            }
-            if (criteria.getReviewState() != null) {
-                specification = specification.and(buildSpecification(criteria.getReviewState(), Article_.reviewState));
-            }
             if (criteria.getRevisionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRevisionId(),
-                    root -> root.join(Article_.revisions, JoinType.LEFT).get(Revision_.id)));
+                    root -> root.join(Article_.revision, JoinType.LEFT).get(Revision_.id)));
             }
             if (criteria.getSrepoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSrepoId(),

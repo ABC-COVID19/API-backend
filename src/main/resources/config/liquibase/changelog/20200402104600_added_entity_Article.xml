@@ -34,20 +34,17 @@
             <column name="article_abstract" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="article_doi" type="varchar(255)">
+            <column name="article_link" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="article_journal" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="article_citation" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="fetch_date" type="date">
                 <constraints nullable="true" />
-            </column>
-            <column name="citation" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="review_state" type="varchar(255)">
-                <constraints nullable="false" />
             </column>
             <column name="srepo_id" type="bigint">
                 <constraints nullable="true" />
@@ -81,11 +78,10 @@
             <column name="article_date" type="string"/>
             <column name="article_title" type="string"/>
             <column name="article_abstract" type="clob"/>
-            <column name="article_doi" type="string"/>
+            <column name="article_link" type="string"/>
             <column name="article_journal" type="string"/>
+            <column name="article_citation" type="string"/>
             <column name="fetch_date" type="date"/>
-            <column name="citation" type="string"/>
-            <column name="review_state" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

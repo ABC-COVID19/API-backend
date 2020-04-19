@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link pt.tech4covid.domain.Revision} entity. This class is used
@@ -47,25 +48,27 @@ public class RevisionCriteria implements Serializable, Criteria {
 
     private StringFilter title;
 
-    private BooleanFilter reviewedByPeer;
+    private BooleanFilter isPeerReviewed;
+
+    private StringFilter country;
 
     private StringFilter keywords;
 
     private StringFilter summary;
 
+    private LocalDateFilter reviewDate;
+
+    private StringFilter author;
+
     private StringFilter reviewer;
 
     private ReviewStateFilter reviewState;
 
-    private IntegerFilter communityVotes;
-
-    private BooleanFilter active;
+    private LongFilter articleId;
 
     private LongFilter ctreeId;
 
     private LongFilter atypeId;
-
-    private LongFilter articleId;
 
     public RevisionCriteria() {
     }
@@ -73,16 +76,17 @@ public class RevisionCriteria implements Serializable, Criteria {
     public RevisionCriteria(RevisionCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.title = other.title == null ? null : other.title.copy();
-        this.reviewedByPeer = other.reviewedByPeer == null ? null : other.reviewedByPeer.copy();
+        this.isPeerReviewed = other.isPeerReviewed == null ? null : other.isPeerReviewed.copy();
         this.keywords = other.keywords == null ? null : other.keywords.copy();
         this.summary = other.summary == null ? null : other.summary.copy();
+        this.country = other.country == null ? null : other.country.copy();
+        this.reviewDate = other.reviewDate == null ? null : other.reviewDate.copy();
+        this.author = other.author == null ? null : other.author.copy();
         this.reviewer = other.reviewer == null ? null : other.reviewer.copy();
         this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
-        this.communityVotes = other.communityVotes == null ? null : other.communityVotes.copy();
-        this.active = other.active == null ? null : other.active.copy();
+        this.articleId = other.articleId == null ? null : other.articleId.copy();
         this.ctreeId = other.ctreeId == null ? null : other.ctreeId.copy();
         this.atypeId = other.atypeId == null ? null : other.atypeId.copy();
-        this.articleId = other.articleId == null ? null : other.articleId.copy();
     }
 
     @Override
@@ -106,12 +110,12 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.title = title;
     }
 
-    public BooleanFilter getReviewedByPeer() {
-        return reviewedByPeer;
+    public BooleanFilter getIsPeerReviewed() {
+        return isPeerReviewed;
     }
 
-    public void setReviewedByPeer(BooleanFilter reviewedByPeer) {
-        this.reviewedByPeer = reviewedByPeer;
+    public void setIsPeerReviewed(BooleanFilter isPeerReviewed) {
+        this.isPeerReviewed = isPeerReviewed;
     }
 
     public StringFilter getKeywords() {
@@ -130,6 +134,30 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.summary = summary;
     }
 
+    public StringFilter getCountry() {
+        return country;
+    }
+
+    public void setCountry(StringFilter country) {
+        this.country = country;
+    }
+
+    public LocalDateFilter getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(LocalDateFilter reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public StringFilter getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(StringFilter author) {
+        this.author = author;
+    }
+
     public StringFilter getReviewer() {
         return reviewer;
     }
@@ -146,20 +174,12 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.reviewState = reviewState;
     }
 
-    public IntegerFilter getCommunityVotes() {
-        return communityVotes;
+    public LongFilter getArticleId() {
+        return articleId;
     }
 
-    public void setCommunityVotes(IntegerFilter communityVotes) {
-        this.communityVotes = communityVotes;
-    }
-
-    public BooleanFilter getActive() {
-        return active;
-    }
-
-    public void setActive(BooleanFilter active) {
-        this.active = active;
+    public void setArticleId(LongFilter articleId) {
+        this.articleId = articleId;
     }
 
     public LongFilter getCtreeId() {
@@ -178,14 +198,6 @@ public class RevisionCriteria implements Serializable, Criteria {
         this.atypeId = atypeId;
     }
 
-    public LongFilter getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(LongFilter articleId) {
-        this.articleId = articleId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -199,16 +211,17 @@ public class RevisionCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(title, that.title) &&
-            Objects.equals(reviewedByPeer, that.reviewedByPeer) &&
+            Objects.equals(isPeerReviewed, that.isPeerReviewed) &&
             Objects.equals(keywords, that.keywords) &&
             Objects.equals(summary, that.summary) &&
+            Objects.equals(country, that.country) &&
+            Objects.equals(reviewDate, that.reviewDate) &&
+            Objects.equals(author, that.author) &&
             Objects.equals(reviewer, that.reviewer) &&
             Objects.equals(reviewState, that.reviewState) &&
-            Objects.equals(communityVotes, that.communityVotes) &&
-            Objects.equals(active, that.active) &&
+            Objects.equals(articleId, that.articleId) &&
             Objects.equals(ctreeId, that.ctreeId) &&
-            Objects.equals(atypeId, that.atypeId) &&
-            Objects.equals(articleId, that.articleId);
+            Objects.equals(atypeId, that.atypeId);
     }
 
     @Override
@@ -216,16 +229,17 @@ public class RevisionCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         title,
-        reviewedByPeer,
+        isPeerReviewed,
         keywords,
         summary,
+        country,
+        reviewDate,
+        author,
         reviewer,
         reviewState,
-        communityVotes,
-        active,
+        articleId,
         ctreeId,
-        atypeId,
-        articleId
+        atypeId
         );
     }
 
@@ -234,16 +248,17 @@ public class RevisionCriteria implements Serializable, Criteria {
         return "RevisionCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (title != null ? "title=" + title + ", " : "") +
-                (reviewedByPeer != null ? "reviewedByPeer=" + reviewedByPeer + ", " : "") +
+                (isPeerReviewed != null ? "isPeerReviewed=" + isPeerReviewed + ", " : "") +
                 (keywords != null ? "keywords=" + keywords + ", " : "") +
                 (summary != null ? "summary=" + summary + ", " : "") +
+                (country != null ? "country=" + country + ", " : "") +
+                (reviewDate != null ? "reviewDate=" + reviewDate + ", " : "") +
+                (author != null ? "author=" + author + ", " : "") +
                 (reviewer != null ? "reviewer=" + reviewer + ", " : "") +
                 (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
-                (communityVotes != null ? "communityVotes=" + communityVotes + ", " : "") +
-                (active != null ? "active=" + active + ", " : "") +
+                (articleId != null ? "articleId=" + articleId + ", " : "") +
                 (ctreeId != null ? "ctreeId=" + ctreeId + ", " : "") +
                 (atypeId != null ? "atypeId=" + atypeId + ", " : "") +
-                (articleId != null ? "articleId=" + articleId + ", " : "") +
             "}";
     }
 

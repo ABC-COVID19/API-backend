@@ -3,7 +3,6 @@ package pt.tech4covid.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import pt.tech4covid.domain.enumeration.ReviewState;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -23,24 +22,6 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class ArticleCriteria implements Serializable, Criteria {
-    /**
-     * Class for filtering ReviewState
-     */
-    public static class ReviewStateFilter extends Filter<ReviewState> {
-
-        public ReviewStateFilter() {
-        }
-
-        public ReviewStateFilter(ReviewStateFilter filter) {
-            super(filter);
-        }
-
-        @Override
-        public ReviewStateFilter copy() {
-            return new ReviewStateFilter(this);
-        }
-
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -54,15 +35,13 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     private StringFilter articleTitle;
 
-    private StringFilter articleDoi;
+    private StringFilter articleLink;
 
     private StringFilter articleJournal;
 
+    private StringFilter articleCitation;
+
     private LocalDateFilter fetchDate;
-
-    private StringFilter citation;
-
-    private ReviewStateFilter reviewState;
 
     private LongFilter revisionId;
 
@@ -77,11 +56,10 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.repoDate = other.repoDate == null ? null : other.repoDate.copy();
         this.articleDate = other.articleDate == null ? null : other.articleDate.copy();
         this.articleTitle = other.articleTitle == null ? null : other.articleTitle.copy();
-        this.articleDoi = other.articleDoi == null ? null : other.articleDoi.copy();
+        this.articleLink = other.articleLink == null ? null : other.articleLink.copy();
         this.articleJournal = other.articleJournal == null ? null : other.articleJournal.copy();
+        this.articleCitation = other.articleCitation == null ? null : other.articleCitation.copy();
         this.fetchDate = other.fetchDate == null ? null : other.fetchDate.copy();
-        this.citation = other.citation == null ? null : other.citation.copy();
-        this.reviewState = other.reviewState == null ? null : other.reviewState.copy();
         this.revisionId = other.revisionId == null ? null : other.revisionId.copy();
         this.srepoId = other.srepoId == null ? null : other.srepoId.copy();
     }
@@ -131,12 +109,12 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.articleTitle = articleTitle;
     }
 
-    public StringFilter getArticleDoi() {
-        return articleDoi;
+    public StringFilter getArticleLink() {
+        return articleLink;
     }
 
-    public void setArticleDoi(StringFilter articleDoi) {
-        this.articleDoi = articleDoi;
+    public void setArticleLink(StringFilter articleLink) {
+        this.articleLink = articleLink;
     }
 
     public StringFilter getArticleJournal() {
@@ -147,28 +125,20 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.articleJournal = articleJournal;
     }
 
+    public StringFilter getArticleCitation() {
+        return articleCitation;
+    }
+
+    public void setArticleCitation(StringFilter articleCitation) {
+        this.articleCitation = articleCitation;
+    }
+
     public LocalDateFilter getFetchDate() {
         return fetchDate;
     }
 
     public void setFetchDate(LocalDateFilter fetchDate) {
         this.fetchDate = fetchDate;
-    }
-
-    public StringFilter getCitation() {
-        return citation;
-    }
-
-    public void setCitation(StringFilter citation) {
-        this.citation = citation;
-    }
-
-    public ReviewStateFilter getReviewState() {
-        return reviewState;
-    }
-
-    public void setReviewState(ReviewStateFilter reviewState) {
-        this.reviewState = reviewState;
     }
 
     public LongFilter getRevisionId() {
@@ -203,11 +173,10 @@ public class ArticleCriteria implements Serializable, Criteria {
             Objects.equals(repoDate, that.repoDate) &&
             Objects.equals(articleDate, that.articleDate) &&
             Objects.equals(articleTitle, that.articleTitle) &&
-            Objects.equals(articleDoi, that.articleDoi) &&
+            Objects.equals(articleLink, that.articleLink) &&
             Objects.equals(articleJournal, that.articleJournal) &&
+            Objects.equals(articleCitation, that.articleCitation) &&
             Objects.equals(fetchDate, that.fetchDate) &&
-            Objects.equals(citation, that.citation) &&
-            Objects.equals(reviewState, that.reviewState) &&
             Objects.equals(revisionId, that.revisionId) &&
             Objects.equals(srepoId, that.srepoId);
     }
@@ -220,11 +189,10 @@ public class ArticleCriteria implements Serializable, Criteria {
         repoDate,
         articleDate,
         articleTitle,
-        articleDoi,
+        articleLink,
         articleJournal,
+        articleCitation,
         fetchDate,
-        citation,
-        reviewState,
         revisionId,
         srepoId
         );
@@ -238,11 +206,10 @@ public class ArticleCriteria implements Serializable, Criteria {
                 (repoDate != null ? "repoDate=" + repoDate + ", " : "") +
                 (articleDate != null ? "articleDate=" + articleDate + ", " : "") +
                 (articleTitle != null ? "articleTitle=" + articleTitle + ", " : "") +
-                (articleDoi != null ? "articleDoi=" + articleDoi + ", " : "") +
+                (articleLink != null ? "articleLink=" + articleLink + ", " : "") +
                 (articleJournal != null ? "articleJournal=" + articleJournal + ", " : "") +
+                (articleCitation != null ? "articleCitation=" + articleCitation + ", " : "") +
                 (fetchDate != null ? "fetchDate=" + fetchDate + ", " : "") +
-                (citation != null ? "citation=" + citation + ", " : "") +
-                (reviewState != null ? "reviewState=" + reviewState + ", " : "") +
                 (revisionId != null ? "revisionId=" + revisionId + ", " : "") +
                 (srepoId != null ? "srepoId=" + srepoId + ", " : "") +
             "}";

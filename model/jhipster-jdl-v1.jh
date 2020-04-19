@@ -25,7 +25,7 @@ enum ReviewState {
 }
 
 // *******************************************
-// Entity tabels
+// Entity tables
 // *******************************************
 entity Article {
     repoArticleId Integer,              // ID original no sourceRepo
@@ -35,25 +35,26 @@ entity Article {
     articleDate String,                 // Data oficial do artigo (usa-se só para referência - formato muito instável)
     articleTitle String,                // Título do artigo
     articleAbstract TextBlob,           // Abstact (resumo original) do artigo
-    articleDoi String,                  // DOI do artigo (gera link através de doi.org/[articleDoi])
+    articleLink String,                 // Link para o artigo
     articleJournal String,              // Revista que publicou o artigo (Ex: Swiss medical journal)
+    articleCitation String,				// Referência bibliográfica
 
-    fetchDate LocalDate,                // Data de importação para o icam
-    citation String,                    // Referência bibliográfica com o primeiro autor
-    reviewState ReviewState required    // Estado absoluto de validação da publicação
+    fetchDate LocalDate                	// Data de importação para o icam
 }
 
 entity Revision {
     title String required,              // Título em português
     summary TextBlob required,          // Resumo do artigo em portugês
-    reviewedByPeer Boolean required,    // Se o artigo foi peer reviwed antes de ser publicado
-    returnNotes TextBlob,               // Notas extra do revisor
-    keywords String,                    // Keywords
+    isPeerReviewed Boolean required,	// Se o artigo foi peer reviwed antes de ser publicado
+    country String,				        // País ou Países do estudo
+    keywords TextBlob,                  // Keywords
 
+    reviewDate LocalDate,				// Data da revisão
+    reviewNotes TextBlob,               // Notas extra do revisor
+    author String required,				// Nome do autor
     reviewer String required,           // Nome do revisor
-    reviewState ReviewState required,
-    communityVotes Integer,
-    active Boolean required
+
+    reviewState ReviewState required	// Estado da revisão
 }
 
 entity Newsletter {
@@ -79,7 +80,11 @@ relationship OneToMany {
     CategoryTree{children} to CategoryTree{parent}
     SourceRepo{article} to Article{srepo}
     ArticleType{revision} to Revision{atype}
-    Article to Revision{article}
+}
+
+// Left is owning side
+relationship OneToOne {
+	Revision{article} to Article{revision} with jpaDerivedIdentifier
 }
 
 // Set pagination options

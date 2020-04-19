@@ -33,6 +33,16 @@
     "clientPackageManager": "npm",
     "blueprints": [],
     "skipClient": true,
-    "skipUserManagement": true
+    "skipUserManagement": true,
+    "appsFolders": ["API-backend", "API-backoffice"],
+    "directoryPath": "../",
+    "dockerRepositoryName": "docker.icam.org.pt",
+    "dockerPushCommand": "docker push",
+    "kubernetesNamespace": "icam-dev",
+    "kubernetesServiceType": "NodePort",
+    "kubernetesUseDynamicStorage": false,
+    "ingressDomain": "",
+    "monitoring": "elk",
+    "istio": false
   }
 }

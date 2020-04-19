@@ -2,9 +2,9 @@ package pt.tech4covid.web.rest;
 
 import pt.tech4covid.IcamApiApp;
 import pt.tech4covid.domain.Revision;
+import pt.tech4covid.domain.Article;
 import pt.tech4covid.domain.CategoryTree;
 import pt.tech4covid.domain.ArticleType;
-import pt.tech4covid.domain.Article;
 import pt.tech4covid.repository.RevisionRepository;
 import pt.tech4covid.service.RevisionService;
 import pt.tech4covid.service.dto.RevisionCriteria;
@@ -26,6 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,27 +53,30 @@ public class RevisionResourceIT {
     private static final String DEFAULT_SUMMARY = "AAAAAAAAAA";
     private static final String UPDATED_SUMMARY = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_REVIEWED_BY_PEER = false;
-    private static final Boolean UPDATED_REVIEWED_BY_PEER = true;
+    private static final Boolean DEFAULT_IS_PEER_REVIEWED = false;
+    private static final Boolean UPDATED_IS_PEER_REVIEWED = true;
 
-    private static final String DEFAULT_RETURN_NOTES = "AAAAAAAAAA";
-    private static final String UPDATED_RETURN_NOTES = "BBBBBBBBBB";
+    private static final String DEFAULT_COUNTRY = "AAAAAAAAAA";
+    private static final String UPDATED_COUNTRY = "BBBBBBBBBB";
 
     private static final String DEFAULT_KEYWORDS = "AAAAAAAAAA";
     private static final String UPDATED_KEYWORDS = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_REVIEW_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_REVIEW_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_REVIEW_DATE = LocalDate.ofEpochDay(-1L);
+
+    private static final String DEFAULT_REVIEW_NOTES = "AAAAAAAAAA";
+    private static final String UPDATED_REVIEW_NOTES = "BBBBBBBBBB";
+
+    private static final String DEFAULT_AUTHOR = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR = "BBBBBBBBBB";
 
     private static final String DEFAULT_REVIEWER = "AAAAAAAAAA";
     private static final String UPDATED_REVIEWER = "BBBBBBBBBB";
 
     private static final ReviewState DEFAULT_REVIEW_STATE = ReviewState.Hold;
     private static final ReviewState UPDATED_REVIEW_STATE = ReviewState.OnGoing;
-
-    private static final Integer DEFAULT_COMMUNITY_VOTES = 1;
-    private static final Integer UPDATED_COMMUNITY_VOTES = 2;
-    private static final Integer SMALLER_COMMUNITY_VOTES = 1 - 1;
-
-    private static final Boolean DEFAULT_ACTIVE = false;
-    private static final Boolean UPDATED_ACTIVE = true;
 
     @Autowired
     private RevisionRepository revisionRepository;
@@ -106,13 +111,24 @@ public class RevisionResourceIT {
         Revision revision = new Revision()
             .title(DEFAULT_TITLE)
             .summary(DEFAULT_SUMMARY)
-            .reviewedByPeer(DEFAULT_REVIEWED_BY_PEER)
-            .returnNotes(DEFAULT_RETURN_NOTES)
+            .isPeerReviewed(DEFAULT_IS_PEER_REVIEWED)
+            .country(DEFAULT_COUNTRY)
             .keywords(DEFAULT_KEYWORDS)
+            .reviewDate(DEFAULT_REVIEW_DATE)
+            .reviewNotes(DEFAULT_REVIEW_NOTES)
+            .author(DEFAULT_AUTHOR)
             .reviewer(DEFAULT_REVIEWER)
-            .reviewState(DEFAULT_REVIEW_STATE)
-            .communityVotes(DEFAULT_COMMUNITY_VOTES)
-            .active(DEFAULT_ACTIVE);
+            .reviewState(DEFAULT_REVIEW_STATE);
+        // Add required entity
+        Article article;
+        if (TestUtil.findAll(em, Article.class).isEmpty()) {
+            article = ArticleResourceIT.createEntity(em);
+            em.persist(article);
+            em.flush();
+        } else {
+            article = TestUtil.findAll(em, Article.class).get(0);
+        }
+        revision.setArticle(article);
         return revision;
     }
     /**
@@ -125,13 +141,24 @@ public class RevisionResourceIT {
         Revision revision = new Revision()
             .title(UPDATED_TITLE)
             .summary(UPDATED_SUMMARY)
-            .reviewedByPeer(UPDATED_REVIEWED_BY_PEER)
-            .returnNotes(UPDATED_RETURN_NOTES)
+            .isPeerReviewed(UPDATED_IS_PEER_REVIEWED)
+            .country(UPDATED_COUNTRY)
             .keywords(UPDATED_KEYWORDS)
+            .reviewDate(UPDATED_REVIEW_DATE)
+            .reviewNotes(UPDATED_REVIEW_NOTES)
+            .author(UPDATED_AUTHOR)
             .reviewer(UPDATED_REVIEWER)
-            .reviewState(UPDATED_REVIEW_STATE)
-            .communityVotes(UPDATED_COMMUNITY_VOTES)
-            .active(UPDATED_ACTIVE);
+            .reviewState(UPDATED_REVIEW_STATE);
+        // Add required entity
+        Article article;
+        if (TestUtil.findAll(em, Article.class).isEmpty()) {
+            article = ArticleResourceIT.createUpdatedEntity(em);
+            em.persist(article);
+            em.flush();
+        } else {
+            article = TestUtil.findAll(em, Article.class).get(0);
+        }
+        revision.setArticle(article);
         return revision;
     }
 
@@ -157,13 +184,17 @@ public class RevisionResourceIT {
         Revision testRevision = revisionList.get(revisionList.size() - 1);
         assertThat(testRevision.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testRevision.getSummary()).isEqualTo(DEFAULT_SUMMARY);
-        assertThat(testRevision.isReviewedByPeer()).isEqualTo(DEFAULT_REVIEWED_BY_PEER);
-        assertThat(testRevision.getReturnNotes()).isEqualTo(DEFAULT_RETURN_NOTES);
+        assertThat(testRevision.isIsPeerReviewed()).isEqualTo(DEFAULT_IS_PEER_REVIEWED);
+        assertThat(testRevision.getCountry()).isEqualTo(DEFAULT_COUNTRY);
         assertThat(testRevision.getKeywords()).isEqualTo(DEFAULT_KEYWORDS);
+        assertThat(testRevision.getReviewDate()).isEqualTo(DEFAULT_REVIEW_DATE);
+        assertThat(testRevision.getReviewNotes()).isEqualTo(DEFAULT_REVIEW_NOTES);
+        assertThat(testRevision.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testRevision.getReviewer()).isEqualTo(DEFAULT_REVIEWER);
         assertThat(testRevision.getReviewState()).isEqualTo(DEFAULT_REVIEW_STATE);
-        assertThat(testRevision.getCommunityVotes()).isEqualTo(DEFAULT_COMMUNITY_VOTES);
-        assertThat(testRevision.isActive()).isEqualTo(DEFAULT_ACTIVE);
+
+        // Validate the id for MapsId, the ids must be same
+        assertThat(testRevision.getId()).isEqualTo(testRevision.getArticle().getId());
     }
 
     @Test
@@ -185,6 +216,42 @@ public class RevisionResourceIT {
         assertThat(revisionList).hasSize(databaseSizeBeforeCreate);
     }
 
+    @Test
+    @Transactional
+    public void updateRevisionMapsIdAssociationWithNewId() throws Exception {
+        // Initialize the database
+        revisionService.save(revision);
+        int databaseSizeBeforeCreate = revisionRepository.findAll().size();
+
+        // Add a new parent entity
+        Article article = ArticleResourceIT.createUpdatedEntity(em);
+        em.persist(article);
+        em.flush();
+
+        // Load the revision
+        Revision updatedRevision = revisionRepository.findById(revision.getId()).get();
+        // Disconnect from session so that the updates on updatedRevision are not directly saved in db
+        em.detach(updatedRevision);
+
+        // Update the Article with new association value
+        updatedRevision.setArticle(article);
+
+        // Update the entity
+        restRevisionMockMvc.perform(put("/api/revisions")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(updatedRevision)))
+            .andExpect(status().isOk());
+
+        // Validate the Revision in the database
+        List<Revision> revisionList = revisionRepository.findAll();
+        assertThat(revisionList).hasSize(databaseSizeBeforeCreate);
+        Revision testRevision = revisionList.get(revisionList.size() - 1);
+
+        // Validate the id for MapsId, the ids must be same
+        // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
+        // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
+        // assertThat(testRevision.getId()).isEqualTo(testRevision.getArticle().getId());
+    }
 
     @Test
     @Transactional
@@ -206,10 +273,28 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
-    public void checkReviewedByPeerIsRequired() throws Exception {
+    public void checkIsPeerReviewedIsRequired() throws Exception {
         int databaseSizeBeforeTest = revisionRepository.findAll().size();
         // set the field null
-        revision.setReviewedByPeer(null);
+        revision.setIsPeerReviewed(null);
+
+        // Create the Revision, which fails.
+
+        restRevisionMockMvc.perform(post("/api/revisions")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(revision)))
+            .andExpect(status().isBadRequest());
+
+        List<Revision> revisionList = revisionRepository.findAll();
+        assertThat(revisionList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkAuthorIsRequired() throws Exception {
+        int databaseSizeBeforeTest = revisionRepository.findAll().size();
+        // set the field null
+        revision.setAuthor(null);
 
         // Create the Revision, which fails.
 
@@ -260,24 +345,6 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
-    public void checkActiveIsRequired() throws Exception {
-        int databaseSizeBeforeTest = revisionRepository.findAll().size();
-        // set the field null
-        revision.setActive(null);
-
-        // Create the Revision, which fails.
-
-        restRevisionMockMvc.perform(post("/api/revisions")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(revision)))
-            .andExpect(status().isBadRequest());
-
-        List<Revision> revisionList = revisionRepository.findAll();
-        assertThat(revisionList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllRevisions() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
@@ -289,13 +356,14 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(revision.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
-            .andExpect(jsonPath("$.[*].reviewedByPeer").value(hasItem(DEFAULT_REVIEWED_BY_PEER.booleanValue())))
-            .andExpect(jsonPath("$.[*].returnNotes").value(hasItem(DEFAULT_RETURN_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
+            .andExpect(jsonPath("$.[*].isPeerReviewed").value(hasItem(DEFAULT_IS_PEER_REVIEWED.booleanValue())))
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
+            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS.toString())))
+            .andExpect(jsonPath("$.[*].reviewDate").value(hasItem(DEFAULT_REVIEW_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reviewNotes").value(hasItem(DEFAULT_REVIEW_NOTES.toString())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
             .andExpect(jsonPath("$.[*].reviewer").value(hasItem(DEFAULT_REVIEWER)))
-            .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())))
-            .andExpect(jsonPath("$.[*].communityVotes").value(hasItem(DEFAULT_COMMUNITY_VOTES)))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+            .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -331,13 +399,14 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.id").value(revision.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.summary").value(DEFAULT_SUMMARY.toString()))
-            .andExpect(jsonPath("$.reviewedByPeer").value(DEFAULT_REVIEWED_BY_PEER.booleanValue()))
-            .andExpect(jsonPath("$.returnNotes").value(DEFAULT_RETURN_NOTES.toString()))
-            .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
+            .andExpect(jsonPath("$.isPeerReviewed").value(DEFAULT_IS_PEER_REVIEWED.booleanValue()))
+            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY))
+            .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS.toString()))
+            .andExpect(jsonPath("$.reviewDate").value(DEFAULT_REVIEW_DATE.toString()))
+            .andExpect(jsonPath("$.reviewNotes").value(DEFAULT_REVIEW_NOTES.toString()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR))
             .andExpect(jsonPath("$.reviewer").value(DEFAULT_REVIEWER))
-            .andExpect(jsonPath("$.reviewState").value(DEFAULT_REVIEW_STATE.toString()))
-            .andExpect(jsonPath("$.communityVotes").value(DEFAULT_COMMUNITY_VOTES))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
+            .andExpect(jsonPath("$.reviewState").value(DEFAULT_REVIEW_STATE.toString()));
     }
 
 
@@ -440,131 +509,314 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
-    public void getAllRevisionsByReviewedByPeerIsEqualToSomething() throws Exception {
+    public void getAllRevisionsByIsPeerReviewedIsEqualToSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where reviewedByPeer equals to DEFAULT_REVIEWED_BY_PEER
-        defaultRevisionShouldBeFound("reviewedByPeer.equals=" + DEFAULT_REVIEWED_BY_PEER);
+        // Get all the revisionList where isPeerReviewed equals to DEFAULT_IS_PEER_REVIEWED
+        defaultRevisionShouldBeFound("isPeerReviewed.equals=" + DEFAULT_IS_PEER_REVIEWED);
 
-        // Get all the revisionList where reviewedByPeer equals to UPDATED_REVIEWED_BY_PEER
-        defaultRevisionShouldNotBeFound("reviewedByPeer.equals=" + UPDATED_REVIEWED_BY_PEER);
+        // Get all the revisionList where isPeerReviewed equals to UPDATED_IS_PEER_REVIEWED
+        defaultRevisionShouldNotBeFound("isPeerReviewed.equals=" + UPDATED_IS_PEER_REVIEWED);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByReviewedByPeerIsNotEqualToSomething() throws Exception {
+    public void getAllRevisionsByIsPeerReviewedIsNotEqualToSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where reviewedByPeer not equals to DEFAULT_REVIEWED_BY_PEER
-        defaultRevisionShouldNotBeFound("reviewedByPeer.notEquals=" + DEFAULT_REVIEWED_BY_PEER);
+        // Get all the revisionList where isPeerReviewed not equals to DEFAULT_IS_PEER_REVIEWED
+        defaultRevisionShouldNotBeFound("isPeerReviewed.notEquals=" + DEFAULT_IS_PEER_REVIEWED);
 
-        // Get all the revisionList where reviewedByPeer not equals to UPDATED_REVIEWED_BY_PEER
-        defaultRevisionShouldBeFound("reviewedByPeer.notEquals=" + UPDATED_REVIEWED_BY_PEER);
+        // Get all the revisionList where isPeerReviewed not equals to UPDATED_IS_PEER_REVIEWED
+        defaultRevisionShouldBeFound("isPeerReviewed.notEquals=" + UPDATED_IS_PEER_REVIEWED);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByReviewedByPeerIsInShouldWork() throws Exception {
+    public void getAllRevisionsByIsPeerReviewedIsInShouldWork() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where reviewedByPeer in DEFAULT_REVIEWED_BY_PEER or UPDATED_REVIEWED_BY_PEER
-        defaultRevisionShouldBeFound("reviewedByPeer.in=" + DEFAULT_REVIEWED_BY_PEER + "," + UPDATED_REVIEWED_BY_PEER);
+        // Get all the revisionList where isPeerReviewed in DEFAULT_IS_PEER_REVIEWED or UPDATED_IS_PEER_REVIEWED
+        defaultRevisionShouldBeFound("isPeerReviewed.in=" + DEFAULT_IS_PEER_REVIEWED + "," + UPDATED_IS_PEER_REVIEWED);
 
-        // Get all the revisionList where reviewedByPeer equals to UPDATED_REVIEWED_BY_PEER
-        defaultRevisionShouldNotBeFound("reviewedByPeer.in=" + UPDATED_REVIEWED_BY_PEER);
+        // Get all the revisionList where isPeerReviewed equals to UPDATED_IS_PEER_REVIEWED
+        defaultRevisionShouldNotBeFound("isPeerReviewed.in=" + UPDATED_IS_PEER_REVIEWED);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByReviewedByPeerIsNullOrNotNull() throws Exception {
+    public void getAllRevisionsByIsPeerReviewedIsNullOrNotNull() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where reviewedByPeer is not null
-        defaultRevisionShouldBeFound("reviewedByPeer.specified=true");
+        // Get all the revisionList where isPeerReviewed is not null
+        defaultRevisionShouldBeFound("isPeerReviewed.specified=true");
 
-        // Get all the revisionList where reviewedByPeer is null
-        defaultRevisionShouldNotBeFound("reviewedByPeer.specified=false");
+        // Get all the revisionList where isPeerReviewed is null
+        defaultRevisionShouldNotBeFound("isPeerReviewed.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByKeywordsIsEqualToSomething() throws Exception {
+    public void getAllRevisionsByCountryIsEqualToSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where keywords equals to DEFAULT_KEYWORDS
-        defaultRevisionShouldBeFound("keywords.equals=" + DEFAULT_KEYWORDS);
+        // Get all the revisionList where country equals to DEFAULT_COUNTRY
+        defaultRevisionShouldBeFound("country.equals=" + DEFAULT_COUNTRY);
 
-        // Get all the revisionList where keywords equals to UPDATED_KEYWORDS
-        defaultRevisionShouldNotBeFound("keywords.equals=" + UPDATED_KEYWORDS);
+        // Get all the revisionList where country equals to UPDATED_COUNTRY
+        defaultRevisionShouldNotBeFound("country.equals=" + UPDATED_COUNTRY);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByKeywordsIsNotEqualToSomething() throws Exception {
+    public void getAllRevisionsByCountryIsNotEqualToSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where keywords not equals to DEFAULT_KEYWORDS
-        defaultRevisionShouldNotBeFound("keywords.notEquals=" + DEFAULT_KEYWORDS);
+        // Get all the revisionList where country not equals to DEFAULT_COUNTRY
+        defaultRevisionShouldNotBeFound("country.notEquals=" + DEFAULT_COUNTRY);
 
-        // Get all the revisionList where keywords not equals to UPDATED_KEYWORDS
-        defaultRevisionShouldBeFound("keywords.notEquals=" + UPDATED_KEYWORDS);
+        // Get all the revisionList where country not equals to UPDATED_COUNTRY
+        defaultRevisionShouldBeFound("country.notEquals=" + UPDATED_COUNTRY);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByKeywordsIsInShouldWork() throws Exception {
+    public void getAllRevisionsByCountryIsInShouldWork() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where keywords in DEFAULT_KEYWORDS or UPDATED_KEYWORDS
-        defaultRevisionShouldBeFound("keywords.in=" + DEFAULT_KEYWORDS + "," + UPDATED_KEYWORDS);
+        // Get all the revisionList where country in DEFAULT_COUNTRY or UPDATED_COUNTRY
+        defaultRevisionShouldBeFound("country.in=" + DEFAULT_COUNTRY + "," + UPDATED_COUNTRY);
 
-        // Get all the revisionList where keywords equals to UPDATED_KEYWORDS
-        defaultRevisionShouldNotBeFound("keywords.in=" + UPDATED_KEYWORDS);
+        // Get all the revisionList where country equals to UPDATED_COUNTRY
+        defaultRevisionShouldNotBeFound("country.in=" + UPDATED_COUNTRY);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByKeywordsIsNullOrNotNull() throws Exception {
+    public void getAllRevisionsByCountryIsNullOrNotNull() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where keywords is not null
-        defaultRevisionShouldBeFound("keywords.specified=true");
+        // Get all the revisionList where country is not null
+        defaultRevisionShouldBeFound("country.specified=true");
 
-        // Get all the revisionList where keywords is null
-        defaultRevisionShouldNotBeFound("keywords.specified=false");
+        // Get all the revisionList where country is null
+        defaultRevisionShouldNotBeFound("country.specified=false");
     }
                 @Test
     @Transactional
-    public void getAllRevisionsByKeywordsContainsSomething() throws Exception {
+    public void getAllRevisionsByCountryContainsSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where keywords contains DEFAULT_KEYWORDS
-        defaultRevisionShouldBeFound("keywords.contains=" + DEFAULT_KEYWORDS);
+        // Get all the revisionList where country contains DEFAULT_COUNTRY
+        defaultRevisionShouldBeFound("country.contains=" + DEFAULT_COUNTRY);
 
-        // Get all the revisionList where keywords contains UPDATED_KEYWORDS
-        defaultRevisionShouldNotBeFound("keywords.contains=" + UPDATED_KEYWORDS);
+        // Get all the revisionList where country contains UPDATED_COUNTRY
+        defaultRevisionShouldNotBeFound("country.contains=" + UPDATED_COUNTRY);
     }
 
     @Test
     @Transactional
-    public void getAllRevisionsByKeywordsNotContainsSomething() throws Exception {
+    public void getAllRevisionsByCountryNotContainsSomething() throws Exception {
         // Initialize the database
         revisionRepository.saveAndFlush(revision);
 
-        // Get all the revisionList where keywords does not contain DEFAULT_KEYWORDS
-        defaultRevisionShouldNotBeFound("keywords.doesNotContain=" + DEFAULT_KEYWORDS);
+        // Get all the revisionList where country does not contain DEFAULT_COUNTRY
+        defaultRevisionShouldNotBeFound("country.doesNotContain=" + DEFAULT_COUNTRY);
 
-        // Get all the revisionList where keywords does not contain UPDATED_KEYWORDS
-        defaultRevisionShouldBeFound("keywords.doesNotContain=" + UPDATED_KEYWORDS);
+        // Get all the revisionList where country does not contain UPDATED_COUNTRY
+        defaultRevisionShouldBeFound("country.doesNotContain=" + UPDATED_COUNTRY);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate equals to DEFAULT_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.equals=" + DEFAULT_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate equals to UPDATED_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.equals=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate not equals to DEFAULT_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.notEquals=" + DEFAULT_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate not equals to UPDATED_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.notEquals=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate in DEFAULT_REVIEW_DATE or UPDATED_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.in=" + DEFAULT_REVIEW_DATE + "," + UPDATED_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate equals to UPDATED_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.in=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate is not null
+        defaultRevisionShouldBeFound("reviewDate.specified=true");
+
+        // Get all the revisionList where reviewDate is null
+        defaultRevisionShouldNotBeFound("reviewDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate is greater than or equal to DEFAULT_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.greaterThanOrEqual=" + DEFAULT_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate is greater than or equal to UPDATED_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.greaterThanOrEqual=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate is less than or equal to DEFAULT_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.lessThanOrEqual=" + DEFAULT_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate is less than or equal to SMALLER_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.lessThanOrEqual=" + SMALLER_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate is less than DEFAULT_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.lessThan=" + DEFAULT_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate is less than UPDATED_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.lessThan=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByReviewDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where reviewDate is greater than DEFAULT_REVIEW_DATE
+        defaultRevisionShouldNotBeFound("reviewDate.greaterThan=" + DEFAULT_REVIEW_DATE);
+
+        // Get all the revisionList where reviewDate is greater than SMALLER_REVIEW_DATE
+        defaultRevisionShouldBeFound("reviewDate.greaterThan=" + SMALLER_REVIEW_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByAuthorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where author equals to DEFAULT_AUTHOR
+        defaultRevisionShouldBeFound("author.equals=" + DEFAULT_AUTHOR);
+
+        // Get all the revisionList where author equals to UPDATED_AUTHOR
+        defaultRevisionShouldNotBeFound("author.equals=" + UPDATED_AUTHOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByAuthorIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where author not equals to DEFAULT_AUTHOR
+        defaultRevisionShouldNotBeFound("author.notEquals=" + DEFAULT_AUTHOR);
+
+        // Get all the revisionList where author not equals to UPDATED_AUTHOR
+        defaultRevisionShouldBeFound("author.notEquals=" + UPDATED_AUTHOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByAuthorIsInShouldWork() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where author in DEFAULT_AUTHOR or UPDATED_AUTHOR
+        defaultRevisionShouldBeFound("author.in=" + DEFAULT_AUTHOR + "," + UPDATED_AUTHOR);
+
+        // Get all the revisionList where author equals to UPDATED_AUTHOR
+        defaultRevisionShouldNotBeFound("author.in=" + UPDATED_AUTHOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByAuthorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where author is not null
+        defaultRevisionShouldBeFound("author.specified=true");
+
+        // Get all the revisionList where author is null
+        defaultRevisionShouldNotBeFound("author.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllRevisionsByAuthorContainsSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where author contains DEFAULT_AUTHOR
+        defaultRevisionShouldBeFound("author.contains=" + DEFAULT_AUTHOR);
+
+        // Get all the revisionList where author contains UPDATED_AUTHOR
+        defaultRevisionShouldNotBeFound("author.contains=" + UPDATED_AUTHOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRevisionsByAuthorNotContainsSomething() throws Exception {
+        // Initialize the database
+        revisionRepository.saveAndFlush(revision);
+
+        // Get all the revisionList where author does not contain DEFAULT_AUTHOR
+        defaultRevisionShouldNotBeFound("author.doesNotContain=" + DEFAULT_AUTHOR);
+
+        // Get all the revisionList where author does not contain UPDATED_AUTHOR
+        defaultRevisionShouldBeFound("author.doesNotContain=" + UPDATED_AUTHOR);
     }
 
 
@@ -700,160 +952,19 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
-    public void getAllRevisionsByCommunityVotesIsEqualToSomething() throws Exception {
-        // Initialize the database
+    public void getAllRevisionsByArticleIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Article article = revision.getArticle();
         revisionRepository.saveAndFlush(revision);
+        Long articleId = article.getId();
 
-        // Get all the revisionList where communityVotes equals to DEFAULT_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.equals=" + DEFAULT_COMMUNITY_VOTES);
+        // Get all the revisionList where article equals to articleId
+        defaultRevisionShouldBeFound("articleId.equals=" + articleId);
 
-        // Get all the revisionList where communityVotes equals to UPDATED_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.equals=" + UPDATED_COMMUNITY_VOTES);
+        // Get all the revisionList where article equals to articleId + 1
+        defaultRevisionShouldNotBeFound("articleId.equals=" + (articleId + 1));
     }
 
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes not equals to DEFAULT_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.notEquals=" + DEFAULT_COMMUNITY_VOTES);
-
-        // Get all the revisionList where communityVotes not equals to UPDATED_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.notEquals=" + UPDATED_COMMUNITY_VOTES);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsInShouldWork() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes in DEFAULT_COMMUNITY_VOTES or UPDATED_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.in=" + DEFAULT_COMMUNITY_VOTES + "," + UPDATED_COMMUNITY_VOTES);
-
-        // Get all the revisionList where communityVotes equals to UPDATED_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.in=" + UPDATED_COMMUNITY_VOTES);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes is not null
-        defaultRevisionShouldBeFound("communityVotes.specified=true");
-
-        // Get all the revisionList where communityVotes is null
-        defaultRevisionShouldNotBeFound("communityVotes.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes is greater than or equal to DEFAULT_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.greaterThanOrEqual=" + DEFAULT_COMMUNITY_VOTES);
-
-        // Get all the revisionList where communityVotes is greater than or equal to UPDATED_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.greaterThanOrEqual=" + UPDATED_COMMUNITY_VOTES);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes is less than or equal to DEFAULT_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.lessThanOrEqual=" + DEFAULT_COMMUNITY_VOTES);
-
-        // Get all the revisionList where communityVotes is less than or equal to SMALLER_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.lessThanOrEqual=" + SMALLER_COMMUNITY_VOTES);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsLessThanSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes is less than DEFAULT_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.lessThan=" + DEFAULT_COMMUNITY_VOTES);
-
-        // Get all the revisionList where communityVotes is less than UPDATED_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.lessThan=" + UPDATED_COMMUNITY_VOTES);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByCommunityVotesIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where communityVotes is greater than DEFAULT_COMMUNITY_VOTES
-        defaultRevisionShouldNotBeFound("communityVotes.greaterThan=" + DEFAULT_COMMUNITY_VOTES);
-
-        // Get all the revisionList where communityVotes is greater than SMALLER_COMMUNITY_VOTES
-        defaultRevisionShouldBeFound("communityVotes.greaterThan=" + SMALLER_COMMUNITY_VOTES);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByActiveIsEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where active equals to DEFAULT_ACTIVE
-        defaultRevisionShouldBeFound("active.equals=" + DEFAULT_ACTIVE);
-
-        // Get all the revisionList where active equals to UPDATED_ACTIVE
-        defaultRevisionShouldNotBeFound("active.equals=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByActiveIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where active not equals to DEFAULT_ACTIVE
-        defaultRevisionShouldNotBeFound("active.notEquals=" + DEFAULT_ACTIVE);
-
-        // Get all the revisionList where active not equals to UPDATED_ACTIVE
-        defaultRevisionShouldBeFound("active.notEquals=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByActiveIsInShouldWork() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where active in DEFAULT_ACTIVE or UPDATED_ACTIVE
-        defaultRevisionShouldBeFound("active.in=" + DEFAULT_ACTIVE + "," + UPDATED_ACTIVE);
-
-        // Get all the revisionList where active equals to UPDATED_ACTIVE
-        defaultRevisionShouldNotBeFound("active.in=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByActiveIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-
-        // Get all the revisionList where active is not null
-        defaultRevisionShouldBeFound("active.specified=true");
-
-        // Get all the revisionList where active is null
-        defaultRevisionShouldNotBeFound("active.specified=false");
-    }
 
     @Test
     @Transactional
@@ -894,26 +1005,6 @@ public class RevisionResourceIT {
         defaultRevisionShouldNotBeFound("atypeId.equals=" + (atypeId + 1));
     }
 
-
-    @Test
-    @Transactional
-    public void getAllRevisionsByArticleIsEqualToSomething() throws Exception {
-        // Initialize the database
-        revisionRepository.saveAndFlush(revision);
-        Article article = ArticleResourceIT.createEntity(em);
-        em.persist(article);
-        em.flush();
-        revision.setArticle(article);
-        revisionRepository.saveAndFlush(revision);
-        Long articleId = article.getId();
-
-        // Get all the revisionList where article equals to articleId
-        defaultRevisionShouldBeFound("articleId.equals=" + articleId);
-
-        // Get all the revisionList where article equals to articleId + 1
-        defaultRevisionShouldNotBeFound("articleId.equals=" + (articleId + 1));
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -924,13 +1015,14 @@ public class RevisionResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(revision.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
-            .andExpect(jsonPath("$.[*].reviewedByPeer").value(hasItem(DEFAULT_REVIEWED_BY_PEER.booleanValue())))
-            .andExpect(jsonPath("$.[*].returnNotes").value(hasItem(DEFAULT_RETURN_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
+            .andExpect(jsonPath("$.[*].isPeerReviewed").value(hasItem(DEFAULT_IS_PEER_REVIEWED.booleanValue())))
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
+            .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS.toString())))
+            .andExpect(jsonPath("$.[*].reviewDate").value(hasItem(DEFAULT_REVIEW_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reviewNotes").value(hasItem(DEFAULT_REVIEW_NOTES.toString())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
             .andExpect(jsonPath("$.[*].reviewer").value(hasItem(DEFAULT_REVIEWER)))
-            .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())))
-            .andExpect(jsonPath("$.[*].communityVotes").value(hasItem(DEFAULT_COMMUNITY_VOTES)))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+            .andExpect(jsonPath("$.[*].reviewState").value(hasItem(DEFAULT_REVIEW_STATE.toString())));
 
         // Check, that the count call also returns 1
         restRevisionMockMvc.perform(get("/api/revisions/count?sort=id,desc&" + filter))
@@ -980,13 +1072,14 @@ public class RevisionResourceIT {
         updatedRevision
             .title(UPDATED_TITLE)
             .summary(UPDATED_SUMMARY)
-            .reviewedByPeer(UPDATED_REVIEWED_BY_PEER)
-            .returnNotes(UPDATED_RETURN_NOTES)
+            .isPeerReviewed(UPDATED_IS_PEER_REVIEWED)
+            .country(UPDATED_COUNTRY)
             .keywords(UPDATED_KEYWORDS)
+            .reviewDate(UPDATED_REVIEW_DATE)
+            .reviewNotes(UPDATED_REVIEW_NOTES)
+            .author(UPDATED_AUTHOR)
             .reviewer(UPDATED_REVIEWER)
-            .reviewState(UPDATED_REVIEW_STATE)
-            .communityVotes(UPDATED_COMMUNITY_VOTES)
-            .active(UPDATED_ACTIVE);
+            .reviewState(UPDATED_REVIEW_STATE);
 
         restRevisionMockMvc.perform(put("/api/revisions")
             .contentType(MediaType.APPLICATION_JSON)
@@ -999,13 +1092,14 @@ public class RevisionResourceIT {
         Revision testRevision = revisionList.get(revisionList.size() - 1);
         assertThat(testRevision.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testRevision.getSummary()).isEqualTo(UPDATED_SUMMARY);
-        assertThat(testRevision.isReviewedByPeer()).isEqualTo(UPDATED_REVIEWED_BY_PEER);
-        assertThat(testRevision.getReturnNotes()).isEqualTo(UPDATED_RETURN_NOTES);
+        assertThat(testRevision.isIsPeerReviewed()).isEqualTo(UPDATED_IS_PEER_REVIEWED);
+        assertThat(testRevision.getCountry()).isEqualTo(UPDATED_COUNTRY);
         assertThat(testRevision.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
+        assertThat(testRevision.getReviewDate()).isEqualTo(UPDATED_REVIEW_DATE);
+        assertThat(testRevision.getReviewNotes()).isEqualTo(UPDATED_REVIEW_NOTES);
+        assertThat(testRevision.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testRevision.getReviewer()).isEqualTo(UPDATED_REVIEWER);
         assertThat(testRevision.getReviewState()).isEqualTo(UPDATED_REVIEW_STATE);
-        assertThat(testRevision.getCommunityVotes()).isEqualTo(UPDATED_COMMUNITY_VOTES);
-        assertThat(testRevision.isActive()).isEqualTo(UPDATED_ACTIVE);
     }
 
     @Test

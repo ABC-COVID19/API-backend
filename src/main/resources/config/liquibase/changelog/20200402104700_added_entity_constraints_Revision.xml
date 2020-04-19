@@ -8,6 +8,12 @@
     -->
     <changeSet id="20200402104700-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableName="revision"
+                                 constraintName="fk_revision_article_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="article"/>
+
         <addForeignKeyConstraint baseColumnNames="revision_id"
                                  baseTableName="revision_ctree"
                                  constraintName="fk_revision_ctree_revision_id"
@@ -25,12 +31,6 @@
                                  constraintName="fk_revision_atype_id"
                                  referencedColumnNames="id"
                                  referencedTableName="article_type"/>
-
-        <addForeignKeyConstraint baseColumnNames="article_id"
-                                 baseTableName="revision"
-                                 constraintName="fk_revision_article_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="article"/>
 
     </changeSet>
 </databaseChangeLog>

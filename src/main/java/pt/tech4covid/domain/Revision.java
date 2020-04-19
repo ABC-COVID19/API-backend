@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,28 +27,38 @@ public class Revision implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @Column(name = "title", nullable = false)
     private String title;
 
-    
+
     @Lob
     @Column(name = "summary", nullable = false)
     private String summary;
 
     @NotNull
-    @Column(name = "reviewed_by_peer", nullable = false)
-    private Boolean reviewedByPeer;
+    @Column(name = "is_peer_reviewed", nullable = false)
+    private Boolean isPeerReviewed;
+
+    @Column(name = "country")
+    private String country;
 
     @Lob
-    @Column(name = "return_notes")
-    private String returnNotes;
-
     @Column(name = "keywords")
     private String keywords;
+
+    @Column(name = "review_date")
+    private LocalDate reviewDate;
+
+    @Lob
+    @Column(name = "review_notes")
+    private String reviewNotes;
+
+    @NotNull
+    @Column(name = "author", nullable = false)
+    private String author;
 
     @NotNull
     @Column(name = "reviewer", nullable = false)
@@ -58,17 +69,16 @@ public class Revision implements Serializable {
     @Column(name = "review_state", nullable = false)
     private ReviewState reviewState;
 
-    @Column(name = "community_votes")
-    private Integer communityVotes;
+    @OneToOne
 
-    @NotNull
-    @Column(name = "active", nullable = false)
-    private Boolean active;
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonIgnoreProperties("revision")
+    private Article article;
 
     @ManyToMany(fetch = FetchType.EAGER)
     //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @JsonIgnoreProperties("revisions")
     @JoinTable(name = "revision_ctree",
                joinColumns = @JoinColumn(name = "revision_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "ctree_id", referencedColumnName = "id"))
@@ -77,10 +87,6 @@ public class Revision implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("revisions")
     private ArticleType atype;
-
-    @ManyToOne
-    @JsonIgnoreProperties("revisions")
-    private Article article;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -117,30 +123,30 @@ public class Revision implements Serializable {
         this.summary = summary;
     }
 
-    public Boolean isReviewedByPeer() {
-        return reviewedByPeer;
+    public Boolean isIsPeerReviewed() {
+        return isPeerReviewed;
     }
 
-    public Revision reviewedByPeer(Boolean reviewedByPeer) {
-        this.reviewedByPeer = reviewedByPeer;
+    public Revision isPeerReviewed(Boolean isPeerReviewed) {
+        this.isPeerReviewed = isPeerReviewed;
         return this;
     }
 
-    public void setReviewedByPeer(Boolean reviewedByPeer) {
-        this.reviewedByPeer = reviewedByPeer;
+    public void setIsPeerReviewed(Boolean isPeerReviewed) {
+        this.isPeerReviewed = isPeerReviewed;
     }
 
-    public String getReturnNotes() {
-        return returnNotes;
+    public String getCountry() {
+        return country;
     }
 
-    public Revision returnNotes(String returnNotes) {
-        this.returnNotes = returnNotes;
+    public Revision country(String country) {
+        this.country = country;
         return this;
     }
 
-    public void setReturnNotes(String returnNotes) {
-        this.returnNotes = returnNotes;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getKeywords() {
@@ -154,6 +160,45 @@ public class Revision implements Serializable {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    public LocalDate getReviewDate() {
+        return reviewDate;
+    }
+
+    public Revision reviewDate(LocalDate reviewDate) {
+        this.reviewDate = reviewDate;
+        return this;
+    }
+
+    public void setReviewDate(LocalDate reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public String getReviewNotes() {
+        return reviewNotes;
+    }
+
+    public Revision reviewNotes(String reviewNotes) {
+        this.reviewNotes = reviewNotes;
+        return this;
+    }
+
+    public void setReviewNotes(String reviewNotes) {
+        this.reviewNotes = reviewNotes;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public Revision author(String author) {
+        this.author = author;
+        return this;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getReviewer() {
@@ -182,30 +227,17 @@ public class Revision implements Serializable {
         this.reviewState = reviewState;
     }
 
-    public Integer getCommunityVotes() {
-        return communityVotes;
+    public Article getArticle() {
+        return article;
     }
 
-    public Revision communityVotes(Integer communityVotes) {
-        this.communityVotes = communityVotes;
+    public Revision article(Article article) {
+        this.article = article;
         return this;
     }
 
-    public void setCommunityVotes(Integer communityVotes) {
-        this.communityVotes = communityVotes;
-    }
-
-    public Boolean isActive() {
-        return active;
-    }
-
-    public Revision active(Boolean active) {
-        this.active = active;
-        return this;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     public Set<CategoryTree> getCtrees() {
@@ -245,19 +277,6 @@ public class Revision implements Serializable {
     public void setAtype(ArticleType articleType) {
         this.atype = articleType;
     }
-
-    public Article getArticle() {
-        return article;
-    }
-
-    public Revision article(Article article) {
-        this.article = article;
-        return this;
-    }
-
-    public void setArticle(Article article) {
-        this.article = article;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -282,13 +301,14 @@ public class Revision implements Serializable {
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
             ", summary='" + getSummary() + "'" +
-            ", reviewedByPeer='" + isReviewedByPeer() + "'" +
-            ", returnNotes='" + getReturnNotes() + "'" +
+            ", isPeerReviewed='" + isIsPeerReviewed() + "'" +
+            ", country='" + getCountry() + "'" +
             ", keywords='" + getKeywords() + "'" +
+            ", reviewDate='" + getReviewDate() + "'" +
+            ", reviewNotes='" + getReviewNotes() + "'" +
+            ", author='" + getAuthor() + "'" +
             ", reviewer='" + getReviewer() + "'" +
             ", reviewState='" + getReviewState() + "'" +
-            ", communityVotes=" + getCommunityVotes() +
-            ", active='" + isActive() + "'" +
             "}";
     }
 }
