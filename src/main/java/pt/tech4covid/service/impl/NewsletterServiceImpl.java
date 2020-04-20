@@ -85,4 +85,9 @@ public class NewsletterServiceImpl implements NewsletterService {
         log.debug("Request to delete Newsletter : {}", id);
         newsletterRepository.deleteById(id);
     }
+
+    @Override
+    public long count() {
+        return newsletterRepository.count();
+    }
 }

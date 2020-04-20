@@ -211,4 +211,9 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+# application email scheduler:
+schedule:
+  newsletter:
+    cron: '0 0 8 * * *'
+
+

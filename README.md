@@ -1,3 +1,8 @@
+# newsletter branch
+class EmailServiceImpl  
+cron settings no application.yml  
+[spring CronSequenceGenerator docs](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html)
+
 # ICAMApi
 
 This application was generated using JHipster 6.8.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.8.0](https://www.jhipster.tech/documentation-archive/v6.8.0).
