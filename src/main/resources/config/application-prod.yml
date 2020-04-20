@@ -57,10 +57,16 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: localhost
-    port: 25
+    host:
+    port:
     username:
     password:
+    protocol:
+    tls:
+    properties.mail.smtp:
+      auth:
+      starttls.enable:
+      ssl.trust:
   thymeleaf:
     cache: true
   sleuth:
@@ -130,7 +136,7 @@ jhipster:
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://my-server-url-to-change # Modify according to your server's URL
+    base-url: https://icam.org.pt # Modify according to your server's URL
   metrics:
     logs: # Reports metrics in the logs
       enabled: false
