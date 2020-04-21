@@ -1,16 +1,10 @@
 package pt.tech4covid.service.dto;
 
+import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.*;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link pt.tech4covid.domain.Article} entity. This class is used
@@ -47,6 +41,8 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     private LongFilter srepoId;
 
+    private BooleanFilter hasRevision;
+
     public ArticleCriteria() {
     }
 
@@ -62,6 +58,7 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.fetchDate = other.fetchDate == null ? null : other.fetchDate.copy();
         this.revisionId = other.revisionId == null ? null : other.revisionId.copy();
         this.srepoId = other.srepoId == null ? null : other.srepoId.copy();
+        this.hasRevision = other.hasRevision == null ? null : other.hasRevision.copy();
     }
 
     @Override
@@ -157,6 +154,13 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.srepoId = srepoId;
     }
 
+    public BooleanFilter getHasRevision() {
+        return hasRevision;
+    }
+
+    public void setHasRevision(BooleanFilter hasRevision) {
+        this.hasRevision = hasRevision;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -169,49 +173,52 @@ public class ArticleCriteria implements Serializable, Criteria {
         final ArticleCriteria that = (ArticleCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(repoArticleId, that.repoArticleId) &&
-            Objects.equals(repoDate, that.repoDate) &&
-            Objects.equals(articleDate, that.articleDate) &&
-            Objects.equals(articleTitle, that.articleTitle) &&
-            Objects.equals(articleLink, that.articleLink) &&
-            Objects.equals(articleJournal, that.articleJournal) &&
-            Objects.equals(articleCitation, that.articleCitation) &&
-            Objects.equals(fetchDate, that.fetchDate) &&
-            Objects.equals(revisionId, that.revisionId) &&
-            Objects.equals(srepoId, that.srepoId);
+                Objects.equals(repoArticleId, that.repoArticleId) &&
+                Objects.equals(repoDate, that.repoDate) &&
+                Objects.equals(articleDate, that.articleDate) &&
+                Objects.equals(articleTitle, that.articleTitle) &&
+                Objects.equals(articleLink, that.articleLink) &&
+                Objects.equals(articleJournal, that.articleJournal) &&
+                Objects.equals(articleCitation, that.articleCitation) &&
+                Objects.equals(fetchDate, that.fetchDate) &&
+                Objects.equals(revisionId, that.revisionId) &&
+                Objects.equals(srepoId, that.srepoId) &&
+                Objects.equals(hasRevision, that.hasRevision);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-        id,
-        repoArticleId,
-        repoDate,
-        articleDate,
-        articleTitle,
-        articleLink,
-        articleJournal,
-        articleCitation,
-        fetchDate,
-        revisionId,
-        srepoId
+            id,
+            repoArticleId,
+            repoDate,
+            articleDate,
+            articleTitle,
+            articleLink,
+            articleJournal,
+            articleCitation,
+            fetchDate,
+            revisionId,
+            srepoId,
+            hasRevision
         );
     }
 
     @Override
     public String toString() {
         return "ArticleCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (repoArticleId != null ? "repoArticleId=" + repoArticleId + ", " : "") +
-                (repoDate != null ? "repoDate=" + repoDate + ", " : "") +
-                (articleDate != null ? "articleDate=" + articleDate + ", " : "") +
-                (articleTitle != null ? "articleTitle=" + articleTitle + ", " : "") +
-                (articleLink != null ? "articleLink=" + articleLink + ", " : "") +
-                (articleJournal != null ? "articleJournal=" + articleJournal + ", " : "") +
-                (articleCitation != null ? "articleCitation=" + articleCitation + ", " : "") +
-                (fetchDate != null ? "fetchDate=" + fetchDate + ", " : "") +
-                (revisionId != null ? "revisionId=" + revisionId + ", " : "") +
-                (srepoId != null ? "srepoId=" + srepoId + ", " : "") +
+            (id != null ? "id=" + id + ", " : "") +
+            (repoArticleId != null ? "repoArticleId=" + repoArticleId + ", " : "") +
+            (repoDate != null ? "repoDate=" + repoDate + ", " : "") +
+            (articleDate != null ? "articleDate=" + articleDate + ", " : "") +
+            (articleTitle != null ? "articleTitle=" + articleTitle + ", " : "") +
+            (articleLink != null ? "articleLink=" + articleLink + ", " : "") +
+            (articleJournal != null ? "articleJournal=" + articleJournal + ", " : "") +
+            (articleCitation != null ? "articleCitation=" + articleCitation + ", " : "") +
+            (fetchDate != null ? "fetchDate=" + fetchDate + ", " : "") +
+            (revisionId != null ? "revisionId=" + revisionId + ", " : "") +
+            (srepoId != null ? "srepoId=" + srepoId + ", " : "") +
+            (hasRevision != null ? "hasRevision=" + hasRevision + ", " : "") +
             "}";
     }
 

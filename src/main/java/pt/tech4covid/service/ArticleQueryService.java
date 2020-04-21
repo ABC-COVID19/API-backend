@@ -1,9 +1,6 @@
 package pt.tech4covid.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,13 +8,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.github.jhipster.service.QueryService;
-
 import pt.tech4covid.domain.Article;
-import pt.tech4covid.domain.*; // for static metamodels
+import pt.tech4covid.domain.Article_;
+import pt.tech4covid.domain.Revision_;
+import pt.tech4covid.domain.SourceRepo_;
 import pt.tech4covid.repository.ArticleRepository;
 import pt.tech4covid.service.dto.ArticleCriteria;
+
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for {@link Article} entities in the database.
@@ -39,6 +38,7 @@ public class ArticleQueryService extends QueryService<Article> {
 
     /**
      * Return a {@link List} of {@link Article} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -51,8 +51,9 @@ public class ArticleQueryService extends QueryService<Article> {
 
     /**
      * Return a {@link Page} of {@link Article} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
+     * @param page     The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
@@ -64,6 +65,7 @@ public class ArticleQueryService extends QueryService<Article> {
 
     /**
      * Return the number of matching entities in the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
@@ -76,6 +78,7 @@ public class ArticleQueryService extends QueryService<Article> {
 
     /**
      * Function to convert {@link ArticleCriteria} to a {@link Specification}
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching {@link Specification} of the entity.
      */
@@ -116,6 +119,15 @@ public class ArticleQueryService extends QueryService<Article> {
             if (criteria.getSrepoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSrepoId(),
                     root -> root.join(Article_.srepo, JoinType.LEFT).get(SourceRepo_.id)));
+            }
+            if (criteria.getHasRevision() != null) {
+                specification = criteria.getHasRevision().getEquals()
+                    ?
+                    specification.and((root, query, cb) ->
+                        cb.isTrue(root.join(Article_.revision, JoinType.LEFT).get(Revision_.id).isNotNull()))
+                    :
+                    (root, query, cb) ->
+                        cb.isTrue(root.join(Article_.revision, JoinType.LEFT).get(Revision_.id).isNull());
             }
         }
         return specification;
