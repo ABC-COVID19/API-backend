@@ -50,10 +50,7 @@
         },
         {
             "fieldName": "reviewer",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
         },
         {
             "fieldName": "reviewState",

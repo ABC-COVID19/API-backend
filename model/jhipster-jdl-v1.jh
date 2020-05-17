@@ -52,7 +52,7 @@ entity Revision {
     reviewDate LocalDate,				// Data da revisão
     reviewNotes TextBlob,               // Notas extra do revisor
     author String required,				// Nome do autor
-    reviewer String required,           // Nome do revisor
+    reviewer String,                    // Nome do revisor
 
     reviewState ReviewState required	// Estado da revisão
 }
