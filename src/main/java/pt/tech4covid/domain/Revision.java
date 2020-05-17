@@ -60,8 +60,7 @@ public class Revision implements Serializable {
     @Column(name = "author", nullable = false)
     private String author;
 
-    @NotNull
-    @Column(name = "reviewer", nullable = false)
+    @Column(name = "reviewer")
     private String reviewer;
 
     @NotNull

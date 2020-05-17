@@ -309,24 +309,6 @@ public class RevisionResourceIT {
 
     @Test
     @Transactional
-    public void checkReviewerIsRequired() throws Exception {
-        int databaseSizeBeforeTest = revisionRepository.findAll().size();
-        // set the field null
-        revision.setReviewer(null);
-
-        // Create the Revision, which fails.
-
-        restRevisionMockMvc.perform(post("/api/revisions")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(revision)))
-            .andExpect(status().isBadRequest());
-
-        List<Revision> revisionList = revisionRepository.findAll();
-        assertThat(revisionList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkReviewStateIsRequired() throws Exception {
         int databaseSizeBeforeTest = revisionRepository.findAll().size();
         // set the field null
